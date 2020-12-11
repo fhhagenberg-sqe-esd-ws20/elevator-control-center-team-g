@@ -67,6 +67,11 @@
                     <mainClass>at.fhhagenberg.sqe.App</mainClass>
                 </configuration>
             </plugin>
+           	<plugin>
+		      <groupId>org.jacoco</groupId>
+		      <artifactId>jacoco-maven-plugin</artifactId>
+		      <version>0.8.7-SNAPSHOT</version>
+		    </plugin>
         </plugins>
     </build>
 </project>
