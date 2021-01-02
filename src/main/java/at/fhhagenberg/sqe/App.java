@@ -49,57 +49,11 @@ public class App extends Application {
     public void start(Stage stage) {
         var disabled = new Vector<Integer>();
         disabled.add(2);
-
-        var switchButton = new SwitchButton();
-        var gridPane = new GridPane();
-
-        var header = new Label("Elevator\t"+ID_prefix);
-
-        var c_floor_label = new Label("Current Floor:\t");
-        var c_door_label = new Label("Door Status:\t" + Door.closed);
-        var c_speed = new Label("Speed:\t"+  String.valueOf(0));
-        var c_manual = new Label("Manual Mode\t");
-
-        header.setId("#"+ID_prefix+"ElevatorHeader");
-        header.setFont(new Font(100));
-
-        c_floor_label.setId("#"+ID_prefix+"FloorLabel");
-        c_door_label.setId("#"+ID_prefix+"DoorLabel");
-        c_speed.setId("#"+ID_prefix+"SpeedLabel");
-        c_manual.setId("#"+ID_prefix+"ManualLabel");
-
-        var topPanel = new GridPane();
-        var midPanel = new GridPane();
-        var bottomPanel = new GridPane();
         var allPanel = new GridPane();
-
-        topPanel.add(header,0,1);
-        topPanel.add(c_speed, 0, 2);
-        midPanel.add(c_floor_label, 0, 0);
-        midPanel.add(c_door_label, 0, 1);
-
-        midPanel.add(drawButtons(5, disabled),0,2);
-
         var scene = new Scene(allPanel);
-        {
-            var payload = new GridPane();
-            var c_payload_label = new Label("Passengers:\t" + String.valueOf(0));
-            payload.add(c_payload_label, 0,0);
-            bottomPanel.add(payload, 0,0);
-        }
 
-        gridPane.add(switchButton,0,0);
-        topPanel.add(gridPane, 1,3);
-        topPanel.add(c_manual, 0,3);
-
-        allPanel.setHgap(100);
-        allPanel.setVgap(100);
-
-        allPanel.add(topPanel, 0, 0);
-        allPanel.add(midPanel, 0, 1);
-        allPanel.add(bottomPanel, 0,2);
-
-        allPanel.setStyle("-fx-background-color: #fbfbfb");
+        var ui = new ElevatorUI("B", disabled, 1);
+        allPanel.add(ui, 0,0);
 
         stage.setScene(scene);
         stage.setTitle("Java");
