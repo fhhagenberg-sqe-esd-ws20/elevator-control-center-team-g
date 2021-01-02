@@ -18,8 +18,8 @@ import java.util.Vector;
 public class App extends Application {
 
     public enum Door {
-        Open,
-        Closed
+        open,
+        closed
     }
 
     public GridPane drawButtons(int count, Vector<Integer> disabled){
@@ -29,9 +29,9 @@ public class App extends Application {
             var elevatorButton = new Button(String.valueOf(i));
             elevatorButton.setId("#Button"+String.valueOf(i));
             if(disabled.contains(i)) {
-                elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #726f68; -fx-stroke-width: 1; -fx-pref-width: 200;");
+                elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #726f68; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0");
             }else{
-                elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #ffc72b; -fx-stroke-width: 1; -fx-pref-width: 200");
+                elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #ffc72b; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0");
             }
 
             pane.add(elevatorButton, 0, pos++);
@@ -43,7 +43,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         var c_floor_label = new Label("Current Floor:\t");
-        var c_door_label = new Label("Door Status:\t" + Door.Closed);
+        var c_door_label = new Label("Door Status:\t" + Door.closed);
 
         var topPanel = new GridPane();
         var bottomPanel = new GridPane();
@@ -72,16 +72,21 @@ public class App extends Application {
         topPanel.add(c_floor_label, 0, 0);
         topPanel.add(c_door_label, 0, 1);
 
-        int count = 5;
-        int pos = 2;
-        for(int i = count; i > 0; i--){
-            var elevatorButton = new Button(String.valueOf(i));
-            elevatorButton.setId("#Button"+String.valueOf(i));
-            elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #ffc72b; -fx-stroke-width: 1; -fx-pref-width: 200");
-            topPanel.add(elevatorButton, 0, pos++);
-        }
+        var disabled = new Vector<Integer>();
+        disabled.add(2);
 
+        topPanel.add(drawButtons(5, disabled),0,2);
 
+        var payload = new GridPane();
+        var c_payload_label = new Label("Passengers:\t" + String.valueOf(0));
+        payload.add(c_payload_label, 0,0);
+
+        topPanel.add(payload, 0,3);
+
+        var switchButton = new SwitchButton();
+        var gridPane = new GridPane();
+        gridPane.add(switchButton,0,0);
+        topPanel.add(gridPane, 0,4);
 
         bottomPanel.getColumnConstraints().add(spacer);
         bottomPanel.getColumnConstraints().add(cc);
@@ -91,15 +96,11 @@ public class App extends Application {
         allPanel.add(topPanel, 0, 0);
         allPanel.add(bottomPanel, 0, 1);
 
-        allPanel.setStyle("-fx-background-color: #ffffff");
+        allPanel.setStyle("-fx-background-color: #fbfbfb");
 
         stage.setScene(scene);
         stage.setTitle("Java scheiße");
         stage.show();
-    }
-
-    private Object getResolveDoor(Door door_status) {
-        return door_status == Door.Open;
     }
 
     public static void main(String[] args) {
