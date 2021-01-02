@@ -10,6 +10,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.Vector;
@@ -52,10 +53,15 @@ public class App extends Application {
         var switchButton = new SwitchButton();
         var gridPane = new GridPane();
 
+        var header = new Label("Elevator\t"+ID_prefix);
+
         var c_floor_label = new Label("Current Floor:\t");
         var c_door_label = new Label("Door Status:\t" + Door.closed);
         var c_speed = new Label("Speed:\t"+  String.valueOf(0));
         var c_manual = new Label("Manual Mode\t");
+
+        header.setId("#"+ID_prefix+"ElevatorHeader");
+        header.setFont(new Font(100));
 
         c_floor_label.setId("#"+ID_prefix+"FloorLabel");
         c_door_label.setId("#"+ID_prefix+"DoorLabel");
@@ -67,7 +73,8 @@ public class App extends Application {
         var bottomPanel = new GridPane();
         var allPanel = new GridPane();
 
-        topPanel.add(c_speed, 0, 1);
+        topPanel.add(header,0,1);
+        topPanel.add(c_speed, 0, 2);
         midPanel.add(c_floor_label, 0, 0);
         midPanel.add(c_door_label, 0, 1);
 
@@ -82,8 +89,8 @@ public class App extends Application {
         }
 
         gridPane.add(switchButton,0,0);
-        topPanel.add(gridPane, 1,4);
-        topPanel.add(c_manual, 0,4);
+        topPanel.add(gridPane, 1,3);
+        topPanel.add(c_manual, 0,3);
 
         allPanel.setHgap(100);
         allPanel.setVgap(100);
@@ -95,7 +102,7 @@ public class App extends Application {
         allPanel.setStyle("-fx-background-color: #fbfbfb");
 
         stage.setScene(scene);
-        stage.setTitle("Java scheiße");
+        stage.setTitle("Java");
         stage.show();
     }
 
