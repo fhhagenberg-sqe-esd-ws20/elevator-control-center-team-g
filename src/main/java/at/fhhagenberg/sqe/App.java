@@ -22,11 +22,6 @@ public class App extends Application {
 
     final String ID_prefix = "App";
 
-    public enum Door {
-        open,
-        closed
-    }
-
     public GridPane drawButtons(int count, Vector<Integer> disabled){
         var pane = new GridPane();
         int pos = 0;
