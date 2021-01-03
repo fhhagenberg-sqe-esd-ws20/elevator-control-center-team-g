@@ -6,204 +6,189 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MockElevator implements IElevator {
-    public static final int CLOCK_TICK_MOCK_VALUE = 42;
-    public static final int ELEVATOR_ACCELERATION_MOCK_VALUE = 10;
-    public static final int ELEVATOR_SPEED_MOCK_VALUE = 20;
-    public static final int ELEVATOR_WEIGHT_MOCK_VALUE = 100;
+	
+	// Private member variables
+    private List<MockElevatorState> m_elevators;
+    private List<MockFloorState> m_floors;
+    private int m_number_of_elevators;
+    private int m_number_of_floors;
+    private int m_floor_height;
 
-    private int numElevators;
-    private int numFloors;
-    private int floorHeight;
-    private List<MockElevatorState> elevators;
-    private List<MockFloorState> floors;
-
-    public MockElevator(int numElevators, int numFloors, int floorHeight, int elevatorCapacity) {
-        this.numElevators = numElevators;
-        this.numFloors = numFloors;
-        this.floorHeight = floorHeight;
-
-        elevators = new ArrayList<>(numElevators);
-        floors = new ArrayList<>(numFloors);
-
-        for (int i = 0; i < numElevators; i++) {
-            var elevator = new MockElevatorState(numFloors);
-            elevator.setCapacity(elevatorCapacity);
-            elevator.setAcceleration(ELEVATOR_ACCELERATION_MOCK_VALUE);
-            elevator.setSpeed(ELEVATOR_SPEED_MOCK_VALUE);
-            elevator.setWeight(ELEVATOR_WEIGHT_MOCK_VALUE);
-            elevators.add(elevator);
+    // CTOR
+    public MockElevator(int number_elevators, int number_floors, int floor_height, int capacity) {
+        m_elevators = new ArrayList<>(number_elevators);
+        m_floors = new ArrayList<>(number_floors);
+    	m_number_of_elevators = number_elevators;
+    	m_number_of_floors = number_floors;
+    	m_floor_height = floor_height;
+    	
+        for (int i = 0; i < number_floors; i++) {
+        	m_floors.add(new MockFloorState());
         }
 
-        for (int i = 0; i < numFloors; i++) {
-            floors.add(new MockFloorState());
+        for (int i = 0; i < number_elevators; i++) {
+            var elevator = new MockElevatorState(number_floors);
+            elevator.setAcceleration(MockElevatorConstants.ACCELERATION);
+            elevator.setSpeed(MockElevatorConstants.SPEED);
+            elevator.setWeight(MockElevatorConstants.WEIGHT);
+            elevator.setCapacity(capacity);
+            m_elevators.add(elevator);
         }
     }
-
+    
+    // ----------------- Public functions -----------------
+    
     public List<MockElevatorState> getElevators() {
-        return elevators;   //expose elevators for mocking
+        return m_elevators;  
     }
 
     public List<MockFloorState> getFloors() {
-        return floors;   //expose floors for mocking
+        return m_floors;
+    }
+    
+    // ----------------- Helper functions -----------------
+    
+    private void checkElevatorNumber(int num) throws MockElevatorException {
+        if (num < 0 || num >= m_number_of_elevators) {
+            throw new MockElevatorException("Invalid MockElevatorState!");
+        }
+    }
+
+    private void checkFloorNumber(int num) throws MockElevatorException {
+        if (num < 0 || num >= m_number_of_floors) {
+            throw new MockElevatorException("Invalid MockFloorState!");
+        }
+    }
+
+    private void checkDirection(int dir) throws MockElevatorException {
+        if (dir != IElevator.ELEVATOR_DIRECTION_DOWN &&
+    		dir != IElevator.ELEVATOR_DIRECTION_UNCOMMITTED &&
+    		dir != IElevator.ELEVATOR_DIRECTION_UP) {
+        	throw new MockElevatorException("Invalid direction for the elevator!");
+        }
+    }
+    
+    // ----------------- Overwritten functions -----------------
+    
+    @Override
+    public int getElevatorWeight(int num) throws RemoteException {
+        checkElevatorNumber(num);
+        return m_elevators.get(num).getWeight();
     }
 
     @Override
-    public int getCommittedDirection(int elevatorNumber) throws RemoteException {
-        checkElevatorNumber(elevatorNumber);
-
-        return elevators.get(elevatorNumber).getDirection();
-    }
-
-    @Override
-    public int getElevatorAccel(int elevatorNumber) throws RemoteException {
-        checkElevatorNumber(elevatorNumber);
-
-        return elevators.get(elevatorNumber).getAcceleration();
-    }
-
-    @Override
-    public boolean getElevatorButton(int elevatorNumber, int floor) throws RemoteException {
-        checkElevatorNumber(elevatorNumber);
-        checkFloorNumber(floor);
-
-        return elevators.get(elevatorNumber).isFloorButtonActive(floor);
-    }
-
-    @Override
-    public int getElevatorDoorStatus(int elevatorNumber) throws RemoteException {
-        checkElevatorNumber(elevatorNumber);
-
-        return elevators.get(elevatorNumber).getDoorStatus();
-    }
-
-    @Override
-    public int getElevatorFloor(int elevatorNumber) throws RemoteException {
-        checkElevatorNumber(elevatorNumber);
-
-        return elevators.get(elevatorNumber).getCurrentFloor();
-    }
-
-    @Override
-    public int getElevatorNum() throws RemoteException {
-        return numElevators;
-    }
-
-    @Override
-    public int getElevatorPosition(int elevatorNumber) throws RemoteException {
-        checkElevatorNumber(elevatorNumber);
-
-        return elevators.get(elevatorNumber).getCurrentFloor() * floorHeight;
-    }
-
-    @Override
-    public int getElevatorSpeed(int elevatorNumber) throws RemoteException {
-        checkElevatorNumber(elevatorNumber);
-
-        return elevators.get(elevatorNumber).getSpeed();
-    }
-
-    @Override
-    public int getElevatorWeight(int elevatorNumber) throws RemoteException {
-        checkElevatorNumber(elevatorNumber);
-
-        return elevators.get(elevatorNumber).getWeight();
-    }
-
-    @Override
-    public int getElevatorCapacity(int elevatorNumber) throws RemoteException {
-        checkElevatorNumber(elevatorNumber);
-
-        return elevators.get(elevatorNumber).getCapacity();
+    public int getElevatorCapacity(int num) throws RemoteException {
+        checkElevatorNumber(num);
+        return m_elevators.get(num).getCapacity();
     }
 
     @Override
     public boolean getFloorButtonDown(int floor) throws RemoteException {
         checkFloorNumber(floor);
-
-        return floors.get(floor).isDownButtonActive();
+        return m_floors.get(floor).getDownButtonState();
     }
 
     @Override
     public boolean getFloorButtonUp(int floor) throws RemoteException {
         checkFloorNumber(floor);
+        return m_floors.get(floor).getUpButtonState();
+    }
 
-        return floors.get(floor).isUpButtonActive();
+    @Override
+    public int getCommittedDirection(int num) throws RemoteException {
+        checkElevatorNumber(num);
+        return m_elevators.get(num).getDirection();
+    }
+
+    @Override
+    public int getElevatorAccel(int num) throws RemoteException {
+        checkElevatorNumber(num);
+        return m_elevators.get(num).getAcceleration();
+    }
+
+    @Override
+    public boolean getElevatorButton(int num, int floor) throws RemoteException {
+        checkElevatorNumber(num);
+        checkFloorNumber(floor);
+        return m_elevators.get(num).isFloorButtonActive(floor);
+    }
+
+    @Override
+    public int getElevatorDoorStatus(int num) throws RemoteException {
+        checkElevatorNumber(num);
+        return m_elevators.get(num).getDoorStatus();
+    }
+
+    @Override
+    public int getElevatorFloor(int num) throws RemoteException {
+        checkElevatorNumber(num);
+        return m_elevators.get(num).getCurrentFloor();
+    }
+
+    @Override
+    public int getElevatorNum() throws RemoteException {
+        return m_number_of_elevators;
+    }
+
+    @Override
+    public int getElevatorPosition(int num) throws RemoteException {
+        checkElevatorNumber(num);
+        return m_elevators.get(num).getCurrentFloor() * m_floor_height;
+    }
+
+    @Override
+    public int getElevatorSpeed(int num) throws RemoteException {
+        checkElevatorNumber(num);
+        return m_elevators.get(num).getSpeed();
     }
 
     @Override
     public int getFloorHeight() throws RemoteException {
-        return floorHeight;
+        return m_floor_height;
     }
 
     @Override
     public int getFloorNum() throws RemoteException {
-        return numFloors;
+        return m_number_of_floors;
     }
 
     @Override
-    public boolean getServicesFloors(int elevatorNumber, int floor) throws RemoteException {
-        checkElevatorNumber(elevatorNumber);
+    public boolean getServicesFloors(int num, int floor) throws RemoteException {
+        checkElevatorNumber(num);
         checkFloorNumber(floor);
-
-        return elevators.get(elevatorNumber).getServicesFloors(floor);
+        return m_elevators.get(num).getServicesFloors(floor);
     }
 
     @Override
-    public int getTarget(int elevatorNumber) throws RemoteException {
-        checkElevatorNumber(elevatorNumber);
-
-        return elevators.get(elevatorNumber).getTargetFloor();
+    public int getTarget(int num) throws RemoteException {
+        checkElevatorNumber(num);
+        return m_elevators.get(num).getTargetFloor();
     }
 
     @Override
-    public void setCommittedDirection(int elevatorNumber, int direction) throws RemoteException {
-        checkElevatorNumber(elevatorNumber);
-        checkDirection(direction);
-
-        elevators.get(elevatorNumber).setDirection(direction);
+    public void setCommittedDirection(int num, int dir) throws RemoteException {
+        checkElevatorNumber(num);
+        checkDirection(dir);
+        m_elevators.get(num).setDirection(dir);
     }
 
     @Override
-    public void setServicesFloors(int elevatorNumber, int floor, boolean service) throws RemoteException {
-        checkElevatorNumber(elevatorNumber);
+    public void setServicesFloors(int num, int floor, boolean service) throws RemoteException {
+        checkElevatorNumber(num);
         checkFloorNumber(floor);
-
-        elevators.get(elevatorNumber).setServicesFloors(floor, service);
+        m_elevators.get(num).setServicesFloors(floor, service);
     }
 
     @Override
-    public void setTarget(int elevatorNumber, int target) throws RemoteException {
-        checkElevatorNumber(elevatorNumber);
+    public void setTarget(int num, int target) throws RemoteException {
+        checkElevatorNumber(num);
         checkFloorNumber(target);
-
-        elevators.get(elevatorNumber).setTargetFloor(target);
-        //sleep()
-        elevators.get(elevatorNumber).setCurrentFloor(target);
+        m_elevators.get(num).setTargetFloor(target);
+        m_elevators.get(num).setCurrentFloor(target);
     }
 
     @Override
     public long getClockTick() throws RemoteException {
-        return CLOCK_TICK_MOCK_VALUE;
-    }
-
-    private void checkElevatorNumber(int elevatorNumber) throws MockElevatorException {
-        if (elevatorNumber < 0 || elevatorNumber >= numElevators) {
-            throw new MockElevatorException("MockElevatorState number is invalid!");
-        }
-    }
-
-    private void checkFloorNumber(int floorNumber) throws MockElevatorException {
-        if (floorNumber < 0 || floorNumber >= numFloors) {
-            throw new MockElevatorException("MockFloorState number is invalid!");
-        }
-    }
-
-    private void checkDirection(int direction) throws MockElevatorException {
-        if (direction != IElevator.ELEVATOR_DIRECTION_DOWN &&
-                direction != IElevator.ELEVATOR_DIRECTION_UNCOMMITTED &&
-                direction != IElevator.ELEVATOR_DIRECTION_UP) {
-            throw new MockElevatorException("Direction number is invalid!");
-        }
-    }
-
+        return MockElevatorConstants.CLOCK_TICK;
+    }  
 }
