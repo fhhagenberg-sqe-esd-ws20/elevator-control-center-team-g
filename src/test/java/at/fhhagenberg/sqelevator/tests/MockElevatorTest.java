@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Assertions;
 public class MockElevatorTest {
     private MockElevator mocked;
 
-    private final static Integer floors = 5;
+    private final static Integer floors = 3;
     private final static Integer floor_height = 9;
     private final static Integer elevator_max_pax = 10;
     private final static Integer elevator_count = 2;
@@ -56,12 +56,12 @@ public class MockElevatorTest {
     @Test
     void testSetFloorButtonActive_Invalid() {
         int floor_0 = 0;
-        int floor_2 = 2;
+        int floor_3 = 3;
 
         Assertions.assertThrows(MockElevatorException.class, () ->
                 mocked.getElevators().get(0).setFloorButtonActive(floor_0 - 1, true));
         Assertions.assertThrows(MockElevatorException.class, () ->
-                mocked.getElevators().get(1).setFloorButtonActive(floor_2 + 1, true));
+                mocked.getElevators().get(1).setFloorButtonActive(floor_3 + 1, true));
     }
 
     @Test
