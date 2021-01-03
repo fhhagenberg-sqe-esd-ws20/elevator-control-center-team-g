@@ -3,18 +3,12 @@ package at.fhhagenberg.sqe.view;
 import java.util.Observable;
 import java.util.Observer;
 
-import at.fhhagenberg.sqe.helper.Direction;
-import at.fhhagenberg.sqe.helper.DoorState;
-import at.fhhagenberg.sqe.helper.ModeState;
 import at.fhhagenberg.sqe.viewmodel.MainViewModel;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class MainView  implements Observer {
@@ -24,6 +18,7 @@ public class MainView  implements Observer {
 	MainView(MainViewModel _model, Stage stage) {
 		model = _model;
 		buildUI(stage);
+		model.addObserver(this);
 	}
 	
 	private void buildUI(Stage stage) {
@@ -42,9 +37,10 @@ public class MainView  implements Observer {
 		scrollPane.setContent(gridPaneMain);
 		scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         
-        var root = new VBox();
+        var root = new GridPane();
     	root.setPadding(new Insets(20,20,20,20));
-    	root.getChildren().add(scrollPane);
+    	root.add(new FloorsView(model.getFloorsModel()), 0, 0);
+    	root.add(scrollPane, 1, 0);
     	
     	var scene = new Scene(root);
         stage.setScene(scene);

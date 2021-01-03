@@ -16,8 +16,11 @@ import javafx.stage.Stage;
 
 import java.util.Vector;
 
+import at.fhhagenberg.sqe.controller.ElevatorController;
 import at.fhhagenberg.sqe.viewmodel.ElevatorViewModel;
+import at.fhhagenberg.sqe.viewmodel.FloorsViewModel;
 import at.fhhagenberg.sqe.viewmodel.MainViewModel;
+import at.fhhagenberg.sqelevator.mock.MockElevator;
 
 /**
  * JavaFX App
@@ -26,24 +29,12 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-
-        var model1 = new ElevatorViewModel(1);
-        var model2 = new ElevatorViewModel(2);
-        var model3 = new ElevatorViewModel(3);
-        var model4 = new ElevatorViewModel(4);
-        var model5 = new ElevatorViewModel(5);
-        var model6 = new ElevatorViewModel(6);
-        
-        MainViewModel mainViewModel = new MainViewModel();
-        mainViewModel.addElevatorModel(model1);
-        mainViewModel.addElevatorModel(model2);
-        mainViewModel.addElevatorModel(model3);
-        mainViewModel.addElevatorModel(model4);
-        mainViewModel.addElevatorModel(model5);
-        mainViewModel.addElevatorModel(model6);
-        
-        var mainUI = new MainView(mainViewModel, stage);
-        
+    	var floors_view_model = new FloorsViewModel(5);
+        var mainViewModel = new MainViewModel(floors_view_model);
+        var elevator_service = new MockElevator(4, 5, 9, 10);
+    	var elevator_controller = new ElevatorController(elevator_service, mainViewModel);
+        var mainUI = new MainView(mainViewModel, stage);      	
+    	elevator_controller.startTimer();
     }
 
     public static void main(String[] args) {

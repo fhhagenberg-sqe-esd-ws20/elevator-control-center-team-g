@@ -13,7 +13,7 @@ public class ElevatorViewModel extends Observable {
 	int id = 0;
 	int speed = 0;
     ModeState modeState = ModeState.manual;
-    int floor = 0;
+    int floor = 1;
     DoorState doorState = DoorState.closed;
     Direction direction = Direction.down;
     Vector<Integer> disabled_floors = new Vector<Integer>();
@@ -21,8 +21,9 @@ public class ElevatorViewModel extends Observable {
     int payload = 10;
     int position = 1;
     
-    public ElevatorViewModel(int _id) {
+    public ElevatorViewModel(int _id, int _numberOfFloors) {
     	id = _id;
+    	number_of_floors = _numberOfFloors;
     }
     
     public int getId() { return id; }
@@ -64,10 +65,6 @@ public class ElevatorViewModel extends Observable {
     	disabled_floors = _vec;
     	updateView();
     }
-    public void setNumberOfFloors(int _num) {
-    	number_of_floors = _num;
-    	updateView();
-    }
     public void setPayload(int _payload) {
     	payload = _payload;
     	updateView();
@@ -84,6 +81,10 @@ public class ElevatorViewModel extends Observable {
     		modeState = ModeState.manual;
     	
     	updateView();
+    }
+    
+    public void clickedFloor(int num) {
+    	System.out.println(Integer.toString(num));
     }
     
     public void updateView() {
