@@ -1,4 +1,4 @@
-package at.fhhagenberg.sqe;
+package at.fhhagenberg.sqe.view;
 
 import javafx.application.Application;
 import javafx.geometry.HPos;

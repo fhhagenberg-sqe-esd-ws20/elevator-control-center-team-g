@@ -1,4 +1,4 @@
-package at.fhhagenberg.sqe;
+package at.fhhagenberg.sqe.view;
 
 // https://stackoverflow.com/questions/30593193/creating-sliding-on-off-switch-button-in-javafx
 

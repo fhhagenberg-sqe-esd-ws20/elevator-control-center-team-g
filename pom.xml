@@ -64,7 +64,7 @@
                 <version>0.0.3</version>
                 <configuration>
                     <launcher>launcher</launcher>
-                    <mainClass>at.fhhagenberg.sqe.App</mainClass>
+                    <mainClass>at.fhhagenberg.sqe.view.App</mainClass>
                 </configuration>
             </plugin>
             <plugin>
