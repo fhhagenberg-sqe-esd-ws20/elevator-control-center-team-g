@@ -1,5 +1,5 @@
 package at.fhhagenberg.sqe.helper;
 
 public enum Direction {
-	up, down
+	up, down, uncommited
 }
