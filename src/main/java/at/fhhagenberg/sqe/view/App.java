@@ -18,6 +18,7 @@ import java.util.Vector;
 
 import at.fhhagenberg.sqe.controller.ElevatorController;
 import at.fhhagenberg.sqe.viewmodel.ElevatorViewModel;
+import at.fhhagenberg.sqe.viewmodel.FloorsViewModel;
 import at.fhhagenberg.sqe.viewmodel.MainViewModel;
 import at.fhhagenberg.sqelevator.mock.MockElevator;
 
@@ -28,7 +29,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        MainViewModel mainViewModel = new MainViewModel();
+    	var floors_view_model = new FloorsViewModel(5);
+        MainViewModel mainViewModel = new MainViewModel(floors_view_model);
         var mainUI = new MainView(mainViewModel, stage);  
         var elevator_service = new MockElevator(4, 5, 9, 10);
     	var elevator_controller = new ElevatorController(elevator_service, mainViewModel);
