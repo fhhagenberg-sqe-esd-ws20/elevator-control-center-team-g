@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MockElevatorState {
+	
+	// Private member variables
     private List<Boolean> m_serviced_floors;
     private List<Boolean> m_floor_buttons;
     private int m_direction = IElevator.ELEVATOR_DIRECTION_UNCOMMITTED;
@@ -17,12 +19,13 @@ public class MockElevatorState {
     private int m_capacity = 0;
     private int m_number_of_floors = 0;    
 
-    public MockElevatorState(int numFloors) {
-        m_number_of_floors = numFloors;
-        m_serviced_floors = new ArrayList<>(numFloors);
-        m_floor_buttons = new ArrayList<>(numFloors);
-
-        for (int i = 0; i < numFloors; i++) {
+	// CTOR
+    public MockElevatorState(int number_of_floors) {
+        m_number_of_floors = number_of_floors;
+        m_serviced_floors = new ArrayList<>(number_of_floors);
+        m_floor_buttons = new ArrayList<>(number_of_floors);
+        
+        for (int i = 0; i < number_of_floors; i++) {
         	m_serviced_floors.add(i, true);
         	m_floor_buttons.add(i, false);
         }
@@ -64,16 +67,16 @@ public class MockElevatorState {
         m_target_floor = floor;
     }
     
-    public void setDirection(int direction) {
-        m_direction = direction;
+    public void setDirection(int dir) {
+        m_direction = dir;
     }
 
-    public void setAcceleration(int acceleration) {
-        m_acceleration = acceleration;
+    public void setAcceleration(int acc) {
+        m_acceleration = acc;
     }
     
-    public void setCurrentFloor(int currentFloor) {
-        m_current_floor = currentFloor;
+    public void setCurrentFloor(int current_floor) {
+        m_current_floor = current_floor;
     }
 
     public void setSpeed(int speed) {
@@ -84,13 +87,13 @@ public class MockElevatorState {
         m_weight = weight;
     }
 
-    public void setCapacity(int capacity) {
-        m_capacity = capacity;
+    public void setCapacity(int cap) {
+        m_capacity = cap;
     }
     
-    public void setDoorStatus(int doorStatus) throws MockElevatorException {
-        checkDoorStatus(doorStatus);
-        m_state_doors = doorStatus;
+    public void setDoorStatus(int state) throws MockElevatorException {
+        checkDoorStatus(state);
+        m_state_doors = state;
     }
 
     public boolean isFloorButtonActive(int floor) throws MockElevatorException {
@@ -113,9 +116,9 @@ public class MockElevatorState {
         m_serviced_floors.set(floor, service);
     }
 
-    private void checkFloorNumber(int floorNumber) throws MockElevatorException {
-        if (floorNumber < 0 || floorNumber >= m_number_of_floors) {
-            throw new MockElevatorException("MockFloorState number is invalid!");
+    private void checkFloorNumber(int num) throws MockElevatorException {
+        if (num < 0 || num >= m_number_of_floors) {
+            throw new MockElevatorException("Invalid floor state!");
         }
     }
     
@@ -124,7 +127,7 @@ public class MockElevatorState {
         	status != IElevator.ELEVATOR_DOORS_CLOSED &&
 			status != IElevator.ELEVATOR_DOORS_OPENING &&
 			status != IElevator.ELEVATOR_DOORS_CLOSING) {
-            throw new MockElevatorException("Door status is invalid!");
+            throw new MockElevatorException("Invalid door state!");
         }
     }
 }
