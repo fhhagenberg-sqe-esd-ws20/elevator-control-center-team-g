@@ -37,7 +37,6 @@ public class ElevatorView extends GridPane implements Observer{
         ID_prefix = Integer.toString(model.getId());
         model.addObserver(this);
         buildUI();
-        model.updateView();
     }
     
     EventHandler<ActionEvent> changeModeHandler = new EventHandler<ActionEvent>() {

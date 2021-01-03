@@ -35,6 +35,8 @@ public class ElevatorController{
 		catch (RemoteException e) {
 			// TODO: Error handling...
 		}
+		
+		m_main_view_model.getFloorsModel().setNumberOfFloors(m_number_of_floors);
 	}
 	
 	private void initElevators(){
