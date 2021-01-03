@@ -59,6 +59,14 @@ public class ElevatorView extends GridPane implements Observer{
             } else {
                 elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #ffc72b; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0");
             }
+            final int index = i;
+            elevatorButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+            	@Override
+        	    public void handle(ActionEvent event) {
+        	        model.clickedFloor(index);
+        	        event.consume();
+        	    }
+            });
 
             pane.add(elevatorButton, 0, pos++);
         }
@@ -142,16 +150,15 @@ public class ElevatorView extends GridPane implements Observer{
     	
     	for (int i = model.getNumberOfFloors(); i > 0; i--) {
     		
-            //Button elevatorButton = (Button) pane.lookup("#" + ID_prefix + "Button" + Integer.toString(i));
-            //elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #ffa500; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0");
-            /*
+            Button elevatorButton = (Button) pane.lookup("##" + ID_prefix + "Button" + Integer.toString(i));
+            
             if (model.getDisabledFloors().contains(i)) {
                 elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #726f68; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0");
             } else if(i == model.getFloor()) {
             	elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #ffa500; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0");
             } else {
                 elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #ffc72b; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0");
-            }*/
+            }
         }
     	
     	lbl_position.setText("Position: " + model.getPosition());
