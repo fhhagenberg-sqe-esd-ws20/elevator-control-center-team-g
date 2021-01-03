@@ -4,7 +4,7 @@ import java.rmi.RemoteException;
 
 @SuppressWarnings("serial")
 public class MockElevatorException extends RemoteException {
-    public MockElevatorException(String msg) {
-        super(msg);
+    public MockElevatorException(String e) {
+        super(e);
     }
 }
