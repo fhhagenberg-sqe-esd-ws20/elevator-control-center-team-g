@@ -5,6 +5,8 @@ import at.fhhagenberg.sqe.helper.DoorState;
 import at.fhhagenberg.sqe.viewmodel.ElevatorViewModel;
 import at.fhhagenberg.sqe.viewmodel.MainViewModel;
 import at.fhhagenberg.sqelevator.IElevator;
+import javafx.application.Platform;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.TimerTask;
 import java.util.Vector;
 
 public class ElevatorController{
-	private static final int TIMER_INTERVAL = 1000;	
+	private static final int TIMER_INTERVAL = 100;
 	private Timer m_timer;
 	private IElevator m_elevator_service = null;
 	private MainViewModel m_main_view_model = null;	
@@ -98,12 +100,13 @@ public class ElevatorController{
 	}
 	
 	public void startTimer() {
-		var updateTask = new TimerTask() {
+		m_timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				updateGUI();
+				Platform.runLater(() -> {
+					updateGUI();
+				});
 			}
-		};
-		m_timer.scheduleAtFixedRate(updateTask, 0, TIMER_INTERVAL);
+		}, 0, TIMER_INTERVAL);
 	}	
 }
