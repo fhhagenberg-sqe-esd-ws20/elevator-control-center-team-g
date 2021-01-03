@@ -36,6 +36,16 @@ public class MockElevator implements IElevator {
         }
     }
     
+    // ----------------- Public functions -----------------
+    
+    public List<MockElevatorState> getElevators() {
+        return m_elevators;  
+    }
+
+    public List<MockFloorState> getFloors() {
+        return m_floors;
+    }
+    
     // ----------------- Helper functions -----------------
     
     private void checkElevatorNumber(int num) throws MockElevatorException {

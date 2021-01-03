@@ -35,7 +35,7 @@ public class MockElevatorTest {
 
     @Test
     public void testGetClockTick() throws Exception {
-        Assertions.assertEquals(MockElevatorConstants.ELEVATOR_CLOCK_TICK, mocked.getClockTick());
+        Assertions.assertEquals(MockElevatorConstants.CLOCK_TICK, mocked.getClockTick());
     }
 
     @Test
