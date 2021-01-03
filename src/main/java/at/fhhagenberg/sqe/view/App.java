@@ -30,11 +30,10 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
     	var floors_view_model = new FloorsViewModel(5);
-        MainViewModel mainViewModel = new MainViewModel(floors_view_model);
-        var mainUI = new MainView(mainViewModel, stage);  
+        var mainViewModel = new MainViewModel(floors_view_model);
         var elevator_service = new MockElevator(4, 5, 9, 10);
     	var elevator_controller = new ElevatorController(elevator_service, mainViewModel);
-    	
+        var mainUI = new MainView(mainViewModel, stage);      	
     	elevator_controller.startTimer();
     }
 
