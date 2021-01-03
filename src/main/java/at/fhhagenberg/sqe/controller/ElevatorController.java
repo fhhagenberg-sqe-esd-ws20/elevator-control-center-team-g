@@ -15,7 +15,7 @@ import java.util.TimerTask;
 import java.util.Vector;
 
 public class ElevatorController{
-	private static final int TIMER_INTERVAL = 1000;	
+	private static final int TIMER_INTERVAL = 100;
 	private Timer m_timer;
 	private IElevator m_elevator_service = null;
 	private MainViewModel m_main_view_model = null;	
