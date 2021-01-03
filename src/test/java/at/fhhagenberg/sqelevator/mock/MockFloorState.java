@@ -1,6 +1,8 @@
 package at.fhhagenberg.sqelevator.mock;
 
 public class MockFloorState {
+
+	// Private member variables
     private boolean m_up_pressed = false;
     private boolean m_down_pressed = false;
 
