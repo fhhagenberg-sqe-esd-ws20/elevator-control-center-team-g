@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import java.util.Vector;
 
 import at.fhhagenberg.sqe.viewmodel.ElevatorViewModel;
+import at.fhhagenberg.sqe.viewmodel.FloorsViewModel;
 import at.fhhagenberg.sqe.viewmodel.MainViewModel;
 
 /**
@@ -27,14 +28,18 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
 
-        var model1 = new ElevatorViewModel(1);
-        var model2 = new ElevatorViewModel(2);
-        var model3 = new ElevatorViewModel(3);
-        var model4 = new ElevatorViewModel(4);
-        var model5 = new ElevatorViewModel(5);
-        var model6 = new ElevatorViewModel(6);
+    	int floors = 10;
+    	
+        var model1 = new ElevatorViewModel(1, floors);
+        var model2 = new ElevatorViewModel(2, floors);
+        var model3 = new ElevatorViewModel(3, floors);
+        var model4 = new ElevatorViewModel(4, floors);
+        var model5 = new ElevatorViewModel(5, floors);
+        var model6 = new ElevatorViewModel(6, floors);
         
-        MainViewModel mainViewModel = new MainViewModel();
+        var fModel = new FloorsViewModel(floors);
+        
+        MainViewModel mainViewModel = new MainViewModel(fModel);
         mainViewModel.addElevatorModel(model1);
         mainViewModel.addElevatorModel(model2);
         mainViewModel.addElevatorModel(model3);
