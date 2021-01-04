@@ -23,16 +23,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return the current direction of the specified elevator where up=0, down=1 and uncommitted=2
      */
     @Override
-    public Direction getCommittedDirection(int elevatorNumber) throws Exception {
-        var value = elevator.getCommittedDirection(elevatorNumber);
-        if (value == 0) {
-            return Direction.up;
-        } else if (value == 1) {
-            return Direction.down;
-        } else if (value == 2) {
-            return Direction.uncommited;
-        }
-        throw new Exception("Value represents no Direction");
+    public int getCommittedDirection(int elevatorNumber) throws Exception {
+        return elevator.getCommittedDirection(elevatorNumber);
     }
 
     /**
@@ -65,14 +57,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return returns the door status of the indicated elevator where 1=open and 2=closed
      */
     @Override
-    public DoorState getElevatorDoorStatus(int elevatorNumber) throws Exception {
-        var value = elevator.getElevatorDoorStatus(elevatorNumber);
-        if (value == 1) {
-            return DoorState.open;
-        } else if (value == 2) {
-            return DoorState.closed;
-        }
-        throw new Exception("Value represents no DoorState");
+    public int getElevatorDoorStatus(int elevatorNumber) throws Exception {
+       return elevator.getElevatorDoorStatus(elevatorNumber);
     }
 
     /**
@@ -212,17 +198,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @param direction      direction being set where up=0, down=1 and uncommitted=2
      */
     @Override
-    public void setCommittedDirection(int elevatorNumber, Direction direction) throws RemoteException {
-        int dir;
-        if (direction == Direction.up) {
-            dir = 0;
-        } else if (direction == Direction.down) {
-            dir = 1;
-        } else {
-            dir = 2;
-        }
-
-        elevator.setCommittedDirection(elevatorNumber, dir);
+    public void setCommittedDirection(int elevatorNumber, int direction) throws RemoteException {
+        elevator.setCommittedDirection(elevatorNumber, direction);
     }
 
     /**

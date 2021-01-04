@@ -1,11 +1,13 @@
 package at.fhhagenberg.sqelevator.mock;
 
 import at.fhhagenberg.sqelevator.IElevator;
+import at.fhhagenberg.sqelevator.IElevatorWrapper;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MockElevator implements IElevator {
+public class MockElevator implements IElevatorWrapper, IElevator {
 	
 	// Private member variables
     private final List<MockElevatorState> m_elevators;

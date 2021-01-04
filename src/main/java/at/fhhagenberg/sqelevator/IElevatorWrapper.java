@@ -1,8 +1,5 @@
 package at.fhhagenberg.sqelevator;
 
-import at.fhhagenberg.sqe.helper.Direction;
-import at.fhhagenberg.sqe.helper.DoorState;
-
 public interface IElevatorWrapper {
     /**
      * Retrieves the committed direction of the specified elevator (up / down / uncommitted).
@@ -10,7 +7,7 @@ public interface IElevatorWrapper {
      * @param elevatorNumber - elevator number whose committed direction is being retrieved
      * @return the current direction of the specified elevator where up=0, down=1 and uncommitted=2
      */
-    public Direction getCommittedDirection(int elevatorNumber) throws Exception;
+    public int getCommittedDirection(int elevatorNumber) throws Exception;
 
     /**
      * Provides the current acceleration of the specified elevator in feet per sec^2.
@@ -35,7 +32,7 @@ public interface IElevatorWrapper {
      * @param elevatorNumber - elevator number whose door status is being retrieved
      * @return returns the door status of the indicated elevator where 1=open and 2=closed
      */
-    public DoorState getElevatorDoorStatus(int elevatorNumber) throws Exception;
+    public int getElevatorDoorStatus(int elevatorNumber) throws Exception;
 
     /**
      * Provides the current location of the specified elevator to the nearest floor
@@ -137,7 +134,7 @@ public interface IElevatorWrapper {
      * @param elevatorNumber elevator number whose committed direction is being set
      * @param direction      direction being set where up=0, down=1 and uncommitted=2
      */
-    public void setCommittedDirection(int elevatorNumber, Direction direction) throws java.rmi.RemoteException;
+    public void setCommittedDirection(int elevatorNumber, int direction) throws java.rmi.RemoteException;
 
     /**
      * Sets whether or not the specified elevator will service the specified floor (yes/no).
