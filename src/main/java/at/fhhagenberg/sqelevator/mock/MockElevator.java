@@ -8,11 +8,11 @@ import java.util.List;
 public class MockElevator implements IElevator {
 	
 	// Private member variables
-    private List<MockElevatorState> m_elevators;
-    private List<MockFloorState> m_floors;
-    private int m_number_of_elevators;
-    private int m_number_of_floors;
-    private int m_floor_height;
+    private final List<MockElevatorState> m_elevators;
+    private final List<MockFloorState> m_floors;
+    private final int m_number_of_elevators;
+    private final int m_number_of_floors;
+    private final int m_floor_height;
 
     // CTOR
     public MockElevator(int number_elevators, int number_floors, int floor_height, int capacity) {
