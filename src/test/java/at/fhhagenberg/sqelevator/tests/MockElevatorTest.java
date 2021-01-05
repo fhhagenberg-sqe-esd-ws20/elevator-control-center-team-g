@@ -67,16 +67,16 @@ public class MockElevatorTest {
     @Test
     void testSetDoorStatus_Invalid() {
         Assertions.assertThrows(MockElevatorException.class, () ->
-                mocked.getElevators().get(0).setDoorStatus(MockElevator.ELEVATOR_DOORS_OPEN - 1));
+                mocked.getElevators().get(0).setDoorStatus(IElevator.ELEVATOR_DOORS_OPEN - 1));
         Assertions.assertThrows(MockElevatorException.class, () ->
-                mocked.getElevators().get(0).setDoorStatus(MockElevator.ELEVATOR_DOORS_CLOSING + 1));
+                mocked.getElevators().get(0).setDoorStatus(IElevator.ELEVATOR_DOORS_CLOSING + 1));
     }
 
     @Test
     void testGetCommitedDirection() throws Exception {
-        Assertions.assertEquals(MockElevator.ELEVATOR_DIRECTION_UNCOMMITTED,
+        Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED,
                 mocked.getCommittedDirection(1));
-        Assertions.assertEquals(MockElevator.ELEVATOR_DIRECTION_UNCOMMITTED,
+        Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED,
                 mocked.getCommittedDirection(0));
     }
 
@@ -85,17 +85,17 @@ public class MockElevatorTest {
         mocked.setCommittedDirection(1, IElevator.ELEVATOR_DIRECTION_UP);
         mocked.setCommittedDirection(0, IElevator.ELEVATOR_DIRECTION_DOWN);
 
-        Assertions.assertEquals(MockElevator.ELEVATOR_DIRECTION_DOWN,
+        Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_DOWN,
                 mocked.getCommittedDirection(0));
-        Assertions.assertEquals(MockElevator.ELEVATOR_DIRECTION_UP,
+        Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_UP,
                 mocked.getCommittedDirection(1));
 
         mocked.setCommittedDirection(0, IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
         mocked.setCommittedDirection(1, IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
 
-        Assertions.assertEquals(MockElevator.ELEVATOR_DIRECTION_UNCOMMITTED,
+        Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED,
                 mocked.getCommittedDirection(0));
-        Assertions.assertEquals(MockElevator.ELEVATOR_DIRECTION_UNCOMMITTED,
+        Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED,
                 mocked.getCommittedDirection(1));
     }
 
@@ -135,15 +135,15 @@ public class MockElevatorTest {
 
     @Test
     void testSetDoorStatus() throws Exception {
-        mocked.getElevators().get(0).setDoorStatus(MockElevator.ELEVATOR_DOORS_OPENING);
-        Assertions.assertEquals(MockElevator.ELEVATOR_DOORS_OPENING, mocked.getElevatorDoorStatus(0));
-        mocked.getElevators().get(1).setDoorStatus(MockElevator.ELEVATOR_DOORS_CLOSING);
-        Assertions.assertEquals(MockElevator.ELEVATOR_DOORS_CLOSING, mocked.getElevatorDoorStatus(1));
+        mocked.getElevators().get(0).setDoorStatus(IElevator.ELEVATOR_DOORS_OPENING);
+        Assertions.assertEquals(IElevator.ELEVATOR_DOORS_OPENING, mocked.getElevatorDoorStatus(0));
+        mocked.getElevators().get(1).setDoorStatus(IElevator.ELEVATOR_DOORS_CLOSING);
+        Assertions.assertEquals(IElevator.ELEVATOR_DOORS_CLOSING, mocked.getElevatorDoorStatus(1));
 
-        mocked.getElevators().get(0).setDoorStatus(MockElevator.ELEVATOR_DOORS_OPEN);
-        Assertions.assertEquals(MockElevator.ELEVATOR_DOORS_OPEN, mocked.getElevatorDoorStatus(0));
-        mocked.getElevators().get(1).setDoorStatus(MockElevator.ELEVATOR_DOORS_CLOSED);
-        Assertions.assertEquals(MockElevator.ELEVATOR_DOORS_CLOSED, mocked.getElevatorDoorStatus(1));
+        mocked.getElevators().get(0).setDoorStatus(IElevator.ELEVATOR_DOORS_OPEN);
+        Assertions.assertEquals(IElevator.ELEVATOR_DOORS_OPEN, mocked.getElevatorDoorStatus(0));
+        mocked.getElevators().get(1).setDoorStatus(IElevator.ELEVATOR_DOORS_CLOSED);
+        Assertions.assertEquals(IElevator.ELEVATOR_DOORS_CLOSED, mocked.getElevatorDoorStatus(1));
     }
 
     @Test
@@ -181,10 +181,10 @@ public class MockElevatorTest {
     @Test
     void testSetCommittedDirection_Invalid() {
         Assertions.assertThrows(MockElevatorException.class, () ->
-                mocked.setCommittedDirection(0, MockElevator.ELEVATOR_DIRECTION_UP - 1));
+                mocked.setCommittedDirection(0, IElevator.ELEVATOR_DIRECTION_UP - 1));
 
         Assertions.assertThrows(MockElevatorException.class, () ->
-                mocked.setCommittedDirection(0, MockElevator.ELEVATOR_DIRECTION_UNCOMMITTED + 1));
+                mocked.setCommittedDirection(0, IElevator.ELEVATOR_DIRECTION_UNCOMMITTED + 1));
     }
 
     @Test

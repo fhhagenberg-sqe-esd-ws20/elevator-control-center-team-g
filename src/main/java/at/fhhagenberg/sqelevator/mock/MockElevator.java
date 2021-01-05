@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MockElevator implements IElevatorWrapper, IElevator {
+public class MockElevator implements IElevatorWrapper {
 	
 	// Private member variables
     private final List<MockElevatorState> m_elevators;
@@ -18,8 +18,8 @@ public class MockElevator implements IElevatorWrapper, IElevator {
 
     // CTOR
     public MockElevator(int number_elevators, int number_floors, int floor_height, int capacity) {
-        m_elevators = new ArrayList<>(number_elevators);
-        m_floors = new ArrayList<>(number_floors);
+        m_elevators = new ArrayList<MockElevatorState>();
+        m_floors = new ArrayList<MockFloorState>();
     	m_number_of_elevators = number_elevators;
     	m_number_of_floors = number_floors;
     	m_floor_height = floor_height;
