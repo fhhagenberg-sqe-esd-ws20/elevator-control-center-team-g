@@ -75,7 +75,7 @@ public class ElevatorView extends GridPane implements Observer{
     private void buildUI() {
         lbl_title.setId("#" + ID_prefix + "ElevatorHeader");
         lbl_title.setFont(new Font(20));
-        lbl_direction.setId("#" + ID_prefix + "Direction");
+        lbl_direction.setId("#" + ID_prefix + "DirectionLabel");
         lbl_speed.setId("#" + ID_prefix + "SpeedLabel");
         lbl_floor.setId("#" + ID_prefix + "FloorLabel");
         lbl_door.setId("#" + ID_prefix + "DoorLabel");
@@ -140,7 +140,7 @@ public class ElevatorView extends GridPane implements Observer{
     	else
     		lbl_door.setText("Door Status: " + "CLOSED");
     	
-    	lbl_payload.setText("Payload: " + Integer.toString(model.getPayload()));
+    	lbl_payload.setText("Payload: " + Integer.toString(model.getPayload()) + " kg");
     	
     	if(model.getModeState() == ModeState.automatic) 
     		lbl_mode.setText("Mode: AUTO");

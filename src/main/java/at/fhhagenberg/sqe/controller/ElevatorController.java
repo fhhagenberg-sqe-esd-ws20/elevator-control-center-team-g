@@ -27,6 +27,7 @@ public class ElevatorController implements IElevatorController{
 		m_main_view_model = model;
 		m_main_view_model.setConnectionState(true);
 		m_timer = new Timer();
+		
 		initFloors();
 		initElevators();
 	}

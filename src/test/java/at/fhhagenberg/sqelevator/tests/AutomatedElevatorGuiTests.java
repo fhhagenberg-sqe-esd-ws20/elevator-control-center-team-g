@@ -34,11 +34,22 @@ public class AutomatedElevatorGuiTests {
     	elevator_controller = new ElevatorController(elevator_service, mainViewModel);
         mainUI = new MainView(mainViewModel, stage);    
 
+        elevator_service.setServicesFloors(0, 4, false);
+        elevator_service.setServicesFloors(0, 3, false);
+        elevator_service.setServicesFloors(2, 7, false);
     	elevator_controller.startTimer();     	 	
 	}
 
 	@Test
-	public void testInitialSetup(FxRobot robot) {	
+	public void testEndToEndScenario(FxRobot robot) {
+		// Check the GUI 
+		verifyThat("##0ElevatorHeader", hasText("Elevator 0"));
+		verifyThat("##0DirectionLabel", hasText("Direction: DOWN"));
+		verifyThat("##0SpeedLabel", hasText("Speed: 20"));
+		verifyThat("##0DoorLabel", hasText("Door Status: CLOSED"));
+		verifyThat("##0PayloadLabel", hasText("Payload: 700 kg"));
+		
+		// Navigate Elevator 0
 		robot.clickOn("##0ChangeButton");
 		wait(robot);
 		verifyThat("##0ManualLabel", hasText("Mode: MANU"));
@@ -48,15 +59,23 @@ public class AutomatedElevatorGuiTests {
 		verifyThat("##0PositionLabel", hasText("Position: 81 feet"));
 		verifyThat("##0FloorLabel", hasText("Current Floor: 9"));	
 		
+		// Click on disabled Floor
+		robot.clickOn("##0Button3");
+		wait(robot);
+		verifyThat("##0PositionLabel", hasText("Position: 81 feet"));
+		verifyThat("##0FloorLabel", hasText("Current Floor: 9"));	
+		
+		// Navigate Elevator 2
 		robot.clickOn("##2ChangeButton");
 		wait(robot);
-		verifyThat("##2ManualLabel", hasText("Mode: MANU"));
+		verifyThat("##2ManualLabel", hasText("Mode: MANU"));		
 		
 		robot.clickOn("##2Button2");
 		wait(robot);
 		verifyThat("##2PositionLabel", hasText("Position: 18 feet"));
 		verifyThat("##2FloorLabel", hasText("Current Floor: 2"));	
 		
+		// Set the elevators back to auto mode
 		robot.clickOn("##0ChangeButton");
 		wait(robot);
 		verifyThat("##0ManualLabel", hasText("Mode: AUTO"));
