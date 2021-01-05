@@ -16,8 +16,8 @@ import java.util.Vector;
 public class ElevatorController implements IElevatorController{
 	private static final int TIMER_INTERVAL = 100;	
 	private final Timer m_timer;
-	private IElevator m_elevator_service;
-	private MainViewModel m_main_view_model = null;	
+	private final IElevator m_elevator_service;
+	private final MainViewModel m_main_view_model;
 	private int m_number_of_elevators;
 	private int m_number_of_floors;
 	
@@ -86,7 +86,7 @@ public class ElevatorController implements IElevatorController{
 					elevators.get(i).setDirection(Direction.down);
 				}	
 				
-				Vector<Integer> disabled_floors = new Vector<Integer>();
+				Vector<Integer> disabled_floors = new Vector<>();
 				for (int j = 0; j < m_number_of_floors; j++) {
 					boolean is_serviced = m_elevator_service.getServicesFloors(j, floor);
 					if (!is_serviced) {
@@ -105,14 +105,12 @@ public class ElevatorController implements IElevatorController{
 		m_timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				Platform.runLater(() -> {
-					updateGUI();
-				});
+				Platform.runLater(() -> updateGUI());
 			}
 		}, 0, TIMER_INTERVAL);
 	}	
 	
 	public void handleElevatorPositionChange(int elevator_number, int floor_number) {
-		System.out.println("Elevator " + Integer.toString(elevator_number) + " drives to floor " + Integer.toString(floor_number));
+		System.out.println("Elevator " +elevator_number + " drives to floor " + floor_number);
 	}
 }
