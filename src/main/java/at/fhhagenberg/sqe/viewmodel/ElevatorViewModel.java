@@ -88,8 +88,7 @@ public class ElevatorViewModel extends Observable {
     }
     
     public void clickedFloor(int num) {
-    	if (modeState == ModeState.manual)
-    	{
+    	if (modeState == ModeState.manual && !disabled_floors.contains(num)) {
         	ec.handleElevatorPositionChange(id, num);	
     	}
     }
