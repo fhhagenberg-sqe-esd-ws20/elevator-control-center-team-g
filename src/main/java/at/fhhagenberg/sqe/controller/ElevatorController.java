@@ -9,15 +9,14 @@ import javafx.application.Platform;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
 public class ElevatorController implements IElevatorController{
 	private static final int TIMER_INTERVAL = 100;	
-	private Timer m_timer;
-	private IElevator m_elevator_service = null;
+	private final Timer m_timer;
+	private IElevator m_elevator_service;
 	private MainViewModel m_main_view_model = null;	
 	private int m_number_of_elevators;
 	private int m_number_of_floors;
