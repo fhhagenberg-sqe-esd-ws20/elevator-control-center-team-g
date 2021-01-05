@@ -3,6 +3,7 @@ package at.fhhagenberg.sqe.viewmodel;
 import java.util.Observable;
 import java.util.Vector;
 
+import at.fhhagenberg.sqe.controller.IElevatorController;
 import at.fhhagenberg.sqe.helper.Direction;
 import at.fhhagenberg.sqe.helper.DoorState;
 import at.fhhagenberg.sqe.helper.ModeState;
@@ -21,9 +22,12 @@ public class ElevatorViewModel extends Observable {
     int payload = 10;
     int position = 1;
     
-    public ElevatorViewModel(int _id, int _numberOfFloors) {
+    IElevatorController ec;
+    
+    public ElevatorViewModel(int _id, int _numberOfFloors, IElevatorController _ec) {
     	id = _id;
     	number_of_floors = _numberOfFloors;
+    	ec = _ec;
     }
     
     public int getId() { return id; }
@@ -84,7 +88,7 @@ public class ElevatorViewModel extends Observable {
     }
     
     public void clickedFloor(int num) {
-    	System.out.println(Integer.toString(num));
+    	ec.handleElevatorPositionChange(id, num);
     }
     
     public void updateView() {
