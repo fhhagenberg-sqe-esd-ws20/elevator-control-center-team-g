@@ -33,7 +33,7 @@ public class App extends Application {
         var mainViewModel = new MainViewModel(floors_view_model);
         var elevator_service = new MockElevator(4, 10, 9, 10);
     	var elevator_controller = new ElevatorController(elevator_service, mainViewModel);
-        var mainUI = new MainView(mainViewModel, stage);      	
+        var mainUI = new MainView(mainViewModel, stage);     
     	elevator_controller.startTimer();
     }
 

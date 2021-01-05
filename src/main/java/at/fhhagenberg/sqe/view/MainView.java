@@ -9,11 +9,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class MainView  implements Observer {
 
 	MainViewModel model;
+	
+	Rectangle statusRect;
 	
 	MainView(MainViewModel _model, Stage stage) {
 		model = _model;
@@ -36,10 +41,21 @@ public class MainView  implements Observer {
 		ScrollPane scrollPane = new ScrollPane();
 		scrollPane.setContent(gridPaneMain);
 		scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		
+		statusRect = new Rectangle(80, 25);
+		
+		if(model.getConnectionState() == true) 
+    		statusRect.setFill(Color.GREEN);
+    	else
+    		statusRect.setFill(Color.RED);
         
+		var vb = new VBox();
+		vb.getChildren().add(statusRect);
+		vb.getChildren().add(new FloorsView(model.getFloorsModel()));
+		
         var root = new GridPane();
     	root.setPadding(new Insets(20,20,20,20));
-    	root.add(new FloorsView(model.getFloorsModel()), 0, 0);
+    	root.add(vb, 0, 0);
     	root.add(scrollPane, 1, 0);
     	
     	var scene = new Scene(root);
@@ -49,7 +65,10 @@ public class MainView  implements Observer {
 	
 	@Override
     public void update(Observable o, Object arg) {
-    	
+    	if(model.getConnectionState() == true) 
+    		statusRect.setFill(Color.GREEN);
+    	else
+    		statusRect.setFill(Color.RED);
     }
 	
 }

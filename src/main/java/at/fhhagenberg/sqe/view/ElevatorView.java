@@ -48,7 +48,6 @@ public class ElevatorView extends GridPane implements Observer{
 	};
 
     private GridPane drawButtons() {
-        
         int pos = 0;
         for (int i = model.getNumberOfFloors(); i > 0; i--) {
             var elevatorButton = new Button(String.valueOf(i));
