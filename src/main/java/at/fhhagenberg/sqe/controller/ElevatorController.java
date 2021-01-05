@@ -9,15 +9,14 @@ import javafx.application.Platform;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
-public class ElevatorController{
-	private static final int TIMER_INTERVAL = 100;
-	private Timer m_timer;
-	private IElevator m_elevator_service = null;
+public class ElevatorController implements IElevatorController{
+	private static final int TIMER_INTERVAL = 100;	
+	private final Timer m_timer;
+	private IElevator m_elevator_service;
 	private MainViewModel m_main_view_model = null;	
 	private int m_number_of_elevators;
 	private int m_number_of_floors;
@@ -25,6 +24,7 @@ public class ElevatorController{
 	public ElevatorController(IElevator elevator_service, MainViewModel model) {
 		m_elevator_service = elevator_service;
 		m_main_view_model = model;
+		m_main_view_model.setConnectionState(true);
 		m_timer = new Timer();
 		initFloors();
 		initElevators();
@@ -37,6 +37,8 @@ public class ElevatorController{
 		catch (RemoteException e) {
 			// TODO: Error handling...
 		}
+		
+		m_main_view_model.getFloorsModel().setNumberOfFloors(m_number_of_floors);
 	}
 	
 	private void initElevators(){
@@ -49,7 +51,7 @@ public class ElevatorController{
 		
 
 		for (int i = 0; i < m_number_of_elevators; i++) {
-			m_main_view_model.addElevatorModel(new ElevatorViewModel(i, m_number_of_floors));
+			m_main_view_model.addElevatorModel(new ElevatorViewModel(i, m_number_of_floors, this));
 		}		
 	}
 	
@@ -109,4 +111,8 @@ public class ElevatorController{
 			}
 		}, 0, TIMER_INTERVAL);
 	}	
+	
+	public void handleElevatorPositionChange(int elevator_number, int floor_number) {
+		System.out.println("Elevator " + Integer.toString(elevator_number) + " drives to floor " + Integer.toString(floor_number));
+	}
 }
