@@ -1,18 +1,20 @@
 package at.fhhagenberg.sqelevator.mock;
 
 import at.fhhagenberg.sqelevator.IElevator;
+import at.fhhagenberg.sqelevator.IElevatorWrapper;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MockElevator implements IElevator {
+public class MockElevator implements IElevatorWrapper, IElevator {
 	
 	// Private member variables
-    private List<MockElevatorState> m_elevators;
-    private List<MockFloorState> m_floors;
-    private int m_number_of_elevators;
-    private int m_number_of_floors;
-    private int m_floor_height;
+    private final List<MockElevatorState> m_elevators;
+    private final List<MockFloorState> m_floors;
+    private final int m_number_of_elevators;
+    private final int m_number_of_floors;
+    private final int m_floor_height;
 
     // CTOR
     public MockElevator(int number_elevators, int number_floors, int floor_height, int capacity) {
