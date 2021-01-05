@@ -5,6 +5,7 @@ import at.fhhagenberg.sqe.helper.DoorState;
 import at.fhhagenberg.sqe.viewmodel.ElevatorViewModel;
 import at.fhhagenberg.sqe.viewmodel.MainViewModel;
 import at.fhhagenberg.sqelevator.IElevator;
+import at.fhhagenberg.sqelevator.IElevatorWrapper;
 import javafx.application.Platform;
 
 import java.rmi.RemoteException;
@@ -16,12 +17,12 @@ import java.util.Vector;
 public class ElevatorController implements IElevatorController{
 	private static final int TIMER_INTERVAL = 100;	
 	private final Timer m_timer;
-	private final IElevator m_elevator_service;
+	private final IElevatorWrapper m_elevator_service;
 	private final MainViewModel m_main_view_model;
 	private int m_number_of_elevators;
 	private int m_number_of_floors;
 	
-	public ElevatorController(IElevator elevator_service, MainViewModel model) {
+	public ElevatorController(IElevatorWrapper elevator_service, MainViewModel model) {
 		m_elevator_service = elevator_service;
 		m_main_view_model = model;
 		m_main_view_model.setConnectionState(true);
@@ -35,7 +36,7 @@ public class ElevatorController implements IElevatorController{
 			m_number_of_floors = m_elevator_service.getFloorNum();
 		}
 		catch (RemoteException e) {
-			// TODO: Error handling...
+			m_main_view_model.setConnectionState(false);
 		}
 		
 		m_main_view_model.getFloorsModel().setNumberOfFloors(m_number_of_floors);
@@ -46,7 +47,7 @@ public class ElevatorController implements IElevatorController{
 			m_number_of_elevators = m_elevator_service.getElevatorNum();
 		}
 		catch (RemoteException e) {
-			// TODO: Error handling...
+			m_main_view_model.setConnectionState(false);
 		}
 		
 
@@ -57,7 +58,6 @@ public class ElevatorController implements IElevatorController{
 	
 	private void updateGUI() {
 		try {
-			//DISABLED_FLOORS
 			ArrayList<ElevatorViewModel> elevators = m_main_view_model.getElevatorModels();
 			for (int i = 0; i < m_number_of_elevators; i++) {
 				int speed = m_elevator_service.getElevatorSpeed(i);
@@ -88,7 +88,7 @@ public class ElevatorController implements IElevatorController{
 				
 				Vector<Integer> disabled_floors = new Vector<>();
 				for (int j = 0; j < m_number_of_floors; j++) {
-					boolean is_serviced = m_elevator_service.getServicesFloors(j, floor);
+					boolean is_serviced = m_elevator_service.getServicesFloors(i, j);
 					if (!is_serviced) {
 						disabled_floors.add(j);
 					}
@@ -96,8 +96,8 @@ public class ElevatorController implements IElevatorController{
 				elevators.get(i).setDisabledFloors(disabled_floors);				
 			}		
 		}
-		catch (RemoteException e) {
-			// TODO: Error handling...
+		catch (Exception e) {
+			m_main_view_model.setConnectionState(false);
 		}
 	}
 	
@@ -110,7 +110,17 @@ public class ElevatorController implements IElevatorController{
 		}, 0, TIMER_INTERVAL);
 	}	
 	
+	@Override
 	public void handleElevatorPositionChange(int elevator_number, int floor_number) {
 		System.out.println("Elevator " +elevator_number + " drives to floor " + floor_number);
+		try
+		{
+			m_elevator_service.setTarget(elevator_number, floor_number);	
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception " + e.getMessage());
+			m_main_view_model.setConnectionState(false);
+		}
 	}
 }

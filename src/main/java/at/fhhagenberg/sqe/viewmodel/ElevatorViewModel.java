@@ -13,7 +13,7 @@ public class ElevatorViewModel extends Observable {
 
 	int id = 0;
 	int speed = 0;
-    ModeState modeState = ModeState.manual;
+    ModeState modeState = ModeState.automatic;
     int floor = 1;
     DoorState doorState = DoorState.closed;
     Direction direction = Direction.down;
@@ -88,7 +88,10 @@ public class ElevatorViewModel extends Observable {
     }
     
     public void clickedFloor(int num) {
-    	ec.handleElevatorPositionChange(id, num);
+    	if (modeState == ModeState.manual)
+    	{
+        	ec.handleElevatorPositionChange(id, num);	
+    	}
     }
     
     public void updateView() {

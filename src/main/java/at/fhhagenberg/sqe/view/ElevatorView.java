@@ -49,7 +49,7 @@ public class ElevatorView extends GridPane implements Observer{
 
     private GridPane drawButtons() {
         int pos = 0;
-        for (int i = model.getNumberOfFloors(); i > 0; i--) {
+        for (int i = model.getNumberOfFloors() -1; i >= 0; i--) {
             var elevatorButton = new Button(String.valueOf(i));
             elevatorButton.setId("#" + ID_prefix + "Button" + Integer.toString(i));
             if (model.getDisabledFloors().contains(i)) {
@@ -83,6 +83,7 @@ public class ElevatorView extends GridPane implements Observer{
         lbl_payload.setId("#" + ID_prefix + "PayloadLabel");
         lbl_position.setId("#" + ID_prefix + "PositionLabel");
         
+        switchbtn_mode.setId("#" + ID_prefix + "ChangeButton");
         switchbtn_mode.setText("Change Mode");
         switchbtn_mode.addEventHandler(ActionEvent.ACTION, changeModeHandler);
 
@@ -146,7 +147,7 @@ public class ElevatorView extends GridPane implements Observer{
     	else
     		lbl_mode.setText("Mode: MANU");
     	
-    	for (int i = model.getNumberOfFloors(); i > 0; i--) {
+    	for (int i = model.getNumberOfFloors() -1; i >= 0; i--) {
     		
             Button elevatorButton = (Button) pane.lookup("##" + ID_prefix + "Button" + Integer.toString(i));
             
@@ -159,6 +160,6 @@ public class ElevatorView extends GridPane implements Observer{
             }
         }
     	
-    	lbl_position.setText("Position: " + model.getPosition());
+    	lbl_position.setText("Position: " + model.getPosition() + " feet");
     }
 }

@@ -5,7 +5,7 @@ import java.util.Vector;
 
 public class FloorsViewModel  extends Observable{
 
-	int number_of_floors = 3;
+	int number_of_floors = 0;
 	
 	Vector<Integer> floors_UP = new Vector<Integer>();
 	Vector<Integer> floors_DOWN = new Vector<Integer>();

@@ -20,7 +20,7 @@ public class MainView  implements Observer {
 	
 	Rectangle statusRect;
 	
-	MainView(MainViewModel _model, Stage stage) {
+	public MainView(MainViewModel _model, Stage stage) {
 		model = _model;
 		buildUI(stage);
 		model.addObserver(this);
