@@ -1,8 +1,11 @@
 package at.fhhagenberg.sqe.view;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Vector;
 
 import at.fhhagenberg.sqe.viewmodel.FloorsViewModel;
 import javafx.geometry.Insets;
@@ -22,6 +25,9 @@ public class FloorsView extends GridPane implements Observer {
 	FloorsViewModel model;
 	
 	GridPane gridPane = new GridPane();
+	
+	ArrayList<Rectangle> ups = new ArrayList<Rectangle>();
+	ArrayList<Rectangle> downs = new ArrayList<Rectangle>();
 	
 	FloorsView(FloorsViewModel _model) {
 		model = _model;
@@ -44,7 +50,7 @@ public class FloorsView extends GridPane implements Observer {
 			stackUP.getChildren().addAll(rectUP, textUP);
 			
 			Rectangle rectDOWN = new Rectangle(80, 25);
-			rectUP.setId("DOWN"+ Integer.toString(i));
+			rectDOWN.setId("DOWN"+ Integer.toString(i));
 			rectDOWN.setFill(Color.ORANGE);
 			Text textDOWN = new Text ("DOWN");
 			textDOWN.setFill(Color.WHITE);
@@ -54,6 +60,9 @@ public class FloorsView extends GridPane implements Observer {
 			VBox right = new VBox();
 			right.getChildren().add(stackUP);
 			right.getChildren().add(stackDOWN);
+
+			ups.add(rectUP);
+			downs.add(rectDOWN);
 			
 			left.getChildren().add(lbl_FloorNumber);
 			
@@ -70,14 +79,16 @@ public class FloorsView extends GridPane implements Observer {
     	
     	add(root, 0, 0);
     	
+    	Collections.reverse(ups);
+    	Collections.reverse(downs);
 	}
 	
 	@Override
     public void update(Observable o, Object arg) {
-		for (int i = model.getNumberOfFloors() -1; i >= 0; i--) {
+		for (int i = model.getNumberOfFloors() - 1; i >= 0; i--) {
 			
-			Rectangle rectUP = (Rectangle) gridPane.lookup("#UP"+ Integer.toString(i));
-			Rectangle rectDOWN = (Rectangle) gridPane.lookup("#DOWN"+ Integer.toString(i));
+			Rectangle rectUP = ups.get(i);
+			Rectangle rectDOWN = downs.get(i);
 			
 		    if (!model.getFloorsUP().contains(i)) {
 		    	rectUP.setFill(Color.ORANGE);

@@ -95,9 +95,25 @@ public class ElevatorController implements IElevatorController{
 				}
 				elevators.get(i).setDisabledFloors(disabled_floors);				
 			}		
+			
+			Vector<Integer> ups = new Vector<Integer>();
+			Vector<Integer> downs = new Vector<Integer>();
+			for (int i = 0; i < m_number_of_floors; i++) {
+				if(m_elevator_service.getFloorButtonDown(i)) {
+					downs.add(i);
+				}
+				if(m_elevator_service.getFloorButtonUp(i)) {
+					ups.add(i);
+				}
+			}
+			if(m_main_view_model.getFloorsModel() != null) {
+				m_main_view_model.getFloorsModel().setFloorsDOWN(downs);
+				m_main_view_model.getFloorsModel().setFloorsUP(ups);
+			}
 		}
 		catch (Exception e) {
 			m_main_view_model.setConnectionState(false);
+			System.out.println("Exception " + e.getMessage());
 		}
 	}
 	
