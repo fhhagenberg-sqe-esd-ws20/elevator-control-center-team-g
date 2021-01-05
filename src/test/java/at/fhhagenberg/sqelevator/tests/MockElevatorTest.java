@@ -5,9 +5,12 @@ import at.fhhagenberg.sqelevator.IElevator;
 import at.fhhagenberg.sqelevator.mock.MockElevator;
 import at.fhhagenberg.sqelevator.mock.MockElevatorConstants;
 import at.fhhagenberg.sqelevator.mock.MockElevatorException;
+import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+
+import java.rmi.RemoteException;
 
 public class MockElevatorTest {
     private MockElevator mocked;
@@ -205,4 +208,61 @@ public class MockElevatorTest {
         Assertions.assertFalse(mocked.getServicesFloors(0, 2));
     }
 
+    @Test
+    void testGetFloorNum() throws RemoteException {
+        Assertions.assertEquals(floors, mocked.getFloorNum());
+    }
+
+    @Test
+    void testGetElevatorNum() throws RemoteException {
+        Assertions.assertEquals(elevator_count, mocked.getElevatorNum());
+    }
+
+    @Test
+    void testGetElevatorWeight() throws RemoteException {
+        Assertions.assertEquals(700, mocked.getElevatorWeight(0));
+    }
+
+    @Test
+    void testGetElevatorCapacity() throws RemoteException {
+        Assertions.assertEquals(elevator_max_pax, mocked.getElevatorCapacity(0));
+    }
+
+    @Test
+    void testGetFloors() throws RemoteException {
+        var floors = mocked.getFloors();
+        Assertions.assertEquals(3, floors.size());
+        Assertions.assertFalse(floors.get(0).getDownButtonState());
+        Assertions.assertFalse(floors.get(0).getUpButtonState());
+        floors.get(1).setDownButtonState(true);
+        Assertions.assertTrue(floors.get(1).getDownButtonState());
+        Assertions.assertFalse(floors.get(1).getUpButtonState());
+        floors.get(2).setUpButtonState(true);
+        Assertions.assertFalse(floors.get(2).getDownButtonState());
+        Assertions.assertTrue(floors.get(2).getUpButtonState());
+    }
+    @Test
+    void testGetElevatorFloor() throws RemoteException {
+        Assertions.assertEquals(0, mocked.getElevatorFloor(0));
+        mocked.setTarget(0,1);
+        Assertions.assertEquals(1, mocked.getElevatorFloor(0));
+        mocked.setTarget(0,2);
+        Assertions.assertEquals(2, mocked.getElevatorFloor(0));
+    }
+    @Test
+    void testGetElevatorSpeed() throws RemoteException {
+        Assertions.assertEquals(20, mocked.getElevatorSpeed(0));
+    }
+    @Test
+    void testGetFloorButtonUp() throws RemoteException {
+        Assertions.assertEquals(false, mocked.getFloorButtonUp(1));
+    }
+    @Test
+    void testGetFloorButtonDown() throws RemoteException {
+        Assertions.assertEquals(false, mocked.getFloorButtonDown(1));
+    }
+    @Test
+    void testGetElevatorAccel() throws RemoteException {
+        Assertions.assertEquals(10, mocked.getElevatorAccel(1));
+    }
 }
