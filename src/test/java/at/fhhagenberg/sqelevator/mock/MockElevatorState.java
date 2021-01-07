@@ -9,7 +9,7 @@ public class MockElevatorState {
 	// Private member variables
     private List<Boolean> m_serviced_floors;
     private List<Boolean> m_floor_buttons;
-    private int m_direction = IElevator.ELEVATOR_DIRECTION_UNCOMMITTED;
+    private int m_direction = IElevator.ELEVATOR_DIRECTION_DOWN;
     private int m_state_doors = IElevator.ELEVATOR_DOORS_CLOSED;
     private int m_acceleration = 0;
     private int m_current_floor = 0;

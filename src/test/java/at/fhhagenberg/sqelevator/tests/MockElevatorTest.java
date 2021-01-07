@@ -77,9 +77,9 @@ public class MockElevatorTest {
 
     @Test
     void testGetCommitedDirection() throws Exception {
-        Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED,
+        Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_DOWN,
                 mocked.getCommittedDirection(1));
-        Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED,
+        Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_DOWN,
                 mocked.getCommittedDirection(0));
     }
 

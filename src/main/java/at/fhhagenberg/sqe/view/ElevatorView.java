@@ -29,6 +29,8 @@ public class ElevatorView extends GridPane implements Observer{
 	private Label lbl_position = new Label("Position:");
 	private Label lbl_mode = new Label("Manual Mode");
 	private Button switchbtn_mode = new Button();
+	
+	private int set_target = -1;
     
 	GridPane pane = new GridPane();
 
@@ -62,6 +64,8 @@ public class ElevatorView extends GridPane implements Observer{
             	@Override
         	    public void handle(ActionEvent event) {
         	        model.clickedFloor(index);
+        	        Button elevatorButton = (Button) pane.lookup("##" + ID_prefix + "Button" + Integer.toString(index));
+        	        set_target = index;
         	        event.consume();
         	    }
             });
@@ -128,8 +132,10 @@ public class ElevatorView extends GridPane implements Observer{
     	
     	if(model.getDirection() == Direction.up) 
     		lbl_direction.setText("Direction: UP");
-    	else
+    	else if(model.getDirection() == Direction.down)
     		lbl_direction.setText("Direction: DOWN");
+    	else
+    		lbl_direction.setText("Direction: UNCOMMITED");
     	
     	lbl_speed.setText("Speed: " + Integer.toString(model.getSpeed()));
     	
@@ -152,13 +158,18 @@ public class ElevatorView extends GridPane implements Observer{
             Button elevatorButton = (Button) pane.lookup("##" + ID_prefix + "Button" + Integer.toString(i));
             
             if (model.getDisabledFloors().contains(i)) {
-                elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #726f68; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0");
+                elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #726f68; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0;");
             } else if(i == model.getFloor()) {
-            	elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #ffa500; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0");
+            	elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #ffa500; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0;");
+            } else if(i == set_target) {
+                elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #8F91EF; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0;");
             } else {
-                elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #ffc72b; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0");
+                elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #ffc72b; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0;");
             }
         }
+    	
+    	if(set_target == model.getFloor())
+    		set_target = -1;
     	
     	lbl_position.setText("Position: " + model.getPosition() + " feet");
     }

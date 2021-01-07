@@ -10,6 +10,7 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 import javafx.stage.Stage;
+import sqelevator.IElevator;
 import at.fhhagenberg.sqe.viewmodel.MainViewModel;
 import at.fhhagenberg.sqelevator.mock.MockElevator;
 import at.fhhagenberg.sqe.viewmodel.FloorsViewModel;
@@ -42,19 +43,95 @@ public class EndToEndTest {
 	}
 	
 	@Test
-	public void testSetTargetFloorFromUi(FxRobot robot) {
+	public void testInitialFloorFromModelToUi(FxRobot robot) {		
+		int floor = 0;		
+		try{
+			floor = elevator_service.getElevatorFloor(0);
+		}
+		catch (Exception e){
+			fail("Exception occured during call of getElevatorFloor method");
+		}	
+		verifyThat("##0FloorLabel", hasText("Current Floor: 0"));	
+        Assertions.assertEquals(0, floor);
+	}
+	
+	@Test
+	public void testDirectionFromModelToUi(FxRobot robot) {	
+		int direction = 0;		
+		try{
+			direction = elevator_service.getCommittedDirection(0);
+		}
+		catch (Exception e){
+			fail("Exception occured during call of getCommittedDirection method");
+		}	
+		verifyThat("##0DirectionLabel", hasText("Direction: DOWN"));		
+        Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_DOWN, direction);
+	}
+	
+	@Test
+	public void testPayloadFromModelToUi(FxRobot robot) {		
+		int payload = 0;		
+		try{
+			payload = elevator_service.getElevatorWeight(0);
+		}
+		catch (Exception e){
+			fail("Exception occured during call of getElevatorWeight method");
+		}	
+		verifyThat("##0PayloadLabel", hasText("Payload: 700 kg"));	
+        Assertions.assertEquals(700, payload);
+	}
+	
+	@Test
+	public void testPositionFromModelToUi(FxRobot robot) {		
+		int position = 0;		
+		try{
+			position = elevator_service.getElevatorPosition(0);
+		}
+		catch (Exception e){
+			fail("Exception occured during call of getElevatorPosition method");
+		}		
+		verifyThat("##0PositionLabel", hasText("Position: 0 feet"));	
+        Assertions.assertEquals(0, position);
+	}
+	
+	@Test
+	public void testDoorStatusFromModelToUi(FxRobot robot) {	
+		int door_status = 0;		
+		try{
+			door_status = elevator_service.getElevatorDoorStatus(0);
+		}
+		catch (Exception e){
+			fail("Exception occured during call of getElevatorDoorStatus method");
+		}	
+		verifyThat("##0DoorLabel", hasText("Door Status: CLOSED"));		
+        Assertions.assertEquals(IElevator.ELEVATOR_DOORS_CLOSED, door_status);
+	}
+	
+	@Test
+	public void testSpeedFromModelToUi(FxRobot robot) {
+		int speed = 0;		
+		try{
+			speed = elevator_service.getElevatorSpeed(0);
+		}
+		catch (Exception e){
+			fail("Exception occured during call of getElevatorSpeed method");
+		}		
+		verifyThat("##0SpeedLabel", hasText("Speed: 20"));	
+        Assertions.assertEquals(20, speed);
+	}
+	
+	@Test
+	public void testSetTargetFloorFromUiToModel(FxRobot robot) {
 		robot.clickOn("##0ChangeButton");
 		verifyThat("##0ManualLabel", hasText("Mode: MANU"));		
-		robot.clickOn("##0Button9");
-		
-		int target_floor = 0;
-		
+		robot.clickOn("##0Button9");		
+		int target_floor = 0;		
 		try{
 			target_floor = elevator_service.getTarget(0);
 		}
 		catch (Exception e){
 			fail("Exception occured during call of getTarget method");
-		}
+		}		
         Assertions.assertEquals(9, target_floor);
 	}
 }
