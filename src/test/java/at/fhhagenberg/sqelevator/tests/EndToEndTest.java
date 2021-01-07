@@ -64,8 +64,8 @@ public class EndToEndTest {
 		catch (Exception e){
 			fail("Exception occured during call of getCommittedDirection method");
 		}	
-		verifyThat("##0DirectionLabel", hasText("Direction: UNCOMMITED"));		
-        Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED, direction);
+		verifyThat("##0DirectionLabel", hasText("Direction: DOWN"));		
+        Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_DOWN, direction);
 	}
 	
 	@Test

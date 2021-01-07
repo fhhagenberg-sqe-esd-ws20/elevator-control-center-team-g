@@ -48,7 +48,7 @@ public class AutomatedGuiTest {
 	
 	@Test
 	public void testBasicUiSetupFromMockDirection(FxRobot robot) {
-		verifyThat("##0DirectionLabel", hasText("Direction: UNCOMMITED"));
+		verifyThat("##0DirectionLabel", hasText("Direction: DOWN"));
 	}
 	
 	@Test
