@@ -1,4 +1,4 @@
-package at.fhhagenberg.sqelevator;
+package sqelevator;
 
 public interface IElevatorWrapper {
     /**

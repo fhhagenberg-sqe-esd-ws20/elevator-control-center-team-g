@@ -4,8 +4,8 @@ import at.fhhagenberg.sqe.helper.Direction;
 import at.fhhagenberg.sqe.helper.DoorState;
 import at.fhhagenberg.sqe.viewmodel.ElevatorViewModel;
 import at.fhhagenberg.sqe.viewmodel.MainViewModel;
-import at.fhhagenberg.sqelevator.IElevator;
-import at.fhhagenberg.sqelevator.IElevatorWrapper;
+import sqelevator.IElevator;
+import sqelevator.IElevatorWrapper;
 import javafx.application.Platform;
 
 import java.rmi.RemoteException;

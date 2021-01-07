@@ -1,4 +1,4 @@
-package at.fhhagenberg.sqelevator;
+package sqelevator;
 
 import at.fhhagenberg.sqe.helper.Direction;
 import at.fhhagenberg.sqe.helper.DoorState;
