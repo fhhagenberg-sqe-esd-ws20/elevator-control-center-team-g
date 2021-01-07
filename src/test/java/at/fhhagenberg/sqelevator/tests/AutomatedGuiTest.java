@@ -19,10 +19,10 @@ import at.fhhagenberg.sqe.view.MainView;
 public class AutomatedGuiTest {
 	
 	private FloorsViewModel floors_view_model;
-	private MainViewModel mainViewModel;
+	private MainViewModel main_view_model;
 	private MockElevator elevator_service;
 	private ElevatorController elevator_controller;
-	private MainView mainUI;
+	private MainView main_ui;
 	
 	private final int INITIAL_NUMBER_OF_ELEVATORS = 4;
 	private final int INITIAL_NUMBER_OF_FLOORS = 10;
@@ -32,37 +32,72 @@ public class AutomatedGuiTest {
 	@Start
 	public void start(Stage stage) throws Exception {
     	floors_view_model = new FloorsViewModel();
-        mainViewModel = new MainViewModel(floors_view_model);
+    	main_view_model = new MainViewModel(floors_view_model);
         elevator_service = new MockElevator(INITIAL_NUMBER_OF_ELEVATORS, INITIAL_NUMBER_OF_FLOORS, INITIAL_FLOOR_HEIGHT, INITIAL_CAPACITY);
-    	elevator_controller = new ElevatorController(elevator_service, mainViewModel);
-        mainUI = new MainView(mainViewModel, stage);    
+    	elevator_controller = new ElevatorController(elevator_service, main_view_model);
+    	main_ui = new MainView(main_view_model, stage);    
 
-        elevator_service.setServicesFloors(0, 4, false);
         elevator_service.setServicesFloors(0, 3, false);
-        elevator_service.setServicesFloors(2, 7, false);
     	elevator_controller.startTimer();     	 	
 	}
 
 	@Test
-	public void testBasicUiSetupFromMock(FxRobot robot) {
+	public void testBasicUiSetupFromMockHeader(FxRobot robot) {
 		verifyThat("##0ElevatorHeader", hasText("Elevator 0"));
+	}
+	
+	@Test
+	public void testBasicUiSetupFromMockDirection(FxRobot robot) {
 		verifyThat("##0DirectionLabel", hasText("Direction: DOWN"));
+	}
+	
+	@Test
+	public void testBasicUiSetupFromMockSpeed(FxRobot robot) {
 		verifyThat("##0SpeedLabel", hasText("Speed: 20"));
+	}
+	
+	@Test
+	public void testBasicUiSetupFromMockDoor(FxRobot robot) {
 		verifyThat("##0DoorLabel", hasText("Door Status: CLOSED"));
+	}
+	
+	@Test
+	public void testBasicUiSetupFromMockPayload(FxRobot robot) {
 		verifyThat("##0PayloadLabel", hasText("Payload: 700 kg"));
 	}
 	
 	@Test
-	public void testManualNavigation(FxRobot robot) {
+	public void testSwitchingToManualMode(FxRobot robot) {
+		robot.clickOn("##0ChangeButton");		
+		wait(robot);		
+		verifyThat("##0ManualLabel", hasText("Mode: MANU"));
+	}
+	
+	@Test
+	public void testSwitchingToManualModeAndBack(FxRobot robot) {
 		robot.clickOn("##0ChangeButton");
 		wait(robot);
 		verifyThat("##0ManualLabel", hasText("Mode: MANU"));
+		
+		robot.clickOn("##0ChangeButton");		
+		wait(robot);		
+		verifyThat("##0ManualLabel", hasText("Mode: AUTO"));
+	}
+	
+	@Test
+	public void testManualNavigation(FxRobot robot) {
+		// Put elevator 0 into manual mode
+		robot.clickOn("##0ChangeButton");		
+		wait(robot);		
+		verifyThat("##0ManualLabel", hasText("Mode: MANU"));
 
+		// Navigate elevator 0 to target floor
 		robot.clickOn("##0Button9");
 		wait(robot);
 		verifyThat("##0PositionLabel", hasText("Position: 81 feet"));
 		verifyThat("##0FloorLabel", hasText("Current Floor: 9"));	
 		
+		// Put elevator 0 into automatic mode
 		robot.clickOn("##0ChangeButton");
 		wait(robot);
 		verifyThat("##0ManualLabel", hasText("Mode: AUTO"));
@@ -70,31 +105,22 @@ public class AutomatedGuiTest {
 	
 	@Test
 	public void testManualNavigationToDisabledFloor(FxRobot robot) {
+		// Put elevator 0 into manual mode
 		robot.clickOn("##0ChangeButton");
 		wait(robot);
 		verifyThat("##0ManualLabel", hasText("Mode: MANU"));
 		
+		// Navigate elevator 0 to disabled floor
 		robot.clickOn("##0Button3");
 		wait(robot);
 		verifyThat("##0PositionLabel", hasText("Position: 0 feet"));
 		verifyThat("##0FloorLabel", hasText("Current Floor: 0"));	
 		
+		// Put elevator 0 into automatic mode
 		robot.clickOn("##0ChangeButton");
 		wait(robot);
 		verifyThat("##0ManualLabel", hasText("Mode: AUTO"));
-	}
-	
-	@Test
-	public void testEndToEndUiToModel(FxRobot robot) {
-		// TODO:
-		Assertions.assertEquals("test", "test");
-	}
-	
-	@Test
-	public void testEndToEndModelToUi(FxRobot robot) {
-		// TODO:
-		Assertions.assertEquals("test", "test");
-	}
+	}	
 
 	private void wait(FxRobot robot) {
 		robot.sleep(250); 

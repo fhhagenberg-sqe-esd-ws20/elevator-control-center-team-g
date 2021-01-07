@@ -23,11 +23,11 @@ public class ElevatorControlCenter extends Application {
         
         try {
         	var floors_view_model = new FloorsViewModel();
-            var mainViewModel = new MainViewModel(floors_view_model);
+            var main_view_model = new MainViewModel(floors_view_model);
             var elevator = (IElevator)Naming.lookup("rmi://localhost/ElevatorSim");
 			var elevator_service = new ElevatorWrapper(elevator);        
-			var elevator_controller = new ElevatorController(elevator_service, mainViewModel);
-			var mainUI = new MainView(mainViewModel, stage);     
+			var elevator_controller = new ElevatorController(elevator_service, main_view_model);
+			var main_ui = new MainView(main_view_model, stage);     
 			elevator_controller.startTimer();        	
         }
         catch(Exception e) {
