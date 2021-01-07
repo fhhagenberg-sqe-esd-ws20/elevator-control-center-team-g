@@ -40,7 +40,6 @@ public class MainView  implements Observer {
 		
 		ScrollPane scrollPane = new ScrollPane();
 		scrollPane.setContent(gridPaneMain);
-		scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		
 		statusRect = new Rectangle(80, 25);
 		
@@ -57,6 +56,8 @@ public class MainView  implements Observer {
     	root.setPadding(new Insets(20,20,20,20));
     	root.add(vb, 0, 0);
     	root.add(scrollPane, 1, 0);
+    	root.setMaxHeight(600);
+    	root.setMinSize(600, 600);
     	
     	var scene = new Scene(root);
         stage.setScene(scene);
