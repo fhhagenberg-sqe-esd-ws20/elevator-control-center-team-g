@@ -25,32 +25,32 @@ import at.fhhagenberg.sqelevator.mock.MockElevator;
 
 @ExtendWith(MockitoExtension.class)
 public class ViewModelTests {
-	
+
 	private ElevatorViewModel evm;
 	private FloorsViewModel fvm;
 	private MainViewModel mvm;
-	
+
 	private ElevatorController ec;
 	private ElevatorController ec_spy;
-	
+
 	@BeforeEach
 	public void setup() {
-		
+
 		fvm = new FloorsViewModel();
 		mvm = new MainViewModel(fvm);
-		
+
 		ec = new ElevatorController(new MockElevator(1, 4, 9, 100), mvm);
 		ec_spy = Mockito.spy(ec);
 		evm = new ElevatorViewModel(0, 4, ec_spy);
 		mvm.addElevatorModel(evm);
 	}
-	 
+
 	@Test
 	void testElevatorViewModelSetAndGetValues() {
 		var vec = new Vector<Integer>();
 		vec.add(1);
 		vec.add(2);
-		
+
 		evm.setId(0);
 		evm.setSpeed(12);
 		evm.setModeState(ModeState.automatic);
@@ -60,7 +60,7 @@ public class ViewModelTests {
 		evm.setDisabledFloors(vec);
 		evm.setPayload(135);
 		evm.setPosition(7);
-		
+
 		assertEquals(0, evm.getId());
 		assertEquals(12, evm.getSpeed());
 		assertEquals(ModeState.automatic, evm.getModeState());
@@ -71,40 +71,32 @@ public class ViewModelTests {
 		assertEquals(135, evm.getPayload());
 		assertEquals(7, evm.getPosition());
 	}
-	
+
 	@Test
-	void testFloorsViewModelSetAndGetValues() {		
+	void testFloorsViewModelSetAndGetValues() {
 		var vec = new Vector<Integer>();
 		vec.add(1);
 		vec.add(2);
-		
+
 		fvm.setFloorsDOWN(vec);
 		fvm.setFloorsUP(vec);
 		fvm.setNumberOfFloors(10);
-		
+
 		assertEquals(vec, fvm.getFloorsDOWN());
 		assertEquals(vec, fvm.getFloorsUP());
 		assertEquals(10, fvm.getNumberOfFloors());
 	}
-	
+
 	@Test
-	void testElevatorViewModelChangeMode() {		
+	void testElevatorViewModelChangeMode() {
 		evm.setModeState(ModeState.automatic);
-		
+
 		evm.changeMode();
-		
+
 		assertEquals(ModeState.manual, evm.getModeState());
-		
+
 		evm.changeMode();
-		
+
 		assertEquals(ModeState.automatic, evm.getModeState());
-	}
-	
-	@Test
-	void testElevatorViewModelClickFloor() {
-		mvm.getElevatorModels().get(0).setModeState(ModeState.manual);
-		mvm.getElevatorModels().get(0).clickedFloor(2);
-		//ec_spy.handleElevatorPositionChange(0, 2);
-		Mockito.spy(ec_spy).handleElevatorPositionChange(0, 2);
 	}
 }
