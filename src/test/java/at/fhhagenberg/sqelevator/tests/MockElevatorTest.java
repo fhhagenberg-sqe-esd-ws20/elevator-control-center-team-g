@@ -1,7 +1,7 @@
 package at.fhhagenberg.sqelevator.tests;
 
 
-import at.fhhagenberg.sqelevator.IElevator;
+import sqelevator.IElevator;
 import at.fhhagenberg.sqelevator.mock.MockElevator;
 import at.fhhagenberg.sqelevator.mock.MockElevatorConstants;
 import at.fhhagenberg.sqelevator.mock.MockElevatorException;
