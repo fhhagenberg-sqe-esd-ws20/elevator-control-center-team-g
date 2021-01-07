@@ -5,13 +5,13 @@ import java.util.Observable;
 
 import at.fhhagenberg.sqe.controller.IElevatorController;
 
-public class MainViewModel extends Observable {
+public class MainViewModel extends Observable implements IMainViewModel {
 
 	Boolean connection_state = false;
 	
 	ArrayList<ElevatorViewModel> elevators = new ArrayList<ElevatorViewModel>();
 	FloorsViewModel floorsViewModel;
-	
+
 	public MainViewModel(FloorsViewModel _floorsViewModel) {
 		floorsViewModel = _floorsViewModel;
 	}
