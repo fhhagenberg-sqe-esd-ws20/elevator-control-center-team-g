@@ -99,4 +99,16 @@ public class ViewModelTests {
 
 		assertEquals(ModeState.automatic, evm.getModeState());
 	}
+	@Test
+	void testMainViewModelGetAndSet() {
+		mvm.setConnectionState(true);
+
+		assertEquals(evm.getId(), mvm.getElevatorModels().get(0).getId());
+		assertEquals(fvm, mvm.getFloorsModel());
+		assertEquals(true, mvm.getConnectionState());
+
+		mvm.setConnectionState(false);
+
+		assertEquals(false, mvm.getConnectionState());
+	}
 }

@@ -7,7 +7,7 @@ public interface IMainViewModel {
 
     public ArrayList<ElevatorViewModel> getElevatorModels();
 
-    public FloorsViewModel getFloorsModel();
+    public IFloorsViewModel getFloorsModel();
 
     public void setConnectionState(Boolean s) ;
 
