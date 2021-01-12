@@ -57,7 +57,7 @@ public class ElevatorController implements IElevatorController{
 		}		
 	}
 	
-	public void updateGUI() {
+	private void updateGUI() {
 		try {
 			ArrayList<ElevatorViewModel> elevators = m_main_view_model.getElevatorModels();
 			for (int i = 0; i < m_number_of_elevators; i++) {
