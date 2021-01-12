@@ -16,7 +16,7 @@ import java.util.Vector;
 
 public class ElevatorController implements IElevatorController {
     private static final int TIMER_INTERVAL = 100;
-    private final Timer m_timer;
+    private Timer m_timer;
     private final IElevatorWrapper m_elevator_service;
     private final IMainViewModel m_main_view_model;
     private int m_number_of_elevators;
@@ -36,7 +36,7 @@ public class ElevatorController implements IElevatorController {
         try {
             m_number_of_floors = m_elevator_service.getFloorNum();
         } catch (RemoteException e) {
-            m_main_view_model.setConnectionState(false);
+        	tryReconnect();
         }
 
         m_main_view_model.getFloorsModel().setNumberOfFloors(m_number_of_floors);
@@ -46,7 +46,7 @@ public class ElevatorController implements IElevatorController {
         try {
             m_number_of_elevators = m_elevator_service.getElevatorNum();
         } catch (RemoteException e) {
-            m_main_view_model.setConnectionState(false);
+        	tryReconnect();
         }
 
 
@@ -116,12 +116,12 @@ public class ElevatorController implements IElevatorController {
                 m_main_view_model.getFloorsModel().setFloorsDOWN(downs);
                 m_main_view_model.getFloorsModel().setFloorsUP(ups);
             }
+            m_main_view_model.setConnectionState(true);
         } catch (Exception e) {
-            m_main_view_model.setConnectionState(false);
-            System.out.println("Exception " + e.getMessage());
+        	tryReconnect();
         }
     }
-
+    
     public void startTimer() {
         m_timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -137,8 +137,17 @@ public class ElevatorController implements IElevatorController {
         try {
             m_elevator_service.setTarget(elevator_number, floor_number);
         } catch (Exception e) {
-            System.out.println("Exception " + e.getMessage());
-            m_main_view_model.setConnectionState(false);
+        	tryReconnect();
         }
+    }
+    
+    private void tryReconnect() {
+        try {
+        	m_timer.cancel();
+        	m_main_view_model.setConnectionState(false);
+			m_elevator_service.reconnect();
+		} catch (Exception e1) {
+			System.out.println("Fatal Connection Error in Elevator Controller");
+		}
     }
 }

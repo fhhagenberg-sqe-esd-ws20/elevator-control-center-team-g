@@ -6,8 +6,10 @@ import java.util.Observer;
 import at.fhhagenberg.sqe.viewmodel.MainViewModel;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -18,6 +20,7 @@ public class MainView  implements Observer {
 	MainViewModel model;
 	
 	Rectangle statusRect;
+	Label statusText;
 	
 	public MainView(MainViewModel _model, Stage stage) {
 		model = _model;
@@ -41,14 +44,21 @@ public class MainView  implements Observer {
 		scrollPane.setContent(gridPaneMain);
 		
 		statusRect = new Rectangle(80, 25);
+		statusText = new Label ("");
+		statusText.setTextFill(Color.WHITE);
+		statusText.setId("statusText");
+		StackPane stackP = new StackPane();
+		stackP.getChildren().addAll(statusRect, statusText);
 		
 		if(model.getConnectionState() == true) 
     		statusRect.setFill(Color.GREEN);
-    	else
+    	else {
     		statusRect.setFill(Color.RED);
+    		statusText.setText("ERROR");
+    	}
         
 		var vb = new VBox();
-		vb.getChildren().add(statusRect);
+		vb.getChildren().add(stackP);
 		vb.getChildren().add(new FloorsView(model.getFloorsModel()));
 		
         var root = new GridPane();
@@ -65,10 +75,14 @@ public class MainView  implements Observer {
 	
 	@Override
     public void update(Observable o, Object arg) {
-    	if(model.getConnectionState() == true) 
+    	if(model.getConnectionState() == true) {
     		statusRect.setFill(Color.GREEN);
-    	else
+    		statusText.setText("");
+    	}
+    	else {
     		statusRect.setFill(Color.RED);
+    		statusText.setText("ERROR");
+    	}
     }
 	
 }
