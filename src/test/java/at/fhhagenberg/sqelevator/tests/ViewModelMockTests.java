@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import at.fhhagenberg.sqe.controller.ElevatorController;
+import sqelevator.IElevator;
 import sqelevator.IElevatorWrapper;
 
 import java.rmi.RemoteException;
@@ -38,13 +39,34 @@ public class ViewModelMockTests {
 		Mockito.verify(ew).getElevatorNum();
 	}
 
-
 	@Test
-	void testHandleElevatorPositionChange() throws RemoteException {
+	void testInitFloors_WithError() throws RemoteException {
+		Mockito.when(ew.getFloorNum()).thenThrow(new RemoteException());
 		Mockito.when(mvvm.getFloorsModel()).thenReturn(fmod);
 		ElevatorController ec = new ElevatorController(ew, mvvm);
+		Mockito.verify(ew).getElevatorNum();
+		Mockito.verify(mvvm).setConnectionState(false);
+	}
 
-		ec.handleElevatorPositionChange(1,1);
-		Mockito.verify(ew).setTarget(1,1);
+	@Test
+	void testInitElevators_WithError() throws RemoteException {
+		Mockito.when(ew.getFloorNum()).thenReturn(5);
+		Mockito.when(ew.getElevatorNum()).thenThrow(new RemoteException());
+		Mockito.when(mvvm.getFloorsModel()).thenReturn(fmod);
+		ElevatorController ec = new ElevatorController(ew, mvvm);
+		Mockito.verify(ew).getElevatorNum();
+		Mockito.verify(mvvm).setConnectionState(false);
+		Mockito.verify(fmod).setNumberOfFloors(5);
+	}
+
+	@Test
+	void testGetElevatorDoorStatus() throws Exception {
+		Mockito.when(ew.getFloorNum()).thenReturn(5);
+		Mockito.when(ew.getElevatorNum()).thenThrow(new RemoteException());
+		Mockito.when(mvvm.getFloorsModel()).thenReturn(fmod);
+		ElevatorController ec = new ElevatorController(ew, mvvm);
+		Mockito.verify(ew).getElevatorNum();
+		Mockito.verify(mvvm).setConnectionState(false);
+		Mockito.verify(fmod).setNumberOfFloors(5);
 	}
 }
