@@ -3,6 +3,7 @@ package at.fhhagenberg.sqe.controller;
 import at.fhhagenberg.sqe.helper.Direction;
 import at.fhhagenberg.sqe.helper.DoorState;
 import at.fhhagenberg.sqe.viewmodel.ElevatorViewModel;
+import at.fhhagenberg.sqe.viewmodel.IMainViewModel;
 import at.fhhagenberg.sqe.viewmodel.MainViewModel;
 import sqelevator.IElevator;
 import sqelevator.IElevatorWrapper;
@@ -18,11 +19,11 @@ public class ElevatorController implements IElevatorController{
 	private static final int TIMER_INTERVAL = 100;	
 	private final Timer m_timer;
 	private final IElevatorWrapper m_elevator_service;
-	private final MainViewModel m_main_view_model;
+	private final IMainViewModel m_main_view_model;
 	private int m_number_of_elevators;
 	private int m_number_of_floors;
 	
-	public ElevatorController(IElevatorWrapper elevator_service, MainViewModel model) {
+	public ElevatorController(IElevatorWrapper elevator_service, IMainViewModel model) {
 		m_elevator_service = elevator_service;
 		m_main_view_model = model;
 		m_main_view_model.setConnectionState(true);
@@ -57,7 +58,7 @@ public class ElevatorController implements IElevatorController{
 		}		
 	}
 	
-	private void updateGUI() {
+	public void updateGUI() {
 		try {
 			ArrayList<ElevatorViewModel> elevators = m_main_view_model.getElevatorModels();
 			for (int i = 0; i < m_number_of_elevators; i++) {

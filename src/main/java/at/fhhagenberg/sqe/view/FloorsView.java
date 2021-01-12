@@ -8,6 +8,7 @@ import java.util.Observer;
 import java.util.Vector;
 
 import at.fhhagenberg.sqe.viewmodel.FloorsViewModel;
+import at.fhhagenberg.sqe.viewmodel.IFloorsViewModel;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
@@ -22,14 +23,14 @@ import javafx.scene.control.Label;
 
 public class FloorsView extends GridPane implements Observer {
 	
-	FloorsViewModel model;
+	IFloorsViewModel model;
 	
 	GridPane gridPane = new GridPane();
 	
 	ArrayList<Rectangle> ups = new ArrayList<Rectangle>();
 	ArrayList<Rectangle> downs = new ArrayList<Rectangle>();
 	
-	FloorsView(FloorsViewModel _model) {
+	FloorsView(IFloorsViewModel _model) {
 		model = _model;
 		buildUI();
 		model.addObserver(this);
