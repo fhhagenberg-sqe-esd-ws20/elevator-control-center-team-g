@@ -4,7 +4,6 @@ import at.fhhagenberg.sqe.helper.Direction;
 import at.fhhagenberg.sqe.helper.DoorState;
 import at.fhhagenberg.sqe.viewmodel.ElevatorViewModel;
 import at.fhhagenberg.sqe.viewmodel.IMainViewModel;
-import at.fhhagenberg.sqe.viewmodel.MainViewModel;
 import sqelevator.IElevator;
 import sqelevator.IElevatorWrapper;
 import javafx.application.Platform;

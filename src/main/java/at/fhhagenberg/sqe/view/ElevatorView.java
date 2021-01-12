@@ -2,7 +2,6 @@ package at.fhhagenberg.sqe.view;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -12,7 +11,6 @@ import at.fhhagenberg.sqe.viewmodel.ElevatorViewModel;
 
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Vector;
 
 public class ElevatorView extends GridPane implements Observer{
 
