@@ -21,6 +21,8 @@ public class ElevatorController implements IElevatorController {
     private final IMainViewModel m_main_view_model;
     private int m_number_of_elevators;
     private int m_number_of_floors;
+    private boolean dcd = false;
+
 
     public ElevatorController(IElevatorWrapper elevator_service, IMainViewModel model) {
         m_elevator_service = elevator_service;
@@ -95,6 +97,11 @@ public class ElevatorController implements IElevatorController {
     }
 
     private void updateGUI() {
+
+        if(dcd){
+            return;
+        }
+
         try {
             ArrayList<ElevatorViewModel> elevators = m_main_view_model.getElevatorModels();
 
@@ -142,10 +149,12 @@ public class ElevatorController implements IElevatorController {
     }
     
     private void tryReconnect() {
+        dcd = true;
         try {
         	m_timer.cancel();
         	m_main_view_model.setConnectionState(false);
 			m_elevator_service.reconnect();
+			dcd = false;
 		} catch (Exception e1) {
 			System.out.println("Fatal Connection Error in Elevator Controller");
 		}

@@ -3,6 +3,15 @@ package at.fhhagenberg.sqelevator.tests;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
+
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Window;
+import org.hamcrest.Matcher;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,12 +19,22 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 import javafx.stage.Stage;
+import org.testfx.matcher.base.ColorMatchers;
+import org.testfx.service.finder.NodeFinder;
+import org.testfx.service.finder.impl.NodeFinderImpl;
+import org.testfx.service.query.NodeQuery;
 import sqelevator.IElevator;
 import at.fhhagenberg.sqe.viewmodel.MainViewModel;
 import at.fhhagenberg.sqelevator.mock.MockElevator;
 import at.fhhagenberg.sqe.viewmodel.FloorsViewModel;
 import at.fhhagenberg.sqe.controller.ElevatorController;
 import at.fhhagenberg.sqe.view.MainView;
+
+import java.util.Collection;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 @ExtendWith(ApplicationExtension.class)
 public class EndToEndTest {
@@ -122,6 +141,15 @@ public class EndToEndTest {
 	
 	@Test
 	public void testSetTargetFloorFromUiToModel(FxRobot robot) {
+
+		var rectangle = robot.lookup("##0ChangeButton");
+		var t = (Button)rectangle.query();
+
+		var fill = (Color)t.getBackground().getFills().get(0).getFill();
+		var c = Color.rgb((int)(fill.getRed()*255),(int)(fill.getGreen()*255),(int)(fill.getBlue()*255));
+		Assertions.assertEquals(fill,c);
+
+
 		robot.clickOn("##0ChangeButton");
 		verifyThat("##0ManualLabel", hasText("Mode: MANU"));		
 		robot.clickOn("##0Button9");		

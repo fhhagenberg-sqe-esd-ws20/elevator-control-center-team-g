@@ -58,9 +58,13 @@ public class ElevatorControllerMockTests {
         Mockito.when(ew.getFloorNum()).thenReturn(5);
         Mockito.when(ew.getElevatorNum()).thenThrow(new RemoteException());
         Mockito.when(mvvm.getFloorsModel()).thenReturn(fmod);
+
+
         ElevatorController ec = new ElevatorController(ew, mvvm);
         Mockito.verify(ew).getElevatorNum();
         Mockito.verify(mvvm).setConnectionState(false);
         Mockito.verify(fmod).setNumberOfFloors(5);
+
+
     }
 }
