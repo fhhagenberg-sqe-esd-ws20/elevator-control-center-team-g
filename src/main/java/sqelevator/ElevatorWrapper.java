@@ -1,8 +1,12 @@
 package sqelevator;
 
+import at.fhhagenberg.sqe.connection.ConnectionException;
 import at.fhhagenberg.sqe.helper.Direction;
 import at.fhhagenberg.sqe.helper.DoorState;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 public class ElevatorWrapper implements IElevatorWrapper {
@@ -13,8 +17,25 @@ public class ElevatorWrapper implements IElevatorWrapper {
             throw new NullPointerException();
         }
         elevator = _elevator;
+    }      
+    
+    @Override
+    public void reconnect() throws Exception {
+    	boolean connected = false;
+    	String exception_message = "";
+    	
+    	for (int i = 0; i < 3; i++) {
+            try {
+            	elevator = (IElevator) Naming.lookup("rmi://localhost/ElevatorSim");
+            	connected = true;
+            } catch (RemoteException | NotBoundException | MalformedURLException e) {
+            	exception_message = e.getMessage();
+            }            
+            if(connected)break;
+            Thread.sleep(1000);
+    	}   		
+        throw new ConnectionException("Connection error with RMI: " + exception_message);
     }
-
 
     /**
      * Retrieves the committed direction of the specified elevator (up / down / uncommitted).

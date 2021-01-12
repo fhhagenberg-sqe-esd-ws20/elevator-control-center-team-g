@@ -39,6 +39,9 @@ public class MockElevator implements IElevatorWrapper {
     }
     
     // ----------------- Public functions -----------------
+    public void reconnect() {
+    	
+    }
     
     public List<MockElevatorState> getElevators() {
         return m_elevators;  

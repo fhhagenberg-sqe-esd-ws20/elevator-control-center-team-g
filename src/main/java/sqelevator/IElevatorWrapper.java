@@ -1,6 +1,8 @@
 package sqelevator;
 
 public interface IElevatorWrapper {
+	
+    public void reconnect() throws Exception;
     /**
      * Retrieves the committed direction of the specified elevator (up / down / uncommitted).
      *
