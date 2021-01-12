@@ -3,7 +3,6 @@ package sqelevator;
 import at.fhhagenberg.sqe.connection.ConnectionException;
 import at.fhhagenberg.sqe.helper.Direction;
 import at.fhhagenberg.sqe.helper.DoorState;
-
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;

@@ -1,9 +1,11 @@
 package at.fhhagenberg.sqe.viewmodel;
 
+import at.fhhagenberg.sqe.view.FloorsView;
+
 import java.util.Observable;
 import java.util.Vector;
 
-public class FloorsViewModel  extends Observable{
+public class FloorsViewModel  extends Observable implements IFloorsViewModel{
 
 	int number_of_floors = 0;
 	
@@ -41,4 +43,8 @@ public class FloorsViewModel  extends Observable{
     	setChanged();
     	notifyObservers();
     }
+    @Override
+    public void addObserver(FloorsView floorsView){
+		super.addObserver(floorsView);
+	}
 }
