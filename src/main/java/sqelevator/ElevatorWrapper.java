@@ -1,8 +1,5 @@
 package sqelevator;
 
-import at.fhhagenberg.sqe.helper.Direction;
-import at.fhhagenberg.sqe.helper.DoorState;
-
 import java.rmi.RemoteException;
 
 public class ElevatorWrapper implements IElevatorWrapper {

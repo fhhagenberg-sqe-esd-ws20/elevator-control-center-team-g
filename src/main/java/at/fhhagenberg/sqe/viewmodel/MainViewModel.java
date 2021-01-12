@@ -3,8 +3,6 @@ package at.fhhagenberg.sqe.viewmodel;
 import java.util.ArrayList;
 import java.util.Observable;
 
-import at.fhhagenberg.sqe.controller.IElevatorController;
-
 public class MainViewModel extends Observable implements IMainViewModel {
 
 	Boolean connection_state = false;
