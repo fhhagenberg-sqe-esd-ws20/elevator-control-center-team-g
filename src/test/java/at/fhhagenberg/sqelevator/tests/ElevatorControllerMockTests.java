@@ -16,10 +16,11 @@ import sqelevator.IElevator;
 import sqelevator.IElevatorWrapper;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Timer;
 
 @ExtendWith(MockitoExtension.class)
-public class ViewModelMockTests {
+public class ElevatorControllerMockTests {
 
 	@Mock
 	IMainViewModel mvvm;
