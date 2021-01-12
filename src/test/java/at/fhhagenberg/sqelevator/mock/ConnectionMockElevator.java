@@ -177,4 +177,8 @@ public class ConnectionMockElevator implements IElevatorWrapper{
     public long getClockTick() throws RemoteException {
         return MockElevatorConstants.CLOCK_TICK;
     }
+    
+    public void reconnect() throws Exception {
+    	
+    }
 }
