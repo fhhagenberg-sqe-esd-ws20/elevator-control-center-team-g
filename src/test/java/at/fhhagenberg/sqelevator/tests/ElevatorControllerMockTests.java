@@ -15,6 +15,7 @@ import at.fhhagenberg.sqe.controller.ElevatorController;
 import sqelevator.IElevator;
 import sqelevator.IElevatorWrapper;
 
+import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Timer;
