@@ -21,6 +21,7 @@ public class ElevatorViewModel extends Observable {
     int number_of_floors = 5;
     int payload = 10;
     int position = 1;
+    Vector<Integer> pressed_buttons = new Vector<Integer>();
     
     IElevatorController ec;
     
@@ -40,6 +41,7 @@ public class ElevatorViewModel extends Observable {
     public int getNumberOfFloors() { return number_of_floors; }
     public int getPayload() { return payload; }
     public int getPosition() { return position; }
+    public Vector<Integer> getPressedButtons() { return pressed_buttons; }
     
     public void setId(int _id) {
     	id = _id;
@@ -75,6 +77,10 @@ public class ElevatorViewModel extends Observable {
     }
     public void setPosition(int _pos) { 
     	position = _pos; 
+    	updateView();
+    }
+    public void setPressedButtons(Vector<Integer> _vec) {
+    	pressed_buttons = _vec;
     	updateView();
     }
     

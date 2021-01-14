@@ -81,6 +81,8 @@ public class ElevatorController implements IElevatorController {
             elevators.get(i).setDirection(Direction.up);
         } else if (dir == IElevator.ELEVATOR_DIRECTION_DOWN) {
             elevators.get(i).setDirection(Direction.down);
+        } else {
+        	elevators.get(i).setDirection(Direction.uncommited);
         }
 
         Vector<Integer> disabled_floors = new Vector<>();
@@ -91,6 +93,15 @@ public class ElevatorController implements IElevatorController {
             }
         }
         elevators.get(i).setDisabledFloors(disabled_floors);
+        
+        Vector<Integer> pressed_floors = new Vector<>();
+        for (int j = 0; j < m_number_of_floors; j++) {
+            boolean is_pressed = m_elevator_service.getElevatorButton(i, j);
+            if (is_pressed) {
+            	pressed_floors.add(j);
+            }
+        }
+        elevators.get(i).setPressedButtons(pressed_floors);
 
     }
 
