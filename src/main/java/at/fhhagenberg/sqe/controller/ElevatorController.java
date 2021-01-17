@@ -21,8 +21,8 @@ public class ElevatorController implements IElevatorController {
     private int mNumberOfElevators;
     private int mNumberOfFloors;
 
-    public ElevatorController(IElevatorWrapper elevator_service, IMainViewModel model) {
-        mElevatorService = elevator_service;
+    public ElevatorController(IElevatorWrapper elevatorService, IMainViewModel model) {
+        mElevatorService = elevatorService;
         mMainViewModel = model;
         mMainViewModel.setConnectionState(true);
         mTimer = new Timer();
@@ -146,10 +146,10 @@ public class ElevatorController implements IElevatorController {
     }
 
     @Override
-    public void handleElevatorPositionChange(int elevator_number, int floor_number) {
-        System.out.println("Elevator " + elevator_number + " drives to floor " + floor_number);
+    public void handleElevatorPositionChange(int elevatorNumber, int floorNumber) {
+        System.out.println("Elevator " + elevatorNumber + " drives to floor " + floorNumber);
         try {
-            mElevatorService.setTargetWrapped(elevator_number, floor_number);
+            mElevatorService.setTargetWrapped(elevatorNumber, floorNumber);
         } catch (Exception e) {
         	tryReconnect();
         }
