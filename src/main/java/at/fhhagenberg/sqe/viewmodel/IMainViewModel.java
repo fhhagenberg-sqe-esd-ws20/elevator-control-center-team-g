@@ -12,4 +12,6 @@ public interface IMainViewModel {
     public void setConnectionState(Boolean s) ;
 
     public Boolean getConnectionState();
+    
+    public void addLogText(String txt);
 }

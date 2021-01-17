@@ -26,14 +26,18 @@ public class FloorsView extends GridPane implements Observer {
 	ArrayList<Rectangle> ups = new ArrayList<Rectangle>();
 	ArrayList<Rectangle> downs = new ArrayList<Rectangle>();
 	
+	int floorsbefore = 0;
+	
 	FloorsView(IFloorsViewModel _model) {
 		model = _model;
 		buildUI();
 		model.addObserver(this);
+		floorsbefore = model.getNumberOfFloors();
 	}
 	
 	private void buildUI() {
 		int pos = 0;
+		gridPane = new GridPane();
 		for (int i = model.getNumberOfFloors() - 1; i >= 0; i--) {
 			HBox left = new HBox();
 			Label lbl_FloorNumber = new Label("Floor " + i);
@@ -82,6 +86,11 @@ public class FloorsView extends GridPane implements Observer {
 	
 	@Override
     public void update(Observable o, Object arg) {
+		if(floorsbefore != model.getNumberOfFloors()) {
+			buildUI();
+			floorsbefore = model.getNumberOfFloors();
+		}
+		
 		for (int i = model.getNumberOfFloors() - 1; i >= 0; i--) {
 			
 			Rectangle rectUP = ups.get(i);

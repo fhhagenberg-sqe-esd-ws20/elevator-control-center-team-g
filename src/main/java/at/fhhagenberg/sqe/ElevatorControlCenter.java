@@ -4,7 +4,9 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import sqelevator.IElevatorWrapper;
 
+import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 import at.fhhagenberg.sqe.controller.ElevatorController;
@@ -24,11 +26,12 @@ public class ElevatorControlCenter extends Application {
     	try {
 			var floors_view_model = new FloorsViewModel();
 		    var main_view_model = new MainViewModel(floors_view_model);
-		    var elevator = (IElevator) Naming.lookup("rmi://localhost/ElevatorSim");
+		    IElevator elevator = null;
 			var elevator_service = new ElevatorWrapper(elevator);  
 			var elevator_controller = new ElevatorController(elevator_service, main_view_model);
+			main_view_model.setController(elevator_controller);
 			var main_ui = new MainView(main_view_model, stage);     
-			elevator_controller.startController();     
+			elevator_controller.doConnect();   
     	}
     	catch (Exception e){
 			System.out.println("ElevatorControlCenter: Exception during Startup " + e.getMessage());

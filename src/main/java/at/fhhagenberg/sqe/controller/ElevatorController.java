@@ -8,6 +8,7 @@ import sqelevator.IElevator;
 import sqelevator.IElevatorWrapper;
 import javafx.application.Platform;
 
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -22,15 +23,16 @@ public class ElevatorController implements IElevatorController {
     private final IMainViewModel m_main_view_model;
     private int m_number_of_elevators;
     private int m_number_of_floors;
+    
 
     public ElevatorController(IElevatorWrapper elevator_service, IMainViewModel model) {
         m_elevator_service = elevator_service;
         m_main_view_model = model;
-        m_main_view_model.setConnectionState(true);
-        m_timer = new Timer();
-
-        initFloors();
-        initElevators();
+        
+        try {
+            m_main_view_model.setConnectionState(true);
+            startController();
+        } catch(Exception e) {}
     }
 
     private void initFloors() {
@@ -50,7 +52,7 @@ public class ElevatorController implements IElevatorController {
         	tryReconnect();
         }
 
-
+        m_main_view_model.getElevatorModels().clear();
         for (int i = 0; i < m_number_of_elevators; i++) {
             m_main_view_model.addElevatorModel(new ElevatorViewModel(i, m_number_of_floors, this));
         }
@@ -128,15 +130,19 @@ public class ElevatorController implements IElevatorController {
                 m_main_view_model.getFloorsModel().setFloorsDOWN(downs);
                 m_main_view_model.getFloorsModel().setFloorsUP(ups);
             }
-            m_main_view_model.setConnectionState(true);
         } catch (RemoteException e) {
         	tryReconnect();
         } catch (Exception e) {
-        	System.out.println("Fatal unknown Error in Elevator Controller");
+        	m_main_view_model.addLogText(e.getMessage());
         }
     }
     
     public void startController() {
+    	initFloors();
+        initElevators();
+        
+        m_timer = new Timer();
+        
     	updateGUI();
     	m_timer_task = new TimerTask() {
             @Override
@@ -149,7 +155,7 @@ public class ElevatorController implements IElevatorController {
 
     @Override
     public void handleElevatorPositionChange(int elevator_number, int floor_number) {
-        System.out.println("Elevator " + elevator_number + " drives to floor " + floor_number);
+        //System.out.println("Elevator " + elevator_number + " drives to floor " + floor_number);
         try {
             m_elevator_service.setTarget(elevator_number, floor_number);
         } catch (Exception e) {
@@ -157,14 +163,31 @@ public class ElevatorController implements IElevatorController {
         }
     }
     
+    @Override
+    public void doConnect() {
+    	m_main_view_model.addLogText("trying to connect...");
+    	try {
+			m_elevator_service.reconnect();
+			m_main_view_model.setConnectionState(true);
+			m_main_view_model.addLogText("successfully connected");
+			this.startController();
+		} catch (Exception e) {
+			m_main_view_model.addLogText("Fatal Connection Error in Elevator Controller");
+			m_main_view_model.setConnectionState(false);
+		}
+    }
+    
     private void tryReconnect() {
         try {
-        	//m_timer.cancel();
+        	m_timer.cancel();
         	m_timer.purge();
         	m_main_view_model.setConnectionState(false);
 			m_elevator_service.reconnect();
+			m_main_view_model.setConnectionState(true);
+			this.startController();
 		} catch (Exception e1) {
-			System.out.println("Fatal Connection Error in Elevator Controller");
+			m_main_view_model.addLogText("Fatal Connection Error in Elevator Controller");
+			m_main_view_model.setConnectionState(false);
 		}
     }
 }

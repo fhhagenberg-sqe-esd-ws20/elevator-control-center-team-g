@@ -4,10 +4,14 @@ import java.util.Observable;
 import java.util.Observer;
 
 import at.fhhagenberg.sqe.viewmodel.MainViewModel;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -22,11 +26,28 @@ public class MainView  implements Observer {
 	Rectangle statusRect;
 	Label statusText;
 	
+	private Stage stage;
+	
+	private Button connectbtn = new Button();
+	private TextArea log = new TextArea();
+	
+	private int elevatorsbefore = 0;
+	
 	public MainView(MainViewModel _model, Stage stage) {
 		model = _model;
+		this.stage = stage;
 		buildUI(stage);
 		model.addObserver(this);
+		elevatorsbefore = model.getElevatorModels().size();
 	}
+	
+	EventHandler<ActionEvent> connectHandler = new EventHandler<ActionEvent>() {
+		@Override
+	    public void handle(ActionEvent event) {
+	        model.connectToRMI();
+	        event.consume();
+	    }
+	};
 	
 	private void buildUI(Stage stage) {
 		GridPane gridPaneMain = new GridPane();
@@ -56,9 +77,13 @@ public class MainView  implements Observer {
     		statusRect.setFill(Color.RED);
     		statusText.setText("ERROR");
     	}
-        
+		
+		connectbtn.addEventHandler(ActionEvent.ACTION, connectHandler);
+        connectbtn.setText("CONNECT");
+		
 		var vb = new VBox();
-		vb.getChildren().add(stackP);
+		vb.setSpacing(5);
+		vb.getChildren().add(connectbtn);
 		vb.getChildren().add(new FloorsView(model.getFloorsModel()));
 		
         var root = new GridPane();
@@ -66,7 +91,12 @@ public class MainView  implements Observer {
     	root.add(vb, 0, 0);
     	root.add(scrollPane, 1, 0);
     	root.setMaxHeight(600);
-    	root.setMinSize(600, 600);
+    	root.setMinSize(1000, 600);
+    	
+    	log.setEditable(false);
+    	root.add(log, 1, 1);
+    	
+    	root.add(stackP, 0, 1);
     	
     	var scene = new Scene(root);
         stage.setScene(scene);
@@ -75,6 +105,11 @@ public class MainView  implements Observer {
 	
 	@Override
     public void update(Observable o, Object arg) {
+		if(elevatorsbefore != model.getElevatorModels().size()) {
+			buildUI(stage);
+			elevatorsbefore = model.getElevatorModels().size();
+		}
+		
     	if(model.getConnectionState() == true) {
     		statusRect.setFill(Color.GREEN);
     		statusText.setText("");
@@ -83,6 +118,6 @@ public class MainView  implements Observer {
     		statusRect.setFill(Color.RED);
     		statusText.setText("ERROR");
     	}
+    	log.setText(model.getLogText());
     }
-	
 }
