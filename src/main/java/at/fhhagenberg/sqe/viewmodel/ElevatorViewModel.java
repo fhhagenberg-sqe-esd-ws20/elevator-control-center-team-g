@@ -68,8 +68,8 @@ public class ElevatorViewModel extends Observable {
     	direction = _direction;
     	updateView();
     }
-    public void setDisabledFloors(List<Integer> _vec) {
-    	disabledFloors = _vec;
+    public void setDisabledFloors(List<Integer> vec) {
+    	disabledFloors = vec;
     	updateView();
     }
     public void setPayload(int _payload) {
@@ -80,8 +80,8 @@ public class ElevatorViewModel extends Observable {
     	position = _pos; 
     	updateView();
     }
-    public void setPressedButtons(List<Integer> _vec) {
-    	pressedButtons = _vec;
+    public void setPressedButtons(List<Integer> vec) {
+    	pressedButtons = vec;
     	updateView();
     }
     
