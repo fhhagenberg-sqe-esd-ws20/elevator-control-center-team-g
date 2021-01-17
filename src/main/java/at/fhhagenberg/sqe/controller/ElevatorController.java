@@ -70,18 +70,18 @@ public class ElevatorController implements IElevatorController {
 
         int state = mElevatorService.getElevatorDoorStatus(i);
         if (state == IElevator.ELEVATOR_DOORS_OPEN) {
-            elevators.get(i).setDoorState(DoorState.open);
+            elevators.get(i).setDoorState(DoorState.OPEN);
         } else if (state == IElevator.ELEVATOR_DOORS_CLOSED) {
-            elevators.get(i).setDoorState(DoorState.closed);
+            elevators.get(i).setDoorState(DoorState.CLOSED);
         }
 
         int dir = mElevatorService.getCommittedDirection(i);
         if (dir == IElevator.ELEVATOR_DIRECTION_UP) {
-            elevators.get(i).setDirection(Direction.up);
+            elevators.get(i).setDirection(Direction.UP);
         } else if (dir == IElevator.ELEVATOR_DIRECTION_DOWN) {
-            elevators.get(i).setDirection(Direction.down);
+            elevators.get(i).setDirection(Direction.DOWN);
         } else {
-        	elevators.get(i).setDirection(Direction.uncommited);
+        	elevators.get(i).setDirection(Direction.UNCOMMITED);
         }
 
         ArrayList<Integer> disabledFloors = new ArrayList<>();

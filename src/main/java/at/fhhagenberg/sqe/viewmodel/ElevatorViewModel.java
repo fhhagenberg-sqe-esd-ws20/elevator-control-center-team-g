@@ -14,10 +14,10 @@ public class ElevatorViewModel extends Observable {
 
 	int id = 0;
 	int speed = 0;
-    ModeState modeState = ModeState.automatic;
+    ModeState modeState = ModeState.AUTOMATIC;
     int floor = 1;
-    DoorState doorState = DoorState.closed;
-    Direction direction = Direction.down;
+    DoorState doorState = DoorState.CLOSED;
+    Direction direction = Direction.DOWN;
     List<Integer> disabledFloors = new ArrayList<>();
     int numberOfFloors = 5;
     int payload = 10;
@@ -86,16 +86,16 @@ public class ElevatorViewModel extends Observable {
     }
     
     public void changeMode() {
-    	if(modeState == ModeState.manual)
-    		modeState = ModeState.automatic;
+    	if(modeState == ModeState.MANUAL)
+    		modeState = ModeState.AUTOMATIC;
     	else
-    		modeState = ModeState.manual;
+    		modeState = ModeState.MANUAL;
     	
     	updateView();
     }
     
     public void clickedFloor(int num) {
-    	if (modeState == ModeState.manual && !disabledFloors.contains(num)) {
+    	if (modeState == ModeState.MANUAL && !disabledFloors.contains(num)) {
         	ec.handleElevatorPositionChange(id, num);	
     	}
     }
