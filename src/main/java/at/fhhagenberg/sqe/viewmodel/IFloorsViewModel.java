@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface IFloorsViewModel {
-    public void setNumberOfFloors(int _num);
+    public void setNumberOfFloors(int num);
 
-    public void setFloorsUP(List<Integer> _vec);
+    public void setFloorsUP(List<Integer> vec);
 
-    public void setFloorsDOWN(List<Integer> _vec);
+    public void setFloorsDOWN(List<Integer> vec);
 
     public int getNumberOfFloors();
 

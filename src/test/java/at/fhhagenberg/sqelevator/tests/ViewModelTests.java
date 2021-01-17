@@ -24,7 +24,7 @@ import at.fhhagenberg.sqe.viewmodel.MainViewModel;
 import at.fhhagenberg.sqelevator.mock.MockElevator;
 
 @ExtendWith(MockitoExtension.class)
-public class ViewModelTests {
+class ViewModelTests {
 
 	private ElevatorViewModel evm;
 	private FloorsViewModel fvm;

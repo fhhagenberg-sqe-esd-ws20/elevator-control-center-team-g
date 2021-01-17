@@ -76,20 +76,20 @@ package sqelevator;
 public interface IElevator extends java.rmi.Remote {
 	
 	/** State variable for elevator doors open.	 */
-	static public final int ELEVATOR_DOORS_OPEN = 1;	
+	public static final int ELEVATOR_DOORS_OPEN = 1;	
 	/** State variable for elevator doors closed. */
-	static public final int ELEVATOR_DOORS_CLOSED = 2;
+	public static final int ELEVATOR_DOORS_CLOSED = 2;
 	/** State variable for elevator doors opening. */
-	static public final int ELEVATOR_DOORS_OPENING = 3;
+	public static final int ELEVATOR_DOORS_OPENING = 3;
 	/** State variable for elevator doors closing. */
-	static public final int ELEVATOR_DOORS_CLOSING = 4;
+	public static final int ELEVATOR_DOORS_CLOSING = 4;
 		
 	/** State variable for elevator status when going up */
-	static public final int ELEVATOR_DIRECTION_UP = 0;				
+	public static final int ELEVATOR_DIRECTION_UP = 0;				
 	/** State variable for elevator status when going down. */
-	static public final int ELEVATOR_DIRECTION_DOWN = 1;			
+	public static final int ELEVATOR_DIRECTION_DOWN = 1;			
 	/** State variables for elevator status stopped and uncommitted. */
-	static public final int ELEVATOR_DIRECTION_UNCOMMITTED = 2;		
+	public static final int ELEVATOR_DIRECTION_UNCOMMITTED = 2;		
 	
 	/**
 	 * Retrieves the committed direction of the specified elevator (up / down / uncommitted). 
