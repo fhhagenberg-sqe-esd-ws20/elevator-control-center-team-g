@@ -84,6 +84,11 @@ public class FloorsView extends GridPane implements Observer {
 	
 	@Override
     public void update(Observable o, Object arg) {
+		
+		if(mFloorsBefore != mModel.getNumberOfFloors()) {
+			buildUI();
+			mFloorsBefore = mModel.getNumberOfFloors();
+		}
       
 		if(mFloorsBefore != mModel.getNumberOfFloors()) {
 			buildUI();
