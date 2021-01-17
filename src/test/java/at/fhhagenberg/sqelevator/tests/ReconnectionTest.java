@@ -31,7 +31,7 @@ import sqelevator.IElevatorWrapper;
 import at.fhhagenberg.sqe.connection.ConnectionException;
 
 @ExtendWith(MockitoExtension.class)
-public class ReconnectionTest {
+class ReconnectionTest {
 
 	@Mock
     IMainViewModel mvvm;

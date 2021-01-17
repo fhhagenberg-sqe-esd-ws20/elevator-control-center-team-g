@@ -26,7 +26,6 @@ public class ElevatorWrapper implements IElevatorWrapper {
             	exceptionMessage = e.getMessage();
             }            
             if(connected)break;
-            //Thread.sleep(1000);
     	}   
     	if(!connected) throw new ConnectionException("Connection error with RMI: " + exceptionMessage);
     }

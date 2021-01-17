@@ -2,7 +2,6 @@ package at.fhhagenberg.sqe.viewmodel;
 
 import at.fhhagenberg.sqe.view.FloorsView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface IFloorsViewModel {
