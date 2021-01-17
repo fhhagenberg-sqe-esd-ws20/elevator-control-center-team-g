@@ -1,7 +1,8 @@
 package at.fhhagenberg.sqe.viewmodel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
-import java.util.Vector;
 
 import at.fhhagenberg.sqe.controller.IElevatorController;
 import at.fhhagenberg.sqe.helper.Direction;
@@ -11,91 +12,91 @@ import at.fhhagenberg.sqe.helper.ModeState;
 
 public class ElevatorViewModel extends Observable {
 
-	int id = 0;
-	int speed = 0;
-    ModeState modeState = ModeState.automatic;
-    int floor = 1;
-    DoorState doorState = DoorState.closed;
-    Direction direction = Direction.down;
-    Vector<Integer> disabled_floors = new Vector<Integer>();
-    int number_of_floors = 5;
-    int payload = 10;
-    int position = 1;
-    Vector<Integer> pressed_buttons = new Vector<Integer>();
+	int mId = 0;
+	int mSpeed = 0;
+    ModeState mModeState = ModeState.AUTOMATIC;
+    int mFloor = 1;
+    DoorState mDoorState = DoorState.CLOSED;
+    Direction mDirection = Direction.DOWN;
+    List<Integer> mDisabledFloors = new ArrayList<>();
+    int mNumberOfFloors = 5;
+    int mPayload = 10;
+    int mPosition = 1;
+    List<Integer> mPressedButtons = new ArrayList<>();
     
-    IElevatorController ec;
+    IElevatorController mEc;
     
-    public ElevatorViewModel(int _id, int _numberOfFloors, IElevatorController _ec) {
-    	id = _id;
-    	number_of_floors = _numberOfFloors;
-    	ec = _ec;
+    public ElevatorViewModel(int id, int numberOfFloors, IElevatorController ec) {
+    	mId = id;
+    	mNumberOfFloors = numberOfFloors;
+    	mEc = ec;
     }
     
-    public int getId() { return id; }
-    public int getSpeed() { return speed; }
-    public ModeState getModeState() { return modeState; }
-    public int getFloor() { return floor; }
-    public DoorState getDoorState() { return doorState; }
-    public Direction getDirection() { return direction; }
-    public Vector<Integer> getDisabledFloors() { return disabled_floors; }
-    public int getNumberOfFloors() { return number_of_floors; }
-    public int getPayload() { return payload; }
-    public int getPosition() { return position; }
-    public Vector<Integer> getPressedButtons() { return pressed_buttons; }
+    public int getId() { return mId; }
+    public int getSpeed() { return mSpeed; }
+    public ModeState getModeState() { return mModeState; }
+    public int getFloor() { return mFloor; }
+    public DoorState getDoorState() { return mDoorState; }
+    public Direction getDirection() { return mDirection; }
+    public List<Integer> getDisabledFloors() { return mDisabledFloors; }
+    public int getNumberOfFloors() { return mNumberOfFloors; }
+    public int getPayload() { return mPayload; }
+    public int getPosition() { return mPosition; }
+    public List<Integer> getPressedButtons() { return mPressedButtons; }
     
-    public void setId(int _id) {
-    	id = _id;
+    public void setId(int id) {
+    	mId = id;
     	updateView();
     }
-    public void setSpeed(int _speed) {
-    	speed = _speed;
+    public void setSpeed(int speed) {
+    	mSpeed = speed;
     	updateView();
     }
-    public void setModeState(ModeState _state) {
-    	modeState = _state;
+    public void setModeState(ModeState state) {
+    	mModeState = state;
     	updateView();
     }
-    public void setFloor(int _floor) {
-    	floor = _floor;
+    public void setFloor(int floor) {
+    	mFloor = floor;
     	updateView();
     }
-    public void setDoorState(DoorState _state) {
-    	doorState = _state;
+    public void setDoorState(DoorState state) {
+    	mDoorState = state;
     	updateView();
     }
-    public void setDirection(Direction _direction) {
-    	direction = _direction;
+    public void setDirection(Direction direction) {
+    	mDirection = direction;
     	updateView();
     }
-    public void setDisabledFloors(Vector<Integer> _vec) {
-    	disabled_floors = _vec;
+    public void setDisabledFloors(List<Integer> vec) {
+    	mDisabledFloors = vec;
     	updateView();
     }
-    public void setPayload(int _payload) {
-    	payload = _payload;
+    public void setPayload(int payload) {
+    	mPayload = payload;
     	updateView();
     }
-    public void setPosition(int _pos) { 
-    	position = _pos; 
+    public void setPosition(int pos) { 
+    	mPosition = pos; 
     	updateView();
     }
-    public void setPressedButtons(Vector<Integer> _vec) {
-    	pressed_buttons = _vec;
+    public void setPressedButtons(List<Integer> vec) {
+    	mPressedButtons = vec;
     	updateView();
     }
     
     public void changeMode() {
-    	if(modeState == ModeState.manual)
-    		modeState = ModeState.automatic;
+    	if(mModeState == ModeState.MANUAL)
+    		mModeState = ModeState.AUTOMATIC;
     	else
-    		modeState = ModeState.manual;
+    		mModeState = ModeState.MANUAL;
     	
     	updateView();
     }
     
     public void clickedFloor(int num) {
-    	if (modeState == ModeState.manual && !disabled_floors.contains(num)) {
-        	ec.handleElevatorPositionChange(id, num);	
+    	if (mModeState == ModeState.MANUAL && !mDisabledFloors.contains(num)) {
+        	mEc.handleElevatorPositionChange(mId, num);	
     	}
     }
     

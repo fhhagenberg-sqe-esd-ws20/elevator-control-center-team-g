@@ -3,6 +3,9 @@ package at.fhhagenberg.sqelevator.tests;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
+
+import java.rmi.RemoteException;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,11 +21,11 @@ import at.fhhagenberg.sqe.controller.ElevatorController;
 import at.fhhagenberg.sqe.view.MainView;
 
 @ExtendWith(ApplicationExtension.class)
-public class EndToEndTest {
+class EndToEndTest {
 	
 	private FloorsViewModel floors_view_model;
 	private MainViewModel main_view_model;
-	private MockElevator elevator_service;
+	private MockElevator elevator;
 	private ElevatorController elevator_controller;
 	private MainView main_ui;
 	
@@ -35,103 +38,75 @@ public class EndToEndTest {
 	public void start(Stage stage) throws Exception {
     	floors_view_model = new FloorsViewModel();
     	main_view_model = new MainViewModel(floors_view_model);
-        elevator_service = new MockElevator(INITIAL_NUMBER_OF_ELEVATORS, INITIAL_NUMBER_OF_FLOORS, INITIAL_FLOOR_HEIGHT, INITIAL_CAPACITY);
-    	elevator_controller = new ElevatorController(elevator_service, main_view_model);
+    	elevator = new MockElevator(INITIAL_NUMBER_OF_ELEVATORS, INITIAL_NUMBER_OF_FLOORS, INITIAL_FLOOR_HEIGHT, INITIAL_CAPACITY);
+    	elevator_controller = new ElevatorController(elevator, main_view_model);
     	main_ui = new MainView(main_view_model, stage);   
 
     	elevator_controller.startController();     	 	
 	}
 	
 	@Test
-	public void testInitialFloorFromModelToUi(FxRobot robot) {		
-		int floor = 0;		
-		try{
-			floor = elevator_service.getElevatorFloor(0);
-		}
-		catch (Exception e){
-			fail("Exception occured during call of getElevatorFloor method");
-		}	
+	void testInitialFloorFromModelToUi(FxRobot robot) throws RemoteException {		
+		int floor = elevator.getElevatorFloorWrapped(0);
+	
 		verifyThat("##0FloorLabel", hasText("Current Floor: 0"));	
+		
         Assertions.assertEquals(0, floor);
 	}
 	
 	@Test
-	public void testDirectionFromModelToUi(FxRobot robot) {	
-		int direction = 0;		
-		try{
-			direction = elevator_service.getCommittedDirection(0);
-		}
-		catch (Exception e){
-			fail("Exception occured during call of getCommittedDirection method");
-		}	
-		verifyThat("##0DirectionLabel", hasText("Direction: DOWN"));		
+	void testDirectionFromModelToUi(FxRobot robot) throws RemoteException {	
+		int direction = elevator.getCommittedDirectionWrapped(0);
+	
+		verifyThat("##0DirectionLabel", hasText("Direction: DOWN"));	
+		
         Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_DOWN, direction);
 	}
 	
 	@Test
-	public void testPayloadFromModelToUi(FxRobot robot) {		
-		int payload = 0;		
-		try{
-			payload = elevator_service.getElevatorWeight(0);
-		}
-		catch (Exception e){
-			fail("Exception occured during call of getElevatorWeight method");
-		}	
+	void testPayloadFromModelToUi(FxRobot robot) throws RemoteException {		
+		int payload = elevator.getElevatorWeightWrapped(0);
+	
 		verifyThat("##0PayloadLabel", hasText("Payload: 700 kg"));	
+		
         Assertions.assertEquals(700, payload);
 	}
 	
 	@Test
-	public void testPositionFromModelToUi(FxRobot robot) {		
-		int position = 0;		
-		try{
-			position = elevator_service.getElevatorPosition(0);
-		}
-		catch (Exception e){
-			fail("Exception occured during call of getElevatorPosition method");
-		}		
-		verifyThat("##0PositionLabel", hasText("Position: 0 feet"));	
+	void testPositionFromModelToUi(FxRobot robot) throws RemoteException {		
+		int position = elevator.getElevatorPositionWrapped(0);
+		
+		verifyThat("##0PositionLabel", hasText("Position: 0 feet"));
+		
         Assertions.assertEquals(0, position);
 	}
 	
 	@Test
-	public void testDoorStatusFromModelToUi(FxRobot robot) {	
-		int door_status = 0;		
-		try{
-			door_status = elevator_service.getElevatorDoorStatus(0);
-		}
-		catch (Exception e){
-			fail("Exception occured during call of getElevatorDoorStatus method");
-		}	
-		verifyThat("##0DoorLabel", hasText("Door Status: CLOSED"));		
+	void testDoorStatusFromModelToUi(FxRobot robot) throws RemoteException {	
+		int door_status = elevator.getElevatorDoorStatusWrapped(0);
+		
+		verifyThat("##0DoorLabel", hasText("Door Status: CLOSED"));	
+		
         Assertions.assertEquals(IElevator.ELEVATOR_DOORS_CLOSED, door_status);
 	}
 	
 	@Test
-	public void testSpeedFromModelToUi(FxRobot robot) {
-		int speed = 0;		
-		try{
-			speed = elevator_service.getElevatorSpeed(0);
-		}
-		catch (Exception e){
-			fail("Exception occured during call of getElevatorSpeed method");
-		}		
+	void testSpeedFromModelToUi(FxRobot robot) throws RemoteException {
+		int speed = elevator.getElevatorSpeedWrapped(0);
+		
 		verifyThat("##0SpeedLabel", hasText("Speed: 20"));	
+		
         Assertions.assertEquals(20, speed);
 	}
 	
 	@Test
-	public void testSetTargetFloorFromUiToModel(FxRobot robot) {
+	void testSetTargetFloorFromUiToModel(FxRobot robot) throws RemoteException {
 		robot.clickOn("##0ChangeButton");
 		verifyThat("##0ManualLabel", hasText("Mode: MANU"));		
-		robot.clickOn("##0Button9");		
-		int target_floor = 0;		
-		try{
-			target_floor = elevator_service.getTarget(0);
-		}
-		catch (Exception e){
-			fail("Exception occured during call of getTarget method");
-		}		
+		robot.clickOn("##0Button9");	
+		
+		int target_floor = elevator.getTargetWrapped(0);	
+		
         Assertions.assertEquals(9, target_floor);
 	}
 }

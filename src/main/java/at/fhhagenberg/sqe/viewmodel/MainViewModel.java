@@ -9,52 +9,52 @@ import at.fhhagenberg.sqe.controller.IElevatorController;
 
 public class MainViewModel extends Observable implements IMainViewModel {
 
-	Boolean connection_state = false;
+	Boolean mConnectionState = false;
 	
-	ArrayList<ElevatorViewModel> elevators = new ArrayList<ElevatorViewModel>();
-	IFloorsViewModel floorsViewModel;
+	ArrayList<ElevatorViewModel> mElevators = new ArrayList<>();
+	IFloorsViewModel mFloorsViewModel;
 	
-	IElevatorController ec;
+	IElevatorController mEc;
 	
-	String log_txt = "";
+	String logTxt = "";
 	
 	public MainViewModel(FloorsViewModel _floorsViewModel) {
-		floorsViewModel = _floorsViewModel;
+		mFloorsViewModel = floorsViewModel;
 	}
 	
-	public void setController(IElevatorController _ec) {
-		ec = _ec;
+	public void setController(IElevatorController ec) {
+		mEc = ec;
 	}
 	
 	public void addElevatorModel(ElevatorViewModel em) {
-		elevators.add(em);
+		mElevators.add(em);
 		updateView();
 	}
 	
 	public ArrayList<ElevatorViewModel> getElevatorModels() {
-		return elevators;
+		return mElevators;
 	}
 	
 	public IFloorsViewModel getFloorsModel() {
-		return floorsViewModel;
+		return mFloorsViewModel;
 	}
 	
 	public void setConnectionState(Boolean s) {
-		connection_state = s;
+		mConnectionState = s;
 		updateView();
 	}
 	
 	public void addLogText(String txt) {
-		log_txt = (new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) + " : " + txt) + "\n" + log_txt;
+		logTxt = (new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) + " : " + txt) + "\n" + logTxt;
 		updateView();
 	}
 	
 	public String getLogText() {
-		return log_txt;
+		return logTxt;
 	}
 	
 	public Boolean getConnectionState() {
-		return connection_state;
+		return mConnectionState;
 	}
 	
 	public void connectToRMI() {

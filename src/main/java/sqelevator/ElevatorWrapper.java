@@ -1,36 +1,34 @@
 package sqelevator;
 
 import at.fhhagenberg.sqe.connection.ConnectionException;
-import at.fhhagenberg.sqe.helper.Direction;
-import at.fhhagenberg.sqe.helper.DoorState;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 public class ElevatorWrapper implements IElevatorWrapper {
-    private IElevator elevator;
+    private IElevator mElevator;
 
-    public ElevatorWrapper(IElevator _elevator) throws NullPointerException {
-        elevator = _elevator;
+    public ElevatorWrapper(IElevator elevator) throws NullPointerException {
+        mElevator = elevator;
     }      
     
     @Override
-    public void reconnect() throws Exception {
+    public void reconnect() throws ConnectionException {
     	boolean connected = false;
-    	String exception_message = "";
+    	String exceptionMessage = "";
     	
     	for (int i = 0; i < 3; i++) {
             try {
-            	elevator = (IElevator) Naming.lookup("rmi://localhost/ElevatorSim");
+            	mElevator = (IElevator) Naming.lookup("rmi://localhost/ElevatorSim");
             	connected = true;
             } catch (RemoteException | NotBoundException | MalformedURLException e) {
-            	exception_message = e.getMessage();
+            	exceptionMessage = e.getMessage();
             }            
             if(connected)break;
             //Thread.sleep(1000);
     	}   
-    	if(!connected) throw new ConnectionException("Connection error with RMI: " + exception_message);
+    	if(!connected) throw new ConnectionException("Connection error with RMI: " + exceptionMessage);
     }
 
     /**
@@ -40,8 +38,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return the current direction of the specified elevator where up=0, down=1 and uncommitted=2
      */
     @Override
-    public int getCommittedDirection(int elevatorNumber) throws Exception {
-        return elevator.getCommittedDirection(elevatorNumber);
+    public int getCommittedDirectionWrapped(int elevatorNumber) throws java.rmi.RemoteException {
+        return mElevator.getCommittedDirection(elevatorNumber);
     }
 
     /**
@@ -51,8 +49,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return returns the acceleration of the indicated elevator where positive speed is acceleration and negative is deceleration
      */
     @Override
-    public int getElevatorAccel(int elevatorNumber) throws RemoteException {
-        return elevator.getElevatorAccel(elevatorNumber);
+    public int getElevatorAccelWrapped(int elevatorNumber) throws RemoteException {
+        return mElevator.getElevatorAccel(elevatorNumber);
     }
 
     /**
@@ -63,8 +61,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return returns boolean to indicate if floor button on the elevator is active (true) or not (false)
      */
     @Override
-    public boolean getElevatorButton(int elevatorNumber, int floor) throws RemoteException {
-        return elevator.getElevatorButton(elevatorNumber, floor);
+    public boolean getElevatorButtonWrapped(int elevatorNumber, int floor) throws RemoteException {
+        return mElevator.getElevatorButton(elevatorNumber, floor);
     }
 
     /**
@@ -74,8 +72,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return returns the door status of the indicated elevator where 1=open and 2=closed
      */
     @Override
-    public int getElevatorDoorStatus(int elevatorNumber) throws Exception {
-       return elevator.getElevatorDoorStatus(elevatorNumber);
+    public int getElevatorDoorStatusWrapped(int elevatorNumber) throws java.rmi.RemoteException {
+       return mElevator.getElevatorDoorStatus(elevatorNumber);
     }
 
     /**
@@ -85,8 +83,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return returns the floor number of the floor closest to the indicated elevator
      */
     @Override
-    public int getElevatorFloor(int elevatorNumber) throws RemoteException {
-        return elevator.getElevatorFloor(elevatorNumber);
+    public int getElevatorFloorWrapped(int elevatorNumber) throws RemoteException {
+        return mElevator.getElevatorFloor(elevatorNumber);
     }
 
     /**
@@ -95,8 +93,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return total number of elevators
      */
     @Override
-    public int getElevatorNum() throws RemoteException {
-        return elevator.getElevatorNum();
+    public int getElevatorNumWrapped() throws RemoteException {
+        return mElevator.getElevatorNum();
     }
 
     /**
@@ -106,8 +104,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return returns the location in feet of the indicated elevator from the bottom of the building
      */
     @Override
-    public int getElevatorPosition(int elevatorNumber) throws RemoteException {
-        return elevator.getElevatorPosition(elevatorNumber);
+    public int getElevatorPositionWrapped(int elevatorNumber) throws RemoteException {
+        return mElevator.getElevatorPosition(elevatorNumber);
     }
 
     /**
@@ -117,8 +115,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return returns the speed of the indicated elevator where positive speed is up and negative is down
      */
     @Override
-    public int getElevatorSpeed(int elevatorNumber) throws RemoteException {
-        return elevator.getElevatorSpeed(elevatorNumber);
+    public int getElevatorSpeedWrapped(int elevatorNumber) throws RemoteException {
+        return mElevator.getElevatorSpeed(elevatorNumber);
     }
 
     /**
@@ -128,8 +126,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return total weight of all passengers in lbs
      */
     @Override
-    public int getElevatorWeight(int elevatorNumber) throws RemoteException {
-        return elevator.getElevatorWeight(elevatorNumber);
+    public int getElevatorWeightWrapped(int elevatorNumber) throws RemoteException {
+        return mElevator.getElevatorWeight(elevatorNumber);
     }
 
     /**
@@ -139,8 +137,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return number of passengers
      */
     @Override
-    public int getElevatorCapacity(int elevatorNumber) throws RemoteException {
-        return elevator.getElevatorCapacity(elevatorNumber);
+    public int getElevatorCapacityWrapped(int elevatorNumber) throws RemoteException {
+        return mElevator.getElevatorCapacity(elevatorNumber);
     }
 
     /**
@@ -150,8 +148,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return returns boolean to indicate if button is active (true) or not (false)
      */
     @Override
-    public boolean getFloorButtonDown(int floor) throws RemoteException {
-        return elevator.getFloorButtonDown(floor);
+    public boolean getFloorButtonDownWrapped(int floor) throws RemoteException {
+        return mElevator.getFloorButtonDown(floor);
     }
 
     /**
@@ -161,8 +159,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return returns boolean to indicate if button is active (true) or not (false)
      */
     @Override
-    public boolean getFloorButtonUp(int floor) throws RemoteException {
-        return elevator.getFloorButtonUp(floor);
+    public boolean getFloorButtonUpWrapped(int floor) throws RemoteException {
+        return mElevator.getFloorButtonUp(floor);
     }
 
     /**
@@ -171,8 +169,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return floor height (ft)
      */
     @Override
-    public int getFloorHeight() throws RemoteException {
-        return elevator.getFloorHeight();
+    public int getFloorHeightWrapped() throws RemoteException {
+        return mElevator.getFloorHeight();
     }
 
     /**
@@ -181,8 +179,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return total number of floors
      */
     @Override
-    public int getFloorNum() throws RemoteException {
-        return elevator.getFloorNum();
+    public int getFloorNumWrapped() throws RemoteException {
+        return mElevator.getFloorNum();
     }
 
     /**
@@ -193,8 +191,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return service status whether the floor is serviced by the specified elevator (yes=true,no=false)
      */
     @Override
-    public boolean getServicesFloors(int elevatorNumber, int floor) throws RemoteException {
-        return elevator.getServicesFloors(elevatorNumber, floor);
+    public boolean getServicesFloorsWrapped(int elevatorNumber, int floor) throws RemoteException {
+        return mElevator.getServicesFloors(elevatorNumber, floor);
     }
 
     /**
@@ -204,8 +202,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return current floor target of the specified elevator
      */
     @Override
-    public int getTarget(int elevatorNumber) throws RemoteException {
-        return elevator.getTarget(elevatorNumber);
+    public int getTargetWrapped(int elevatorNumber) throws RemoteException {
+        return mElevator.getTarget(elevatorNumber);
     }
 
     /**
@@ -215,8 +213,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @param direction      direction being set where up=0, down=1 and uncommitted=2
      */
     @Override
-    public void setCommittedDirection(int elevatorNumber, int direction) throws RemoteException {
-        elevator.setCommittedDirection(elevatorNumber, direction);
+    public void setCommittedDirectionWrapped(int elevatorNumber, int direction) throws RemoteException {
+        mElevator.setCommittedDirection(elevatorNumber, direction);
     }
 
     /**
@@ -227,8 +225,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @param service        indicates whether the floor is serviced by the specified elevator (yes=true,no=false)
      */
     @Override
-    public void setServicesFloors(int elevatorNumber, int floor, boolean service) throws RemoteException {
-        elevator.setServicesFloors(elevatorNumber,floor,service);
+    public void setServicesFloorsWrapped(int elevatorNumber, int floor, boolean service) throws RemoteException {
+        mElevator.setServicesFloors(elevatorNumber,floor,service);
     }
 
     /**
@@ -238,8 +236,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @param target         floor number which the specified elevator is to target
      */
     @Override
-    public void setTarget(int elevatorNumber, int target) throws RemoteException {
-        elevator.setTarget(elevatorNumber,target);
+    public void setTargetWrapped(int elevatorNumber, int target) throws RemoteException {
+        mElevator.setTarget(elevatorNumber,target);
     }
 
     /**
@@ -248,7 +246,7 @@ public class ElevatorWrapper implements IElevatorWrapper {
      * @return clock tick
      */
     @Override
-    public long getClockTick() throws RemoteException {
-        return elevator.getClockTick();
+    public long getClockTickWrapped() throws RemoteException {
+        return mElevator.getClockTick();
     }
 }

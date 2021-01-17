@@ -2,8 +2,8 @@ package at.fhhagenberg.sqelevator.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Observer;
-import java.util.Vector;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +24,7 @@ import at.fhhagenberg.sqe.viewmodel.MainViewModel;
 import at.fhhagenberg.sqelevator.mock.MockElevator;
 
 @ExtendWith(MockitoExtension.class)
-public class ViewModelTests {
+class ViewModelTests {
 
 	private ElevatorViewModel evm;
 	private FloorsViewModel fvm;
@@ -47,26 +47,26 @@ public class ViewModelTests {
 
 	@Test
 	void testElevatorViewModelSetAndGetValues() {
-		var vec = new Vector<Integer>();
+		var vec = new ArrayList<Integer>();
 		vec.add(1);
 		vec.add(2);
 
 		evm.setId(0);
 		evm.setSpeed(12);
-		evm.setModeState(ModeState.automatic);
+		evm.setModeState(ModeState.AUTOMATIC);
 		evm.setFloor(4);
-		evm.setDoorState(DoorState.closed);
-		evm.setDirection(Direction.up);
+		evm.setDoorState(DoorState.CLOSED);
+		evm.setDirection(Direction.UP);
 		evm.setDisabledFloors(vec);
 		evm.setPayload(135);
 		evm.setPosition(7);
 
 		assertEquals(0, evm.getId());
 		assertEquals(12, evm.getSpeed());
-		assertEquals(ModeState.automatic, evm.getModeState());
+		assertEquals(ModeState.AUTOMATIC, evm.getModeState());
 		assertEquals(4, evm.getFloor());
-		assertEquals(DoorState.closed, evm.getDoorState());
-		assertEquals(Direction.up, evm.getDirection());
+		assertEquals(DoorState.CLOSED, evm.getDoorState());
+		assertEquals(Direction.UP, evm.getDirection());
 		assertEquals(vec, evm.getDisabledFloors());
 		assertEquals(135, evm.getPayload());
 		assertEquals(7, evm.getPosition());
@@ -74,7 +74,7 @@ public class ViewModelTests {
 
 	@Test
 	void testFloorsViewModelSetAndGetValues() {
-		var vec = new Vector<Integer>();
+		var vec = new ArrayList<Integer>();
 		vec.add(1);
 		vec.add(2);
 
@@ -89,15 +89,15 @@ public class ViewModelTests {
 
 	@Test
 	void testElevatorViewModelChangeMode() {
-		evm.setModeState(ModeState.automatic);
+		evm.setModeState(ModeState.AUTOMATIC);
 
 		evm.changeMode();
 
-		assertEquals(ModeState.manual, evm.getModeState());
+		assertEquals(ModeState.MANUAL, evm.getModeState());
 
 		evm.changeMode();
 
-		assertEquals(ModeState.automatic, evm.getModeState());
+		assertEquals(ModeState.AUTOMATIC, evm.getModeState());
 	}
 	@Test
 	void testMainViewModelGetAndSet() {

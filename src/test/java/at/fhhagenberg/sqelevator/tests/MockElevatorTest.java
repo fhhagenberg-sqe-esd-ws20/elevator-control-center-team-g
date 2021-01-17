@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Assertions;
 
 import java.rmi.RemoteException;
 
-public class MockElevatorTest {
+class MockElevatorTest {
     private MockElevator mocked;
 
     private final static Integer floors = 3;
@@ -27,18 +27,18 @@ public class MockElevatorTest {
 
     @Test
     void testGetTarget() throws Exception {
-        Assertions.assertEquals(0, mocked.getTarget(0));
-        Assertions.assertEquals(0, mocked.getTarget(1));
+        Assertions.assertEquals(0, mocked.getTargetWrapped(0));
+        Assertions.assertEquals(0, mocked.getTargetWrapped(1));
     }
 
     @Test
-    public void testGetFloorHeight() throws Exception {
-        Assertions.assertEquals(floor_height, mocked.getFloorHeight());
+    void testGetFloorHeight() throws Exception {
+        Assertions.assertEquals(floor_height, mocked.getFloorHeightWrapped());
     }
 
     @Test
-    public void testGetClockTick() throws Exception {
-        Assertions.assertEquals(MockElevatorConstants.CLOCK_TICK, mocked.getClockTick());
+    void testGetClockTick() throws Exception {
+        Assertions.assertEquals(MockElevatorConstants.CLOCK_TICK, mocked.getClockTickWrapped());
     }
 
     @Test
@@ -46,14 +46,14 @@ public class MockElevatorTest {
         int floor_1 = 1;
         int floor_2 = 2;
 
-        Assertions.assertEquals(0, mocked.getElevatorPosition(0));
-        Assertions.assertEquals(0, mocked.getElevatorPosition(1));
+        Assertions.assertEquals(0, mocked.getElevatorPositionWrapped(0));
+        Assertions.assertEquals(0, mocked.getElevatorPositionWrapped(1));
 
-        mocked.setTarget(0, floor_1);
-        mocked.setTarget(1, floor_2);
+        mocked.setTargetWrapped(0, floor_1);
+        mocked.setTargetWrapped(1, floor_2);
 
-        Assertions.assertEquals(floor_height * floor_1, mocked.getElevatorPosition(0));
-        Assertions.assertEquals(floor_height * floor_2, mocked.getElevatorPosition(1));
+        Assertions.assertEquals(floor_height * floor_1, mocked.getElevatorPositionWrapped(0));
+        Assertions.assertEquals(floor_height * floor_2, mocked.getElevatorPositionWrapped(1));
     }
 
     @Test
@@ -78,28 +78,28 @@ public class MockElevatorTest {
     @Test
     void testGetCommitedDirection() throws Exception {
         Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_DOWN,
-                mocked.getCommittedDirection(1));
+                mocked.getCommittedDirectionWrapped(1));
         Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_DOWN,
-                mocked.getCommittedDirection(0));
+                mocked.getCommittedDirectionWrapped(0));
     }
 
     @Test
     void testCommittedDirectionSetGet() throws Exception {
-        mocked.setCommittedDirection(1, IElevator.ELEVATOR_DIRECTION_UP);
-        mocked.setCommittedDirection(0, IElevator.ELEVATOR_DIRECTION_DOWN);
+        mocked.setCommittedDirectionWrapped(1, IElevator.ELEVATOR_DIRECTION_UP);
+        mocked.setCommittedDirectionWrapped(0, IElevator.ELEVATOR_DIRECTION_DOWN);
 
         Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_DOWN,
-                mocked.getCommittedDirection(0));
+                mocked.getCommittedDirectionWrapped(0));
         Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_UP,
-                mocked.getCommittedDirection(1));
+                mocked.getCommittedDirectionWrapped(1));
 
-        mocked.setCommittedDirection(0, IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
-        mocked.setCommittedDirection(1, IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
+        mocked.setCommittedDirectionWrapped(0, IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
+        mocked.setCommittedDirectionWrapped(1, IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
 
         Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED,
-                mocked.getCommittedDirection(0));
+                mocked.getCommittedDirectionWrapped(0));
         Assertions.assertEquals(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED,
-                mocked.getCommittedDirection(1));
+                mocked.getCommittedDirectionWrapped(1));
     }
 
     @Test
@@ -108,45 +108,45 @@ public class MockElevatorTest {
         int floor_1 = 1;
         int floor_2 = 2;
 
-        Assertions.assertTrue(mocked.getServicesFloors(0, floor_0));
-        Assertions.assertTrue(mocked.getServicesFloors(1, floor_0));
+        Assertions.assertTrue(mocked.getServicesFloorsWrapped(0, floor_0));
+        Assertions.assertTrue(mocked.getServicesFloorsWrapped(1, floor_0));
 
-        Assertions.assertTrue(mocked.getServicesFloors(0, floor_1));
-        Assertions.assertTrue(mocked.getServicesFloors(1, floor_1));
+        Assertions.assertTrue(mocked.getServicesFloorsWrapped(0, floor_1));
+        Assertions.assertTrue(mocked.getServicesFloorsWrapped(1, floor_1));
 
-        Assertions.assertTrue(mocked.getServicesFloors(0, floor_2));
-        Assertions.assertTrue(mocked.getServicesFloors(1, floor_2));
+        Assertions.assertTrue(mocked.getServicesFloorsWrapped(0, floor_2));
+        Assertions.assertTrue(mocked.getServicesFloorsWrapped(1, floor_2));
     }
 
     @Test
     void testGetServicesFloors_InvalidElevator() {
         Assertions.assertThrows(MockElevatorException.class, () ->
-                mocked.getServicesFloors(-1, 0));
+                mocked.getServicesFloorsWrapped(-1, 0));
 
         Assertions.assertThrows(MockElevatorException.class, () ->
-                mocked.getServicesFloors(elevator_count, 0));
+                mocked.getServicesFloorsWrapped(elevator_count, 0));
     }
 
     @Test
     void testGetServicesFloors_InvalidFloors() {
         Assertions.assertThrows(MockElevatorException.class, () ->
-                mocked.getServicesFloors(0, -1));
+                mocked.getServicesFloorsWrapped(0, -1));
 
         Assertions.assertThrows(MockElevatorException.class, () ->
-                mocked.getServicesFloors(0, floors));
+                mocked.getServicesFloorsWrapped(0, floors));
     }
 
     @Test
     void testSetDoorStatus() throws Exception {
         mocked.getElevators().get(0).setDoorStatus(IElevator.ELEVATOR_DOORS_OPENING);
-        Assertions.assertEquals(IElevator.ELEVATOR_DOORS_OPENING, mocked.getElevatorDoorStatus(0));
+        Assertions.assertEquals(IElevator.ELEVATOR_DOORS_OPENING, mocked.getElevatorDoorStatusWrapped(0));
         mocked.getElevators().get(1).setDoorStatus(IElevator.ELEVATOR_DOORS_CLOSING);
-        Assertions.assertEquals(IElevator.ELEVATOR_DOORS_CLOSING, mocked.getElevatorDoorStatus(1));
+        Assertions.assertEquals(IElevator.ELEVATOR_DOORS_CLOSING, mocked.getElevatorDoorStatusWrapped(1));
 
         mocked.getElevators().get(0).setDoorStatus(IElevator.ELEVATOR_DOORS_OPEN);
-        Assertions.assertEquals(IElevator.ELEVATOR_DOORS_OPEN, mocked.getElevatorDoorStatus(0));
+        Assertions.assertEquals(IElevator.ELEVATOR_DOORS_OPEN, mocked.getElevatorDoorStatusWrapped(0));
         mocked.getElevators().get(1).setDoorStatus(IElevator.ELEVATOR_DOORS_CLOSED);
-        Assertions.assertEquals(IElevator.ELEVATOR_DOORS_CLOSED, mocked.getElevatorDoorStatus(1));
+        Assertions.assertEquals(IElevator.ELEVATOR_DOORS_CLOSED, mocked.getElevatorDoorStatusWrapped(1));
     }
 
     @Test
@@ -154,78 +154,78 @@ public class MockElevatorTest {
         mocked.getElevators().get(0).setFloorButtonActive(0, true);
         mocked.getElevators().get(1).setFloorButtonActive(1, true);
 
-        Assertions.assertTrue(mocked.getElevatorButton(0, 0));
-        Assertions.assertFalse(mocked.getElevatorButton(1, 0));
+        Assertions.assertTrue(mocked.getElevatorButtonWrapped(0, 0));
+        Assertions.assertFalse(mocked.getElevatorButtonWrapped(1, 0));
 
-        Assertions.assertFalse(mocked.getElevatorButton(0, 1));
-        Assertions.assertTrue(mocked.getElevatorButton(1, 1));
+        Assertions.assertFalse(mocked.getElevatorButtonWrapped(0, 1));
+        Assertions.assertTrue(mocked.getElevatorButtonWrapped(1, 1));
 
-        Assertions.assertFalse(mocked.getElevatorButton(0, 2));
-        Assertions.assertFalse(mocked.getElevatorButton(1, 2));
+        Assertions.assertFalse(mocked.getElevatorButtonWrapped(0, 2));
+        Assertions.assertFalse(mocked.getElevatorButtonWrapped(1, 2));
     }
 
     @Test
     void testTargetSetGet() throws Exception {
-        mocked.setTarget(0, 1);
-        Assertions.assertEquals(1, mocked.getTarget(0));
-        mocked.setTarget(1, 2);
-        Assertions.assertEquals(2, mocked.getTarget(1));
+        mocked.setTargetWrapped(0, 1);
+        Assertions.assertEquals(1, mocked.getTargetWrapped(0));
+        mocked.setTargetWrapped(1, 2);
+        Assertions.assertEquals(2, mocked.getTargetWrapped(1));
     }
 
     @Test
     void testGetCommittedDirection_InvalidElevatorNumber() {
         Assertions.assertThrows(MockElevatorException.class, () ->
-                mocked.getCommittedDirection(-1));
+                mocked.getCommittedDirectionWrapped(-1));
 
         Assertions.assertThrows(MockElevatorException.class, () ->
-                mocked.getCommittedDirection(elevator_count));
+                mocked.getCommittedDirectionWrapped(elevator_count));
     }
 
     @Test
     void testSetCommittedDirection_Invalid() {
         Assertions.assertThrows(MockElevatorException.class, () ->
-                mocked.setCommittedDirection(0, IElevator.ELEVATOR_DIRECTION_UP - 1));
+                mocked.setCommittedDirectionWrapped(0, IElevator.ELEVATOR_DIRECTION_UP - 1));
 
         Assertions.assertThrows(MockElevatorException.class, () ->
-                mocked.setCommittedDirection(0, IElevator.ELEVATOR_DIRECTION_UNCOMMITTED + 1));
+                mocked.setCommittedDirectionWrapped(0, IElevator.ELEVATOR_DIRECTION_UNCOMMITTED + 1));
     }
 
     @Test
     void testServicesFloorsSetGet() throws Exception {
-        mocked.setServicesFloors(0, 0, false);
-        Assertions.assertFalse(mocked.getServicesFloors(0, 0));
-        Assertions.assertTrue(mocked.getServicesFloors(1, 0));
+        mocked.setServicesFloorsWrapped(0, 0, false);
+        Assertions.assertFalse(mocked.getServicesFloorsWrapped(0, 0));
+        Assertions.assertTrue(mocked.getServicesFloorsWrapped(1, 0));
 
-        mocked.setServicesFloors(1, 1, false);
-        Assertions.assertTrue(mocked.getServicesFloors(0, 1));
-        Assertions.assertFalse(mocked.getServicesFloors(1, 1));
+        mocked.setServicesFloorsWrapped(1, 1, false);
+        Assertions.assertTrue(mocked.getServicesFloorsWrapped(0, 1));
+        Assertions.assertFalse(mocked.getServicesFloorsWrapped(1, 1));
 
-        mocked.setServicesFloors(0, 0, false);
-        Assertions.assertFalse(mocked.getServicesFloors(0, 0));
-        mocked.setServicesFloors(0, 1, false);
-        Assertions.assertFalse(mocked.getServicesFloors(0, 1));
-        mocked.setServicesFloors(0, 2, false);
-        Assertions.assertFalse(mocked.getServicesFloors(0, 2));
+        mocked.setServicesFloorsWrapped(0, 0, false);
+        Assertions.assertFalse(mocked.getServicesFloorsWrapped(0, 0));
+        mocked.setServicesFloorsWrapped(0, 1, false);
+        Assertions.assertFalse(mocked.getServicesFloorsWrapped(0, 1));
+        mocked.setServicesFloorsWrapped(0, 2, false);
+        Assertions.assertFalse(mocked.getServicesFloorsWrapped(0, 2));
     }
 
     @Test
     void testGetFloorNum() throws RemoteException {
-        Assertions.assertEquals(floors, mocked.getFloorNum());
+        Assertions.assertEquals(floors, mocked.getFloorNumWrapped());
     }
 
     @Test
     void testGetElevatorNum() throws RemoteException {
-        Assertions.assertEquals(elevator_count, mocked.getElevatorNum());
+        Assertions.assertEquals(elevator_count, mocked.getElevatorNumWrapped());
     }
 
     @Test
     void testGetElevatorWeight() throws RemoteException {
-        Assertions.assertEquals(700, mocked.getElevatorWeight(0));
+        Assertions.assertEquals(700, mocked.getElevatorWeightWrapped(0));
     }
 
     @Test
     void testGetElevatorCapacity() throws RemoteException {
-        Assertions.assertEquals(elevator_max_pax, mocked.getElevatorCapacity(0));
+        Assertions.assertEquals(elevator_max_pax, mocked.getElevatorCapacityWrapped(0));
     }
 
     @Test
@@ -243,26 +243,26 @@ public class MockElevatorTest {
     }
     @Test
     void testGetElevatorFloor() throws RemoteException {
-        Assertions.assertEquals(0, mocked.getElevatorFloor(0));
-        mocked.setTarget(0,1);
-        Assertions.assertEquals(1, mocked.getElevatorFloor(0));
-        mocked.setTarget(0,2);
-        Assertions.assertEquals(2, mocked.getElevatorFloor(0));
+        Assertions.assertEquals(0, mocked.getElevatorFloorWrapped(0));
+        mocked.setTargetWrapped(0,1);
+        Assertions.assertEquals(1, mocked.getElevatorFloorWrapped(0));
+        mocked.setTargetWrapped(0,2);
+        Assertions.assertEquals(2, mocked.getElevatorFloorWrapped(0));
     }
     @Test
     void testGetElevatorSpeed() throws RemoteException {
-        Assertions.assertEquals(20, mocked.getElevatorSpeed(0));
+        Assertions.assertEquals(20, mocked.getElevatorSpeedWrapped(0));
     }
     @Test
     void testGetFloorButtonUp() throws RemoteException {
-        Assertions.assertEquals(false, mocked.getFloorButtonUp(1));
+        Assertions.assertEquals(false, mocked.getFloorButtonUpWrapped(1));
     }
     @Test
     void testGetFloorButtonDown() throws RemoteException {
-        Assertions.assertEquals(false, mocked.getFloorButtonDown(1));
+        Assertions.assertEquals(false, mocked.getFloorButtonDownWrapped(1));
     }
     @Test
     void testGetElevatorAccel() throws RemoteException {
-        Assertions.assertEquals(10, mocked.getElevatorAccel(1));
+        Assertions.assertEquals(10, mocked.getElevatorAccelWrapped(1));
     }
 }

@@ -71,7 +71,7 @@ public class MainView  implements Observer {
 		StackPane stackP = new StackPane();
 		stackP.getChildren().addAll(statusRect, statusText);
 		
-		if(model.getConnectionState() == true) 
+		if(model.getConnectionState()) 
     		statusRect.setFill(Color.GREEN);
     	else {
     		statusRect.setFill(Color.RED);
@@ -105,12 +105,13 @@ public class MainView  implements Observer {
 	
 	@Override
     public void update(Observable o, Object arg) {
+      
 		if(elevatorsbefore != model.getElevatorModels().size()) {
 			buildUI(stage);
 			elevatorsbefore = model.getElevatorModels().size();
 		}
 		
-    	if(model.getConnectionState() == true) {
+    	if(model.getConnectionState()) {
     		statusRect.setFill(Color.GREEN);
     		statusText.setText("");
     	}

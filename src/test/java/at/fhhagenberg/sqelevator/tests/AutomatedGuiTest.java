@@ -16,7 +16,7 @@ import at.fhhagenberg.sqe.controller.ElevatorController;
 import at.fhhagenberg.sqe.view.MainView;
 
 @ExtendWith(ApplicationExtension.class)
-public class AutomatedGuiTest {
+class AutomatedGuiTest {
 	
 	private FloorsViewModel floors_view_model;
 	private MainViewModel main_view_model;
@@ -37,44 +37,44 @@ public class AutomatedGuiTest {
     	elevator_controller = new ElevatorController(elevator_service, main_view_model);
     	main_ui = new MainView(main_view_model, stage);    
 
-        elevator_service.setServicesFloors(0, 3, false);
+        elevator_service.setServicesFloorsWrapped(0, 3, false);
     	elevator_controller.startController();     	 	
 	}
 
 	@Test
-	public void testBasicUiSetupFromMockHeader(FxRobot robot) {
+	void testBasicUiSetupFromMockHeader(FxRobot robot) {
 		verifyThat("##0ElevatorHeader", hasText("Elevator 0"));
 	}
 	
 	@Test
-	public void testBasicUiSetupFromMockDirection(FxRobot robot) {
+	void testBasicUiSetupFromMockDirection(FxRobot robot) {
 		verifyThat("##0DirectionLabel", hasText("Direction: DOWN"));
 	}
 	
 	@Test
-	public void testBasicUiSetupFromMockSpeed(FxRobot robot) {
+	void testBasicUiSetupFromMockSpeed(FxRobot robot) {
 		verifyThat("##0SpeedLabel", hasText("Speed: 20"));
 	}
 	
 	@Test
-	public void testBasicUiSetupFromMockDoor(FxRobot robot) {
+	void testBasicUiSetupFromMockDoor(FxRobot robot) {
 		verifyThat("##0DoorLabel", hasText("Door Status: CLOSED"));
 	}
 	
 	@Test
-	public void testBasicUiSetupFromMockPayload(FxRobot robot) {
+	void testBasicUiSetupFromMockPayload(FxRobot robot) {
 		verifyThat("##0PayloadLabel", hasText("Payload: 700 kg"));
 	}
 	
 	@Test
-	public void testSwitchingToManualMode(FxRobot robot) {
+	void testSwitchingToManualMode(FxRobot robot) {
 		robot.clickOn("##0ChangeButton");		
 		wait(robot);		
 		verifyThat("##0ManualLabel", hasText("Mode: MANU"));
 	}
 	
 	@Test
-	public void testSwitchingToManualModeAndBack(FxRobot robot) {
+	void testSwitchingToManualModeAndBack(FxRobot robot) {
 		robot.clickOn("##0ChangeButton");
 		wait(robot);
 		verifyThat("##0ManualLabel", hasText("Mode: MANU"));
@@ -85,7 +85,7 @@ public class AutomatedGuiTest {
 	}
 	
 	@Test
-	public void testManualNavigation(FxRobot robot) {
+	void testManualNavigation(FxRobot robot) {
 		// Put elevator 0 into manual mode
 		robot.clickOn("##0ChangeButton");		
 		wait(robot);		
@@ -104,7 +104,7 @@ public class AutomatedGuiTest {
 	}
 	
 	@Test
-	public void testManualNavigationToDisabledFloor(FxRobot robot) {
+	void testManualNavigationToDisabledFloor(FxRobot robot) {
 		// Put elevator 0 into manual mode
 		robot.clickOn("##0ChangeButton");
 		wait(robot);
@@ -123,7 +123,7 @@ public class AutomatedGuiTest {
 	}	
 	
 	@Test
-	public void testConnectionError(FxRobot robot) {
+	void testConnectionError(FxRobot robot) {
 		// Put elevator 0 into manual mode
 		robot.clickOn("##0ChangeButton");
 		wait(robot);

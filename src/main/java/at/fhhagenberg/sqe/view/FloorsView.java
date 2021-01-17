@@ -19,28 +19,26 @@ import javafx.scene.control.Label;
 
 public class FloorsView extends GridPane implements Observer {
 	
-	IFloorsViewModel model;
+	IFloorsViewModel mModel;	
+	GridPane mGridPane = new GridPane();	
+	ArrayList<Rectangle> mUps = new ArrayList<>();
+	ArrayList<Rectangle> mDowns = new ArrayList<>();	
+	int mFloorsBefore = 0;
 	
-	GridPane gridPane = new GridPane();
-	
-	ArrayList<Rectangle> ups = new ArrayList<Rectangle>();
-	ArrayList<Rectangle> downs = new ArrayList<Rectangle>();
-	
-	int floorsbefore = 0;
-	
-	FloorsView(IFloorsViewModel _model) {
-		model = _model;
+	FloorsView(IFloorsViewModel model) {
+		mModel = model;
 		buildUI();
-		model.addObserver(this);
-		floorsbefore = model.getNumberOfFloors();
+		mModel.addObserver(this);
+		mFloorsBefore = model.getNumberOfFloors();
 	}
 	
 	private void buildUI() {
 		int pos = 0;
+
 		gridPane = new GridPane();
 		for (int i = model.getNumberOfFloors() - 1; i >= 0; i--) {
 			HBox left = new HBox();
-			Label lbl_FloorNumber = new Label("Floor " + i);
+			Label lblFloorNumber = new Label("Floor " + i);
 
 			Rectangle rectUP = new Rectangle(80, 25);
 			rectUP.setId("UP"+ Integer.toString(i));
@@ -62,17 +60,17 @@ public class FloorsView extends GridPane implements Observer {
 			right.getChildren().add(stackUP);
 			right.getChildren().add(stackDOWN);
 
-			ups.add(rectUP);
-			downs.add(rectDOWN);
+			mUps.add(rectUP);
+			mDowns.add(rectDOWN);
 			
-			left.getChildren().add(lbl_FloorNumber);
+			left.getChildren().add(lblFloorNumber);
 			
-			gridPane.add(left, 0, pos);
-			gridPane.add(right, 1, pos++);
+			mGridPane.add(left, 0, pos);
+			mGridPane.add(right, 1, pos++);
 		}
 		
 		ScrollPane scrollPane = new ScrollPane();
-		scrollPane.setContent(gridPane);
+		scrollPane.setContent(mGridPane);
 		scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		
 		var root = new VBox();
@@ -80,29 +78,25 @@ public class FloorsView extends GridPane implements Observer {
     	
     	add(root, 0, 0);
     	
-    	Collections.reverse(ups);
-    	Collections.reverse(downs);
+    	Collections.reverse(mUps);
+    	Collections.reverse(mDowns);
 	}
 	
 	@Override
     public void update(Observable o, Object arg) {
-		if(floorsbefore != model.getNumberOfFloors()) {
-			buildUI();
-			floorsbefore = model.getNumberOfFloors();
-		}
-		
+      
 		for (int i = model.getNumberOfFloors() - 1; i >= 0; i--) {
 			
-			Rectangle rectUP = ups.get(i);
-			Rectangle rectDOWN = downs.get(i);
+			Rectangle rectUP = mUps.get(i);
+			Rectangle rectDOWN = mDowns.get(i);
 			
-		    if (!model.getFloorsUP().contains(i)) {
+		    if (!mModel.getFloorsUP().contains(i)) {
 		    	rectUP.setFill(Color.ORANGE);
 		    } else {
 		    	rectUP.setFill(Color.DARKORANGE);
 		    }
 		    
-		    if (!model.getFloorsDOWN().contains(i)) {
+		    if (!mModel.getFloorsDOWN().contains(i)) {
 		    	rectDOWN.setFill(Color.ORANGE);
 		    } else {
 		    	rectDOWN.setFill(Color.DARKORANGE);
