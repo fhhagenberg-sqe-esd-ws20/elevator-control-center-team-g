@@ -16,7 +16,6 @@ import java.util.TimerTask;
 public class ElevatorController implements IElevatorController {
     private static final int TIMER_INTERVAL = 250;
     private Timer mTimer;
-    private TimerTask mTimerTask;
     private final IElevatorWrapper mElevatorService;
     private final IMainViewModel mMainViewModel;
     private int mNumberOfElevators;
@@ -87,21 +86,21 @@ public class ElevatorController implements IElevatorController {
 
         ArrayList<Integer> disabledFloors = new ArrayList<>();
         for (int j = 0; j < mNumberOfFloors; j++) {
-            boolean is_serviced = mElevatorService.getServicesFloors(i, j);
-            if (!is_serviced) {
+            boolean isServiced = mElevatorService.getServicesFloors(i, j);
+            if (!isServiced) {
             	disabledFloors.add(j);
             }
         }
         elevators.get(i).setDisabledFloors(disabledFloors);
         
-        ArrayList<Integer> pressed_floors = new ArrayList<>();
+        ArrayList<Integer> pressedFloors = new ArrayList<>();
         for (int j = 0; j < mNumberOfFloors; j++) {
             boolean isPressed = mElevatorService.getElevatorButton(i, j);
             if (isPressed) {
-            	pressed_floors.add(j);
+            	pressedFloors.add(j);
             }
         }
-        elevators.get(i).setPressedButtons(pressed_floors);
+        elevators.get(i).setPressedButtons(pressedFloors);
 
     }
 
@@ -137,13 +136,13 @@ public class ElevatorController implements IElevatorController {
     
     public void startController() {
     	updateGUI();
-    	mTimerTask = new TimerTask() {
+    	TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> updateGUI());
             }
         };
-        mTimer.scheduleAtFixedRate(mTimerTask, 0, TIMER_INTERVAL);
+        mTimer.scheduleAtFixedRate(timerTask, 0, TIMER_INTERVAL);
     }
 
     @Override

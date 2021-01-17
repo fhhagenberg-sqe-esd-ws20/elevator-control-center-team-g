@@ -18,17 +18,17 @@ public class ElevatorViewModel extends Observable {
     int floor = 1;
     DoorState doorState = DoorState.closed;
     Direction direction = Direction.down;
-    ArrayList<Integer> disabled_floors = new ArrayList<Integer>();
-    int number_of_floors = 5;
+    List<Integer> disabledFloors = new ArrayList<>();
+    int numberOfFloors = 5;
     int payload = 10;
     int position = 1;
-    ArrayList<Integer> pressed_buttons = new ArrayList<Integer>();
+    List<Integer> pressedButtons = new ArrayList<>();
     
     IElevatorController ec;
     
     public ElevatorViewModel(int _id, int _numberOfFloors, IElevatorController _ec) {
     	id = _id;
-    	number_of_floors = _numberOfFloors;
+    	numberOfFloors = _numberOfFloors;
     	ec = _ec;
     }
     
@@ -38,11 +38,11 @@ public class ElevatorViewModel extends Observable {
     public int getFloor() { return floor; }
     public DoorState getDoorState() { return doorState; }
     public Direction getDirection() { return direction; }
-    public List<Integer> getDisabledFloors() { return disabled_floors; }
-    public int getNumberOfFloors() { return number_of_floors; }
+    public List<Integer> getDisabledFloors() { return disabledFloors; }
+    public int getNumberOfFloors() { return numberOfFloors; }
     public int getPayload() { return payload; }
     public int getPosition() { return position; }
-    public List<Integer> getPressedButtons() { return pressed_buttons; }
+    public List<Integer> getPressedButtons() { return pressedButtons; }
     
     public void setId(int _id) {
     	id = _id;
@@ -68,8 +68,8 @@ public class ElevatorViewModel extends Observable {
     	direction = _direction;
     	updateView();
     }
-    public void setDisabledFloors(ArrayList<Integer> _vec) {
-    	disabled_floors = _vec;
+    public void setDisabledFloors(List<Integer> _vec) {
+    	disabledFloors = _vec;
     	updateView();
     }
     public void setPayload(int _payload) {
@@ -80,8 +80,8 @@ public class ElevatorViewModel extends Observable {
     	position = _pos; 
     	updateView();
     }
-    public void setPressedButtons(ArrayList<Integer> _vec) {
-    	pressed_buttons = _vec;
+    public void setPressedButtons(List<Integer> _vec) {
+    	pressedButtons = _vec;
     	updateView();
     }
     
@@ -95,7 +95,7 @@ public class ElevatorViewModel extends Observable {
     }
     
     public void clickedFloor(int num) {
-    	if (modeState == ModeState.manual && !disabled_floors.contains(num)) {
+    	if (modeState == ModeState.manual && !disabledFloors.contains(num)) {
         	ec.handleElevatorPositionChange(id, num);	
     	}
     }

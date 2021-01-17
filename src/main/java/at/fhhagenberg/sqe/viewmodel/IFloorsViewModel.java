@@ -3,19 +3,20 @@ package at.fhhagenberg.sqe.viewmodel;
 import at.fhhagenberg.sqe.view.FloorsView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface IFloorsViewModel {
     public void setNumberOfFloors(int _num);
 
-    public void setFloorsUP(ArrayList<Integer> _vec);
+    public void setFloorsUP(List<Integer> _vec);
 
-    public void setFloorsDOWN(ArrayList<Integer> _vec);
+    public void setFloorsDOWN(List<Integer> _vec);
 
     public int getNumberOfFloors();
 
-    public ArrayList<Integer> getFloorsUP();
+    public List<Integer> getFloorsUP();
 
-    public ArrayList<Integer> getFloorsDOWN();
+    public List<Integer> getFloorsDOWN();
 
     public void updateView();
 
