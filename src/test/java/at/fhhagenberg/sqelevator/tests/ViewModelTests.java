@@ -2,8 +2,8 @@ package at.fhhagenberg.sqelevator.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Observer;
-import java.util.Vector;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +47,7 @@ public class ViewModelTests {
 
 	@Test
 	void testElevatorViewModelSetAndGetValues() {
-		var vec = new Vector<Integer>();
+		var vec = new ArrayList<Integer>();
 		vec.add(1);
 		vec.add(2);
 
@@ -74,7 +74,7 @@ public class ViewModelTests {
 
 	@Test
 	void testFloorsViewModelSetAndGetValues() {
-		var vec = new Vector<Integer>();
+		var vec = new ArrayList<Integer>();
 		vec.add(1);
 		vec.add(2);
 

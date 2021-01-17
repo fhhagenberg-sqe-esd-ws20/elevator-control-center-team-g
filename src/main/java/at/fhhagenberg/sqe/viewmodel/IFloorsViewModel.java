@@ -2,21 +2,21 @@ package at.fhhagenberg.sqe.viewmodel;
 
 import at.fhhagenberg.sqe.view.FloorsView;
 
+import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Vector;
 
 public interface IFloorsViewModel {
     public void setNumberOfFloors(int _num);
 
-    public void setFloorsUP(Vector<Integer> _vec);
+    public void setFloorsUP(ArrayList<Integer> _vec);
 
-    public void setFloorsDOWN(Vector<Integer> _vec);
+    public void setFloorsDOWN(ArrayList<Integer> _vec);
 
     public int getNumberOfFloors();
 
-    public Vector<Integer> getFloorsUP();
+    public ArrayList<Integer> getFloorsUP();
 
-    public Vector<Integer> getFloorsDOWN();
+    public ArrayList<Integer> getFloorsDOWN();
 
     public void updateView();
 
