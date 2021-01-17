@@ -26,7 +26,9 @@ public class ElevatorControlCenter extends Application {
 			new MainView(mainViewModel, stage);     
 			elevatorController.startController();     
     	}
-    	catch (Exception e){ } 
+    	catch (Exception e) {
+    		return;
+    	} 
     }
 
     public static void main(String[] args) {
