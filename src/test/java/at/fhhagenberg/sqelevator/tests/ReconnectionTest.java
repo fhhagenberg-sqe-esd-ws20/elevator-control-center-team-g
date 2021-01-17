@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import static org.mockito.Mockito.never;
 
 import at.fhhagenberg.sqe.controller.ElevatorController;
 import at.fhhagenberg.sqe.view.MainView;
@@ -67,13 +68,12 @@ public class ReconnectionTest {
 		Mockito.when(mvvm.getFloorsModel()).thenReturn(fmod);
 		Mockito.when(ew.getFloorNum()).thenReturn(5);
 		Mockito.when(ew.getElevatorNum()).thenReturn(3);
-        Mockito.when(ew.getElevatorNum()).thenThrow(RemoteException.class);
+        Mockito.when(ew.getElevatorSpeed(0)).thenThrow(RemoteException.class);
         
         ElevatorController ec = new ElevatorController(ew, mvvm);
         
-        ec.startTimer();
-        
-        Thread.sleep(200);
+        ec.startController();
+     
         
         Mockito.verify(ew).reconnect();
 	}

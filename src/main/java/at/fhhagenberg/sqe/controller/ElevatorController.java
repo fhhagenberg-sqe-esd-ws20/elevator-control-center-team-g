@@ -17,6 +17,7 @@ import java.util.Vector;
 public class ElevatorController implements IElevatorController {
     private static final int TIMER_INTERVAL = 100;
     private Timer m_timer;
+    private TimerTask m_timer_task;
     private final IElevatorWrapper m_elevator_service;
     private final IMainViewModel m_main_view_model;
     private int m_number_of_elevators;
@@ -128,18 +129,22 @@ public class ElevatorController implements IElevatorController {
                 m_main_view_model.getFloorsModel().setFloorsUP(ups);
             }
             m_main_view_model.setConnectionState(true);
-        } catch (Exception e) {
+        } catch (RemoteException e) {
         	tryReconnect();
+        } catch (Exception e) {
+        	System.out.println("Fatal unknown Error in Elevator Controller");
         }
     }
     
-    public void startTimer() {
-        m_timer.scheduleAtFixedRate(new TimerTask() {
+    public void startController() {
+    	updateGUI();
+    	m_timer_task = new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> updateGUI());
             }
-        }, 0, TIMER_INTERVAL);
+        };
+        m_timer.scheduleAtFixedRate(m_timer_task, 0, TIMER_INTERVAL);
     }
 
     @Override
@@ -154,7 +159,8 @@ public class ElevatorController implements IElevatorController {
     
     private void tryReconnect() {
         try {
-        	m_timer.cancel();
+        	//m_timer.cancel();
+        	m_timer.purge();
         	m_main_view_model.setConnectionState(false);
 			m_elevator_service.reconnect();
 		} catch (Exception e1) {

@@ -38,7 +38,7 @@ public class AutomatedGuiTest {
     	main_ui = new MainView(main_view_model, stage);    
 
         elevator_service.setServicesFloors(0, 3, false);
-    	elevator_controller.startTimer();     	 	
+    	elevator_controller.startController();     	 	
 	}
 
 	@Test

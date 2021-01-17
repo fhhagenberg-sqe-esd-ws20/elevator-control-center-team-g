@@ -28,7 +28,7 @@ public class ElevatorControlCenter extends Application {
 			var elevator_service = new ElevatorWrapper(elevator);  
 			var elevator_controller = new ElevatorController(elevator_service, main_view_model);
 			var main_ui = new MainView(main_view_model, stage);     
-			elevator_controller.startTimer();     
+			elevator_controller.startController();     
     	}
     	catch (Exception e){
 			System.out.println("ElevatorControlCenter: Exception during Startup " + e.getMessage());
