@@ -40,16 +40,16 @@ public class ReconnectionGUITest {
 
 	@Start
 	public void start(Stage stage) throws Exception {
-		Mockito.when(elevator_service.getFloorNum()).thenReturn(5);
-		Mockito.when(elevator_service.getElevatorNum()).thenReturn(3);
-        Mockito.when(elevator_service.getElevatorNum()).thenThrow(RemoteException.class);
+		Mockito.when(elevator_service.getFloorNumWrapped()).thenReturn(5);
+		Mockito.when(elevator_service.getElevatorNumWrapped()).thenReturn(3);
+        Mockito.when(elevator_service.getElevatorNumWrapped()).thenThrow(RemoteException.class);
         
     	floors_view_model = new FloorsViewModel();
     	main_view_model = new MainViewModel(floors_view_model);
     	elevator_controller = new ElevatorController(elevator_service, main_view_model);
     	main_ui = new MainView(main_view_model, stage);    
 
-        elevator_service.setServicesFloors(0, 3, false);    	 	
+        elevator_service.setServicesFloorsWrapped(0, 3, false);    	 	
 	}
 	
 	@Test
