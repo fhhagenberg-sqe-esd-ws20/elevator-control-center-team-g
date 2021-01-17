@@ -21,8 +21,8 @@ public class ElevatorController implements IElevatorController {
     private int mNumberOfElevators;
     private int mNumberOfFloors;
 
-    public ElevatorController(IElevatorWrapper elevator_service, IMainViewModel model) {
-        mElevatorService = elevator_service;
+    public ElevatorController(IElevatorWrapper elevatorService, IMainViewModel model) {
+        mElevatorService = elevatorService;
         mMainViewModel = model;
         mMainViewModel.setConnectionState(true);
         mTimer = new Timer();
@@ -33,7 +33,7 @@ public class ElevatorController implements IElevatorController {
 
     private void initFloors() {
         try {
-            mNumberOfFloors = mElevatorService.getFloorNum();
+            mNumberOfFloors = mElevatorService.getFloorNumWrapped();
         } catch (RemoteException e) {
         	tryReconnect();
         }
@@ -43,7 +43,7 @@ public class ElevatorController implements IElevatorController {
 
     private void initElevators() {
         try {
-            mNumberOfElevators = mElevatorService.getElevatorNum();
+            mNumberOfElevators = mElevatorService.getElevatorNumWrapped();
         } catch (RemoteException e) {
         	tryReconnect();
         }
@@ -56,37 +56,37 @@ public class ElevatorController implements IElevatorController {
 
     private void subhandlerGUI(int i, ArrayList<ElevatorViewModel> elevators) throws Exception {
 
-        int speed = mElevatorService.getElevatorSpeed(i);
+        int speed = mElevatorService.getElevatorSpeedWrapped(i);
         elevators.get(i).setSpeed(speed);
 
-        int floor = mElevatorService.getElevatorFloor(i);
+        int floor = mElevatorService.getElevatorFloorWrapped(i);
         elevators.get(i).setFloor(floor);
 
-        int weight = mElevatorService.getElevatorWeight(i);
+        int weight = mElevatorService.getElevatorWeightWrapped(i);
         elevators.get(i).setPayload(weight);
 
-        int pos = mElevatorService.getElevatorPosition(i);
+        int pos = mElevatorService.getElevatorPositionWrapped(i);
         elevators.get(i).setPosition(pos);
 
-        int state = mElevatorService.getElevatorDoorStatus(i);
+        int state = mElevatorService.getElevatorDoorStatusWrapped(i);
         if (state == IElevator.ELEVATOR_DOORS_OPEN) {
-            elevators.get(i).setDoorState(DoorState.open);
+            elevators.get(i).setDoorState(DoorState.OPEN);
         } else if (state == IElevator.ELEVATOR_DOORS_CLOSED) {
-            elevators.get(i).setDoorState(DoorState.closed);
+            elevators.get(i).setDoorState(DoorState.CLOSED);
         }
 
-        int dir = mElevatorService.getCommittedDirection(i);
+        int dir = mElevatorService.getCommittedDirectionWrapped(i);
         if (dir == IElevator.ELEVATOR_DIRECTION_UP) {
-            elevators.get(i).setDirection(Direction.up);
+            elevators.get(i).setDirection(Direction.UP);
         } else if (dir == IElevator.ELEVATOR_DIRECTION_DOWN) {
-            elevators.get(i).setDirection(Direction.down);
+            elevators.get(i).setDirection(Direction.DOWN);
         } else {
-        	elevators.get(i).setDirection(Direction.uncommited);
+        	elevators.get(i).setDirection(Direction.UNCOMMITED);
         }
 
         ArrayList<Integer> disabledFloors = new ArrayList<>();
         for (int j = 0; j < mNumberOfFloors; j++) {
-            boolean isServiced = mElevatorService.getServicesFloors(i, j);
+            boolean isServiced = mElevatorService.getServicesFloorsWrapped(i, j);
             if (!isServiced) {
             	disabledFloors.add(j);
             }
@@ -95,7 +95,7 @@ public class ElevatorController implements IElevatorController {
         
         ArrayList<Integer> pressedFloors = new ArrayList<>();
         for (int j = 0; j < mNumberOfFloors; j++) {
-            boolean isPressed = mElevatorService.getElevatorButton(i, j);
+            boolean isPressed = mElevatorService.getElevatorButtonWrapped(i, j);
             if (isPressed) {
             	pressedFloors.add(j);
             }
@@ -115,10 +115,10 @@ public class ElevatorController implements IElevatorController {
             ArrayList<Integer> ups = new ArrayList<>();
             ArrayList<Integer> downs = new ArrayList<>();
             for (int i = 0; i < mNumberOfFloors; i++) {
-                if (mElevatorService.getFloorButtonDown(i)) {
+                if (mElevatorService.getFloorButtonDownWrapped(i)) {
                     downs.add(i);
                 }
-                if (mElevatorService.getFloorButtonUp(i)) {
+                if (mElevatorService.getFloorButtonUpWrapped(i)) {
                     ups.add(i);
                 }
             }
@@ -146,10 +146,10 @@ public class ElevatorController implements IElevatorController {
     }
 
     @Override
-    public void handleElevatorPositionChange(int elevator_number, int floor_number) {
-        System.out.println("Elevator " + elevator_number + " drives to floor " + floor_number);
+    public void handleElevatorPositionChange(int elevatorNumber, int floorNumber) {
+        System.out.println("Elevator " + elevatorNumber + " drives to floor " + floorNumber);
         try {
-            mElevatorService.setTarget(elevator_number, floor_number);
+            mElevatorService.setTargetWrapped(elevatorNumber, floorNumber);
         } catch (Exception e) {
         	tryReconnect();
         }

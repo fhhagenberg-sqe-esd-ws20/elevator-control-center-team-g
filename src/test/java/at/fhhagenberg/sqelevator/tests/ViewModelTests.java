@@ -53,20 +53,20 @@ public class ViewModelTests {
 
 		evm.setId(0);
 		evm.setSpeed(12);
-		evm.setModeState(ModeState.automatic);
+		evm.setModeState(ModeState.AUTOMATIC);
 		evm.setFloor(4);
-		evm.setDoorState(DoorState.closed);
-		evm.setDirection(Direction.up);
+		evm.setDoorState(DoorState.CLOSED);
+		evm.setDirection(Direction.UP);
 		evm.setDisabledFloors(vec);
 		evm.setPayload(135);
 		evm.setPosition(7);
 
 		assertEquals(0, evm.getId());
 		assertEquals(12, evm.getSpeed());
-		assertEquals(ModeState.automatic, evm.getModeState());
+		assertEquals(ModeState.AUTOMATIC, evm.getModeState());
 		assertEquals(4, evm.getFloor());
-		assertEquals(DoorState.closed, evm.getDoorState());
-		assertEquals(Direction.up, evm.getDirection());
+		assertEquals(DoorState.CLOSED, evm.getDoorState());
+		assertEquals(Direction.UP, evm.getDirection());
 		assertEquals(vec, evm.getDisabledFloors());
 		assertEquals(135, evm.getPayload());
 		assertEquals(7, evm.getPosition());
@@ -89,15 +89,15 @@ public class ViewModelTests {
 
 	@Test
 	void testElevatorViewModelChangeMode() {
-		evm.setModeState(ModeState.automatic);
+		evm.setModeState(ModeState.AUTOMATIC);
 
 		evm.changeMode();
 
-		assertEquals(ModeState.manual, evm.getModeState());
+		assertEquals(ModeState.MANUAL, evm.getModeState());
 
 		evm.changeMode();
 
-		assertEquals(ModeState.automatic, evm.getModeState());
+		assertEquals(ModeState.AUTOMATIC, evm.getModeState());
 	}
 	@Test
 	void testMainViewModelGetAndSet() {

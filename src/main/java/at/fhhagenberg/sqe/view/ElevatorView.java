@@ -16,25 +16,25 @@ public class ElevatorView extends GridPane implements Observer{
 
 	private ElevatorViewModel model;
 	
-	private String ID_prefix;
+	private String IDPREFIX;
 	
-	private Label lbl_title = new Label("Elevator");
-	private Label lbl_direction = new Label("Direction:");
-	private Label lbl_speed = new Label("Speed:");
-	private Label lbl_floor = new Label("Current Floor:");
-	private Label lbl_door = new Label("Door Status:");
-	private Label lbl_payload = new Label("Payload:");
-	private Label lbl_position = new Label("Position:");
-	private Label lbl_mode = new Label("Manual Mode");
+	private Label lblTitle = new Label("Elevator");
+	private Label lblDirection = new Label("Direction:");
+	private Label lblSpeed = new Label("Speed:");
+	private Label lblFloor = new Label("Current Floor:");
+	private Label lblDoor = new Label("Door Status:");
+	private Label lblPayload = new Label("Payload:");
+	private Label lblPosition = new Label("Position:");
+	private Label lblMode = new Label("Manual Mode");
 	private Button switchbtn_mode = new Button();
-	
-	private int set_target = -1;
+	private final String strButton = "Button";
+	private int setTarget = -1;
     
 	GridPane pane = new GridPane();
 
     ElevatorView(ElevatorViewModel _model) {
     	model = _model;
-        ID_prefix = Integer.toString(model.getId());
+        IDPREFIX = Integer.toString(model.getId());
         model.addObserver(this);
         buildUI();
     }
@@ -51,7 +51,7 @@ public class ElevatorView extends GridPane implements Observer{
         int pos = 0;
         for (int i = model.getNumberOfFloors() -1; i >= 0; i--) {
             var elevatorButton = new Button(String.valueOf(i));
-            elevatorButton.setId("#" + ID_prefix + "Button" + Integer.toString(i));
+            elevatorButton.setId("#" + IDPREFIX + strButton + Integer.toString(i));
             if (model.getDisabledFloors().contains(i)) {
                 elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #726f68; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0");
             } else {
@@ -62,8 +62,8 @@ public class ElevatorView extends GridPane implements Observer{
             	@Override
         	    public void handle(ActionEvent event) {
         	        model.clickedFloor(index);
-        	        Button elevatorButton = (Button) pane.lookup("##" + ID_prefix + "Button" + Integer.toString(index));
-        	        set_target = index;
+        	        Button elevatorButton = (Button) pane.lookup("##" + IDPREFIX + strButton + Integer.toString(index));
+        	        setTarget = index;
         	        event.consume();
         	    }
             });
@@ -75,17 +75,17 @@ public class ElevatorView extends GridPane implements Observer{
     }
 
     private void buildUI() {
-        lbl_title.setId("#" + ID_prefix + "ElevatorHeader");
-        lbl_title.setFont(new Font(20));
-        lbl_direction.setId("#" + ID_prefix + "DirectionLabel");
-        lbl_speed.setId("#" + ID_prefix + "SpeedLabel");
-        lbl_floor.setId("#" + ID_prefix + "FloorLabel");
-        lbl_door.setId("#" + ID_prefix + "DoorLabel");
-        lbl_mode.setId("#" + ID_prefix + "ManualLabel");
-        lbl_payload.setId("#" + ID_prefix + "PayloadLabel");
-        lbl_position.setId("#" + ID_prefix + "PositionLabel");
+        lblTitle.setId("#" + IDPREFIX + "ElevatorHeader");
+        lblTitle.setFont(new Font(20));
+        lblDirection.setId("#" + IDPREFIX + "DirectionLabel");
+        lblSpeed.setId("#" + IDPREFIX + "SpeedLabel");
+        lblFloor.setId("#" + IDPREFIX + "FloorLabel");
+        lblDoor.setId("#" + IDPREFIX + "DoorLabel");
+        lblMode.setId("#" + IDPREFIX + "ManualLabel");
+        lblPayload.setId("#" + IDPREFIX + "PayloadLabel");
+        lblPosition.setId("#" + IDPREFIX + "PositionLabel");
         
-        switchbtn_mode.setId("#" + ID_prefix + "ChangeButton");
+        switchbtn_mode.setId("#" + IDPREFIX + "ChangeButton");
         switchbtn_mode.setText("Change Mode");
         switchbtn_mode.addEventHandler(ActionEvent.ACTION, changeModeHandler);
 
@@ -95,21 +95,21 @@ public class ElevatorView extends GridPane implements Observer{
         var panel = new GridPane();
 
         var gridPane = new GridPane();
-        topPanel.add(lbl_title, 0, 0);
-        topPanel.add(lbl_speed, 0, 2);
-        topPanel.add(lbl_direction, 0, 1);
-        midPanel.add(lbl_floor, 0, 0);
-        midPanel.add(lbl_door, 0, 1);
-        midPanel.add(lbl_position, 0, 2);
+        topPanel.add(lblTitle, 0, 0);
+        topPanel.add(lblSpeed, 0, 2);
+        topPanel.add(lblDirection, 0, 1);
+        midPanel.add(lblFloor, 0, 0);
+        midPanel.add(lblDoor, 0, 1);
+        midPanel.add(lblPosition, 0, 2);
         midPanel.add(drawButtons(), 0, 3);
 
         var payload_grid = new GridPane();
-        payload_grid.add(lbl_payload, 0, 0);
+        payload_grid.add(lblPayload, 0, 0);
         bottomPanel.add(payload_grid, 0, 0);
         
         gridPane.add(switchbtn_mode, 0, 0);
         topPanel.add(gridPane, 1, 3);
-        topPanel.add(lbl_mode, 0, 3);
+        topPanel.add(lblMode, 0, 3);
 
         setHgap(100);
         setVgap(100);
@@ -126,40 +126,40 @@ public class ElevatorView extends GridPane implements Observer{
     
     @Override
     public void update(Observable o, Object arg) {
-    	lbl_title.setText("Elevator " + Integer.toString(model.getId()));
+    	lblTitle.setText("Elevator " + Integer.toString(model.getId()));
     	
-    	if(model.getDirection() == Direction.up) 
-    		lbl_direction.setText("Direction: UP");
-    	else if(model.getDirection() == Direction.down)
-    		lbl_direction.setText("Direction: DOWN");
+    	if(model.getDirection() == Direction.UP) 
+    		lblDirection.setText("Direction: UP");
+    	else if(model.getDirection() == Direction.DOWN)
+    		lblDirection.setText("Direction: DOWN");
     	else
-    		lbl_direction.setText("Direction: UNCOMMITED");
+    		lblDirection.setText("Direction: UNCOMMITED");
     	
-    	lbl_speed.setText("Speed: " + Integer.toString(model.getSpeed()));
+    	lblSpeed.setText("Speed: " + Integer.toString(model.getSpeed()));
     	
-    	lbl_floor.setText("Current Floor: " + Integer.toString(model.getFloor()));
+    	lblFloor.setText("Current Floor: " + Integer.toString(model.getFloor()));
     	
-    	if(model.getDoorState() == DoorState.open) 
-    		lbl_door.setText("Door Status: " + "OPEN");
+    	if(model.getDoorState() == DoorState.OPEN) 
+    		lblDoor.setText("Door Status: " + "OPEN");
     	else
-    		lbl_door.setText("Door Status: " + "CLOSED");
+    		lblDoor.setText("Door Status: " + "CLOSED");
     	
-    	lbl_payload.setText("Payload: " + Integer.toString(model.getPayload()) + " kg");
+    	lblPayload.setText("Payload: " + Integer.toString(model.getPayload()) + " kg");
     	
-    	if(model.getModeState() == ModeState.automatic) 
-    		lbl_mode.setText("Mode: AUTO");
+    	if(model.getModeState() == ModeState.AUTOMATIC) 
+    		lblMode.setText("Mode: AUTO");
     	else
-    		lbl_mode.setText("Mode: MANU");
+    		lblMode.setText("Mode: MANU");
     	
     	for (int i = model.getNumberOfFloors() -1; i >= 0; i--) {
     		
-            Button elevatorButton = (Button) pane.lookup("##" + ID_prefix + "Button" + Integer.toString(i));
+            Button elevatorButton = (Button) pane.lookup("##" + IDPREFIX + strButton + Integer.toString(i));
             
             if (model.getDisabledFloors().contains(i)) {
                 elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #726f68; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0;");
             } else if(i == model.getFloor()) {
             	elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #ffa500; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0;");
-            } else if(i == set_target) {
+            } else if(i == setTarget) {
                 elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #8F91EF; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0;");
             } else if (model.getPressedButtons().contains(i)) {
                 elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #FF0000; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0;");
@@ -168,9 +168,9 @@ public class ElevatorView extends GridPane implements Observer{
             }
         }
     	
-    	if(set_target == model.getFloor())
-    		set_target = -1;
+    	if(setTarget == model.getFloor())
+    		setTarget = -1;
     	
-    	lbl_position.setText("Position: " + model.getPosition() + " feet");
+    	lblPosition.setText("Position: " + model.getPosition() + " feet");
     }
 }

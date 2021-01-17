@@ -46,7 +46,7 @@ public class ReconnectionTest {
 	@Test
     void testReconnectOnExceptionFloorNum() throws Exception {
 		Mockito.when(mvvm.getFloorsModel()).thenReturn(fmod);
-        Mockito.when(ew.getFloorNum()).thenThrow(RemoteException.class);
+        Mockito.when(ew.getFloorNumWrapped()).thenThrow(RemoteException.class);
         
         ElevatorController ec = new ElevatorController(ew, mvvm);
         
@@ -56,7 +56,7 @@ public class ReconnectionTest {
 	@Test
     void testReconnectOnExceptionElevatorNum() throws Exception {
 		Mockito.when(mvvm.getFloorsModel()).thenReturn(fmod);
-        Mockito.when(ew.getElevatorNum()).thenThrow(RemoteException.class);
+        Mockito.when(ew.getElevatorNumWrapped()).thenThrow(RemoteException.class);
         
         ElevatorController ec = new ElevatorController(ew, mvvm);
         
@@ -66,9 +66,9 @@ public class ReconnectionTest {
 	@Test
     void testReconnectOnException() throws Exception {
 		Mockito.when(mvvm.getFloorsModel()).thenReturn(fmod);
-		Mockito.when(ew.getFloorNum()).thenReturn(5);
-		Mockito.when(ew.getElevatorNum()).thenReturn(3);
-        Mockito.when(ew.getElevatorSpeed(0)).thenThrow(RemoteException.class);
+		Mockito.when(ew.getFloorNumWrapped()).thenReturn(5);
+		Mockito.when(ew.getElevatorNumWrapped()).thenReturn(3);
+        Mockito.when(ew.getElevatorSpeedWrapped(0)).thenThrow(RemoteException.class);
         
         ElevatorController ec = new ElevatorController(ew, mvvm);        
         ec.startController();    
