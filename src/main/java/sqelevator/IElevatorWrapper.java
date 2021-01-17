@@ -1,8 +1,10 @@
 package sqelevator;
 
+import at.fhhagenberg.sqe.connection.ConnectionException;
+
 public interface IElevatorWrapper {
 	
-    public void reconnect() throws Exception;
+    public void reconnect() throws ConnectionException;
     /**
      * Retrieves the committed direction of the specified elevator (up / down / uncommitted).
      *

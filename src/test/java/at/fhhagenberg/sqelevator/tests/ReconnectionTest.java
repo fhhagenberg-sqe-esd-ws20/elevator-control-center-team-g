@@ -70,10 +70,8 @@ public class ReconnectionTest {
 		Mockito.when(ew.getElevatorNum()).thenReturn(3);
         Mockito.when(ew.getElevatorSpeed(0)).thenThrow(RemoteException.class);
         
-        ElevatorController ec = new ElevatorController(ew, mvvm);
-        
-        ec.startController();
-     
+        ElevatorController ec = new ElevatorController(ew, mvvm);        
+        ec.startController();    
         
         Mockito.verify(ew).reconnect();
 	}

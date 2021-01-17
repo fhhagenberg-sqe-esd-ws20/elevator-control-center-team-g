@@ -19,7 +19,7 @@ public class ElevatorWrapper implements IElevatorWrapper {
     }      
     
     @Override
-    public void reconnect() throws Exception {
+    public void reconnect() throws ConnectionException {
     	boolean connected = false;
     	String exception_message = "";
     	
