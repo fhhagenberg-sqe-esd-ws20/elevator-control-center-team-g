@@ -39,7 +39,7 @@ public class EndToEndTest {
     	elevator_controller = new ElevatorController(elevator_service, main_view_model);
     	main_ui = new MainView(main_view_model, stage);   
 
-    	elevator_controller.startTimer();     	 	
+    	elevator_controller.startController();     	 	
 	}
 	
 	@Test

@@ -161,6 +161,8 @@ public class ElevatorView extends GridPane implements Observer{
             	elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #ffa500; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0;");
             } else if(i == set_target) {
                 elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #8F91EF; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0;");
+            } else if (model.getPressedButtons().contains(i)) {
+                elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #FF0000; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0;");
             } else {
                 elevatorButton.setStyle("-fx-border-width: 0; -fx-background-color: #ffc72b; -fx-stroke-width: 1; -fx-pref-width: 200; -fx-background-radius: 0;");
             }

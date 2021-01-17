@@ -38,7 +38,7 @@ public class AutomatedGuiTest {
     	main_ui = new MainView(main_view_model, stage);    
 
         elevator_service.setServicesFloors(0, 3, false);
-    	elevator_controller.startTimer();     	 	
+    	elevator_controller.startController();     	 	
 	}
 
 	@Test
@@ -121,6 +121,25 @@ public class AutomatedGuiTest {
 		wait(robot);
 		verifyThat("##0ManualLabel", hasText("Mode: AUTO"));
 	}	
+	
+	@Test
+	public void testConnectionError(FxRobot robot) {
+		// Put elevator 0 into manual mode
+		robot.clickOn("##0ChangeButton");
+		wait(robot);
+		verifyThat("##0ManualLabel", hasText("Mode: MANU"));
+		
+		// Navigate elevator 0 to disabled floor
+		robot.clickOn("##0Button3");
+		wait(robot);
+		verifyThat("##0PositionLabel", hasText("Position: 0 feet"));
+		verifyThat("##0FloorLabel", hasText("Current Floor: 0"));	
+		
+		// Put elevator 0 into automatic mode
+		robot.clickOn("##0ChangeButton");
+		wait(robot);
+		verifyThat("##0ManualLabel", hasText("Mode: AUTO"));
+	}
 
 	private void wait(FxRobot robot) {
 		robot.sleep(250); 
