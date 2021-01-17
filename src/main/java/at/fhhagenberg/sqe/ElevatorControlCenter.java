@@ -31,8 +31,8 @@ public class ElevatorControlCenter extends Application {
         mainViewModel.setController(elevatorController);
         new MainView(mainViewModel, stage);   
     	}
-    	catch (Exception e){
-			System.out.println("ElevatorControlCenter: Exception during Startup " + e.getMessage());
+    	catch (Exception e) {
+    		return;
     	} 
     }
 
