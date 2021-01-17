@@ -13,7 +13,7 @@ import sqelevator.IElevatorWrapper;
 import java.rmi.RemoteException;
 
 @ExtendWith(MockitoExtension.class)
-public class ElevatorControllerMockTests {
+class ElevatorControllerMockTests {
 
     @Mock
     IMainViewModel mvvm;

@@ -5,34 +5,34 @@ import java.util.Observable;
 
 public class MainViewModel extends Observable implements IMainViewModel {
 
-	Boolean connection_state = false;
+	Boolean mConnectionState = false;
 	
-	ArrayList<ElevatorViewModel> elevators = new ArrayList<ElevatorViewModel>();
-	IFloorsViewModel floorsViewModel;
+	ArrayList<ElevatorViewModel> mElevators = new ArrayList<>();
+	IFloorsViewModel mFloorsViewModel;
 	
-	public MainViewModel(FloorsViewModel _floorsViewModel) {
-		floorsViewModel = _floorsViewModel;
+	public MainViewModel(FloorsViewModel floorsViewModel) {
+		mFloorsViewModel = floorsViewModel;
 	}
 	
 	public void addElevatorModel(ElevatorViewModel em) {
-		elevators.add(em);
+		mElevators.add(em);
 	}
 	
 	public ArrayList<ElevatorViewModel> getElevatorModels() {
-		return elevators;
+		return mElevators;
 	}
 	
 	public IFloorsViewModel getFloorsModel() {
-		return floorsViewModel;
+		return mFloorsViewModel;
 	}
 	
 	public void setConnectionState(Boolean s) {
-		connection_state = s;
+		mConnectionState = s;
 		updateView();
 	}
 	
 	public Boolean getConnectionState() {
-		return connection_state;
+		return mConnectionState;
 	}
 	
 	private void updateView() {

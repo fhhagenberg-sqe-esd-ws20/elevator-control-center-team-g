@@ -27,7 +27,7 @@ import sqelevator.IElevatorWrapper;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(ApplicationExtension.class)
-public class ReconnectionGUITest {
+class ReconnectionGUITest {
 	
 	private FloorsViewModel floors_view_model;
 	private MainViewModel main_view_model;

@@ -21,7 +21,7 @@ import at.fhhagenberg.sqe.controller.ElevatorController;
 import at.fhhagenberg.sqe.view.MainView;
 
 @ExtendWith(ApplicationExtension.class)
-public class EndToEndTest {
+class EndToEndTest {
 	
 	private FloorsViewModel floors_view_model;
 	private MainViewModel main_view_model;

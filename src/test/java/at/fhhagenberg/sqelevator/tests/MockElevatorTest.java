@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Assertions;
 
 import java.rmi.RemoteException;
 
-public class MockElevatorTest {
+class MockElevatorTest {
     private MockElevator mocked;
 
     private final static Integer floors = 3;
@@ -32,12 +32,12 @@ public class MockElevatorTest {
     }
 
     @Test
-    public void testGetFloorHeight() throws Exception {
+    void testGetFloorHeight() throws Exception {
         Assertions.assertEquals(floor_height, mocked.getFloorHeightWrapped());
     }
 
     @Test
-    public void testGetClockTick() throws Exception {
+    void testGetClockTick() throws Exception {
         Assertions.assertEquals(MockElevatorConstants.CLOCK_TICK, mocked.getClockTickWrapped());
     }
 

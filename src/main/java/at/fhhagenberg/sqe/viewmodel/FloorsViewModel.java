@@ -8,42 +8,42 @@ import java.util.Observable;
 
 public class FloorsViewModel  extends Observable implements IFloorsViewModel{
 
-	int number_of_floors = 0;
+	int mNumberOfFloors = 0;	
+	List<Integer> mFloorsUp = new ArrayList<>();
+	List<Integer> mFloorsDown = new ArrayList<>();
 	
-	List<Integer> floorsUp = new ArrayList<>();
-	List<Integer> floorsDown = new ArrayList<>();
-	
-	public void setNumberOfFloors(int _num) {
-		number_of_floors = _num;
+	public void setNumberOfFloors(int num) {
+		mNumberOfFloors = num;
 		updateView();
 	}
 	
 	public void setFloorsUP(List<Integer> vec) {
-		floorsUp = vec;
+		mFloorsUp = vec;
     	updateView();
     }
 	
 	public void setFloorsDOWN(List<Integer> vec) {
-		floorsDown = vec;
+		mFloorsDown = vec;
     	updateView();
     }
 	
 	public int getNumberOfFloors() {
-		return number_of_floors;
+		return mNumberOfFloors;
 	}
 	
 	public List<Integer> getFloorsUP() {
-		return floorsUp;
+		return mFloorsUp;
     }
 	
 	public List<Integer> getFloorsDOWN() {
-		return floorsDown;
+		return mFloorsDown;
     }
 	
 	public void updateView() {
     	setChanged();
     	notifyObservers();
     }
+	
     @Override
     public void addObserver(FloorsView floorsView){
 		super.addObserver(floorsView);
