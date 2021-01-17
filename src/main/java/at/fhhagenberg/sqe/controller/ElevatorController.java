@@ -101,13 +101,13 @@ public class ElevatorController implements IElevatorController {
             }
         }
         elevators.get(i).setPressedButtons(pressedFloors);
-
     }
 
     private void updateGUI() {
         try {
             ArrayList<ElevatorViewModel> elevators = mMainViewModel.getElevatorModels();
-
+            long clockTickStart = mElevatorService.getClockTickWrapped();
+            
             for (int i = 0; i < mNumberOfElevators; i++) {
                 subhandlerGUI(i, elevators);
             }
@@ -126,6 +126,12 @@ public class ElevatorController implements IElevatorController {
                 mMainViewModel.getFloorsModel().setFloorsDOWN(downs);
                 mMainViewModel.getFloorsModel().setFloorsUP(ups);
             }
+            
+            long clockTickEnd = mElevatorService.getClockTickWrapped();
+            long diff = clockTickStart - clockTickEnd;
+			if (diff != 0) {
+				throw new RuntimeException("Runtime Exception: updateGUI: Clock tick mismatch.");
+			}
             mMainViewModel.setConnectionState(true);
         } catch (RemoteException e) {
         	tryReconnect();
