@@ -15,18 +15,18 @@ import java.util.TimerTask;
 
 public class ElevatorController implements IElevatorController {
     private static final int TIMER_INTERVAL = 250;
-    private Timer m_timer;
-    private TimerTask m_timerTask;
-    private final IElevatorWrapper m_elevatorService;
-    private final IMainViewModel m_mainViewModel;
-    private int m_numberOfElevators;
-    private int m_numberOfFloors;
+    private Timer mTimer;
+    private TimerTask mTimerTask;
+    private final IElevatorWrapper mElevatorService;
+    private final IMainViewModel mMainViewModel;
+    private int mNumberOfElevators;
+    private int mNumberOfFloors;
 
     public ElevatorController(IElevatorWrapper elevator_service, IMainViewModel model) {
-        m_elevatorService = elevator_service;
-        m_mainViewModel = model;
-        m_mainViewModel.setConnectionState(true);
-        m_timer = new Timer();
+        mElevatorService = elevator_service;
+        mMainViewModel = model;
+        mMainViewModel.setConnectionState(true);
+        mTimer = new Timer();
 
         initFloors();
         initElevators();
@@ -34,49 +34,49 @@ public class ElevatorController implements IElevatorController {
 
     private void initFloors() {
         try {
-            m_numberOfFloors = m_elevatorService.getFloorNum();
+            mNumberOfFloors = mElevatorService.getFloorNum();
         } catch (RemoteException e) {
         	tryReconnect();
         }
 
-        m_mainViewModel.getFloorsModel().setNumberOfFloors(m_numberOfFloors);
+        mMainViewModel.getFloorsModel().setNumberOfFloors(mNumberOfFloors);
     }
 
     private void initElevators() {
         try {
-            m_numberOfElevators = m_elevatorService.getElevatorNum();
+            mNumberOfElevators = mElevatorService.getElevatorNum();
         } catch (RemoteException e) {
         	tryReconnect();
         }
 
 
-        for (int i = 0; i < m_numberOfElevators; i++) {
-            m_mainViewModel.addElevatorModel(new ElevatorViewModel(i, m_numberOfFloors, this));
+        for (int i = 0; i < mNumberOfElevators; i++) {
+            mMainViewModel.addElevatorModel(new ElevatorViewModel(i, mNumberOfFloors, this));
         }
     }
 
     private void subhandlerGUI(int i, ArrayList<ElevatorViewModel> elevators) throws Exception {
 
-        int speed = m_elevatorService.getElevatorSpeed(i);
+        int speed = mElevatorService.getElevatorSpeed(i);
         elevators.get(i).setSpeed(speed);
 
-        int floor = m_elevatorService.getElevatorFloor(i);
+        int floor = mElevatorService.getElevatorFloor(i);
         elevators.get(i).setFloor(floor);
 
-        int weight = m_elevatorService.getElevatorWeight(i);
+        int weight = mElevatorService.getElevatorWeight(i);
         elevators.get(i).setPayload(weight);
 
-        int pos = m_elevatorService.getElevatorPosition(i);
+        int pos = mElevatorService.getElevatorPosition(i);
         elevators.get(i).setPosition(pos);
 
-        int state = m_elevatorService.getElevatorDoorStatus(i);
+        int state = mElevatorService.getElevatorDoorStatus(i);
         if (state == IElevator.ELEVATOR_DOORS_OPEN) {
             elevators.get(i).setDoorState(DoorState.open);
         } else if (state == IElevator.ELEVATOR_DOORS_CLOSED) {
             elevators.get(i).setDoorState(DoorState.closed);
         }
 
-        int dir = m_elevatorService.getCommittedDirection(i);
+        int dir = mElevatorService.getCommittedDirection(i);
         if (dir == IElevator.ELEVATOR_DIRECTION_UP) {
             elevators.get(i).setDirection(Direction.up);
         } else if (dir == IElevator.ELEVATOR_DIRECTION_DOWN) {
@@ -85,18 +85,18 @@ public class ElevatorController implements IElevatorController {
         	elevators.get(i).setDirection(Direction.uncommited);
         }
 
-        ArrayList<Integer> disabled_floors = new ArrayList<Integer>();
-        for (int j = 0; j < m_numberOfFloors; j++) {
-            boolean is_serviced = m_elevatorService.getServicesFloors(i, j);
+        ArrayList<Integer> disabledFloors = new ArrayList<>();
+        for (int j = 0; j < mNumberOfFloors; j++) {
+            boolean is_serviced = mElevatorService.getServicesFloors(i, j);
             if (!is_serviced) {
-                disabled_floors.add(j);
+            	disabledFloors.add(j);
             }
         }
-        elevators.get(i).setDisabledFloors(disabled_floors);
+        elevators.get(i).setDisabledFloors(disabledFloors);
         
-        ArrayList<Integer> pressed_floors = new ArrayList<Integer>();
-        for (int j = 0; j < m_numberOfFloors; j++) {
-            boolean isPressed = m_elevatorService.getElevatorButton(i, j);
+        ArrayList<Integer> pressed_floors = new ArrayList<>();
+        for (int j = 0; j < mNumberOfFloors; j++) {
+            boolean isPressed = mElevatorService.getElevatorButton(i, j);
             if (isPressed) {
             	pressed_floors.add(j);
             }
@@ -107,27 +107,27 @@ public class ElevatorController implements IElevatorController {
 
     private void updateGUI() {
         try {
-            ArrayList<ElevatorViewModel> elevators = m_mainViewModel.getElevatorModels();
+            ArrayList<ElevatorViewModel> elevators = mMainViewModel.getElevatorModels();
 
-            for (int i = 0; i < m_numberOfElevators; i++) {
+            for (int i = 0; i < mNumberOfElevators; i++) {
                 subhandlerGUI(i, elevators);
             }
 
-            ArrayList<Integer> ups = new ArrayList<Integer>();
-            ArrayList<Integer> downs = new ArrayList<Integer>();
-            for (int i = 0; i < m_numberOfFloors; i++) {
-                if (m_elevatorService.getFloorButtonDown(i)) {
+            ArrayList<Integer> ups = new ArrayList<>();
+            ArrayList<Integer> downs = new ArrayList<>();
+            for (int i = 0; i < mNumberOfFloors; i++) {
+                if (mElevatorService.getFloorButtonDown(i)) {
                     downs.add(i);
                 }
-                if (m_elevatorService.getFloorButtonUp(i)) {
+                if (mElevatorService.getFloorButtonUp(i)) {
                     ups.add(i);
                 }
             }
-            if (m_mainViewModel.getFloorsModel() != null) {
-                m_mainViewModel.getFloorsModel().setFloorsDOWN(downs);
-                m_mainViewModel.getFloorsModel().setFloorsUP(ups);
+            if (mMainViewModel.getFloorsModel() != null) {
+                mMainViewModel.getFloorsModel().setFloorsDOWN(downs);
+                mMainViewModel.getFloorsModel().setFloorsUP(ups);
             }
-            m_mainViewModel.setConnectionState(true);
+            mMainViewModel.setConnectionState(true);
         } catch (RemoteException e) {
         	tryReconnect();
         } catch (Exception e) {
@@ -137,20 +137,20 @@ public class ElevatorController implements IElevatorController {
     
     public void startController() {
     	updateGUI();
-    	m_timerTask = new TimerTask() {
+    	mTimerTask = new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> updateGUI());
             }
         };
-        m_timer.scheduleAtFixedRate(m_timerTask, 0, TIMER_INTERVAL);
+        mTimer.scheduleAtFixedRate(mTimerTask, 0, TIMER_INTERVAL);
     }
 
     @Override
     public void handleElevatorPositionChange(int elevator_number, int floor_number) {
         System.out.println("Elevator " + elevator_number + " drives to floor " + floor_number);
         try {
-            m_elevatorService.setTarget(elevator_number, floor_number);
+            mElevatorService.setTarget(elevator_number, floor_number);
         } catch (Exception e) {
         	tryReconnect();
         }
@@ -159,9 +159,9 @@ public class ElevatorController implements IElevatorController {
     private void tryReconnect() {
         try {
         	//m_timer.cancel();
-        	m_timer.purge();
-        	m_mainViewModel.setConnectionState(false);
-			m_elevatorService.reconnect();
+        	mTimer.purge();
+        	mMainViewModel.setConnectionState(false);
+			mElevatorService.reconnect();
 		} catch (Exception e) {
 			System.out.println("Fatal Connection Error in Elevator Controller");
 		}

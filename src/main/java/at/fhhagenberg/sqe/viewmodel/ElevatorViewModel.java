@@ -1,6 +1,7 @@
 package at.fhhagenberg.sqe.viewmodel;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 import at.fhhagenberg.sqe.controller.IElevatorController;
@@ -37,11 +38,11 @@ public class ElevatorViewModel extends Observable {
     public int getFloor() { return floor; }
     public DoorState getDoorState() { return doorState; }
     public Direction getDirection() { return direction; }
-    public ArrayList<Integer> getDisabledFloors() { return disabled_floors; }
+    public List<Integer> getDisabledFloors() { return disabled_floors; }
     public int getNumberOfFloors() { return number_of_floors; }
     public int getPayload() { return payload; }
     public int getPosition() { return position; }
-    public ArrayList<Integer> getPressedButtons() { return pressed_buttons; }
+    public List<Integer> getPressedButtons() { return pressed_buttons; }
     
     public void setId(int _id) {
     	id = _id;

@@ -46,7 +46,7 @@ public class EndToEndTest {
 	}
 	
 	@Test
-	public void testInitialFloorFromModelToUi(FxRobot robot) throws RemoteException {		
+	void testInitialFloorFromModelToUi(FxRobot robot) throws RemoteException {		
 		int floor = elevator.getElevatorFloor(0);
 	
 		verifyThat("##0FloorLabel", hasText("Current Floor: 0"));	
@@ -55,7 +55,7 @@ public class EndToEndTest {
 	}
 	
 	@Test
-	public void testDirectionFromModelToUi(FxRobot robot) throws RemoteException {	
+	void testDirectionFromModelToUi(FxRobot robot) throws RemoteException {	
 		int direction = elevator.getCommittedDirection(0);
 	
 		verifyThat("##0DirectionLabel", hasText("Direction: DOWN"));	
@@ -64,7 +64,7 @@ public class EndToEndTest {
 	}
 	
 	@Test
-	public void testPayloadFromModelToUi(FxRobot robot) throws RemoteException {		
+	void testPayloadFromModelToUi(FxRobot robot) throws RemoteException {		
 		int payload = elevator.getElevatorWeight(0);
 	
 		verifyThat("##0PayloadLabel", hasText("Payload: 700 kg"));	
@@ -73,7 +73,7 @@ public class EndToEndTest {
 	}
 	
 	@Test
-	public void testPositionFromModelToUi(FxRobot robot) throws RemoteException {		
+	void testPositionFromModelToUi(FxRobot robot) throws RemoteException {		
 		int position = elevator.getElevatorPosition(0);
 		
 		verifyThat("##0PositionLabel", hasText("Position: 0 feet"));
@@ -82,7 +82,7 @@ public class EndToEndTest {
 	}
 	
 	@Test
-	public void testDoorStatusFromModelToUi(FxRobot robot) throws RemoteException {	
+	void testDoorStatusFromModelToUi(FxRobot robot) throws RemoteException {	
 		int door_status = elevator.getElevatorDoorStatus(0);
 		
 		verifyThat("##0DoorLabel", hasText("Door Status: CLOSED"));	
@@ -91,7 +91,7 @@ public class EndToEndTest {
 	}
 	
 	@Test
-	public void testSpeedFromModelToUi(FxRobot robot) throws RemoteException {
+	void testSpeedFromModelToUi(FxRobot robot) throws RemoteException {
 		int speed = elevator.getElevatorSpeed(0);
 		
 		verifyThat("##0SpeedLabel", hasText("Speed: 20"));	
@@ -100,7 +100,7 @@ public class EndToEndTest {
 	}
 	
 	@Test
-	public void testSetTargetFloorFromUiToModel(FxRobot robot) throws RemoteException {
+	void testSetTargetFloorFromUiToModel(FxRobot robot) throws RemoteException {
 		robot.clickOn("##0ChangeButton");
 		verifyThat("##0ManualLabel", hasText("Mode: MANU"));		
 		robot.clickOn("##0Button9");	

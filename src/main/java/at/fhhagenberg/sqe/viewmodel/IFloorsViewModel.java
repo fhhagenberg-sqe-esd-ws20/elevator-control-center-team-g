@@ -3,7 +3,6 @@ package at.fhhagenberg.sqe.viewmodel;
 import at.fhhagenberg.sqe.view.FloorsView;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 public interface IFloorsViewModel {
     public void setNumberOfFloors(int _num);
