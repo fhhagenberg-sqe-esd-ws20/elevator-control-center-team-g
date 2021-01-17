@@ -2,7 +2,12 @@ package at.fhhagenberg.sqe;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+
+import sqelevator.IElevatorWrapper;
+import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import at.fhhagenberg.sqe.controller.ElevatorController;
 import at.fhhagenberg.sqe.view.MainView;
 import at.fhhagenberg.sqe.viewmodel.FloorsViewModel;
@@ -18,13 +23,13 @@ public class ElevatorControlCenter extends Application {
     @Override
     public void start(Stage stage) {       
     	try {
-			var floorsViewModel = new FloorsViewModel();
-		    var mainViewModel = new MainViewModel(floorsViewModel);
-		    var elevator = (IElevator) Naming.lookup("rmi://localhost/ElevatorSim");
-			var elevatorService = new ElevatorWrapper(elevator);  
-			var elevatorController = new ElevatorController(elevatorService, mainViewModel);
-			new MainView(mainViewModel, stage);     
-			elevatorController.startController();     
+        var floorsViewModel = new FloorsViewModel();
+        var mainViewModel = new MainViewModel(floorsViewModel);
+        IElevator elevator = null;
+        var elevatorService = new ElevatorWrapper(elevator);  
+        var elevatorController = new ElevatorController(elevatorService, mainViewModel);
+        mainViewModel.setController(elevatorController);
+        new MainView(mainViewModel, stage);   
     	}
     	catch (Exception e){
 			System.out.println("ElevatorControlCenter: Exception during Startup " + e.getMessage());

@@ -1,12 +1,15 @@
 package at.fhhagenberg.sqelevator.tests;
 
+import java.net.ConnectException;
 import java.rmi.RemoteException;
+import java.util.Timer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.internal.verification.Times;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
@@ -24,6 +27,8 @@ import javafx.stage.Stage;
 import sqelevator.ElevatorWrapper;
 import sqelevator.IElevator;
 import sqelevator.IElevatorWrapper;
+
+import at.fhhagenberg.sqe.connection.ConnectionException;
 
 @ExtendWith(MockitoExtension.class)
 public class ReconnectionTest {
@@ -45,8 +50,7 @@ public class ReconnectionTest {
     
 	@Test
     void testReconnectOnExceptionFloorNum() throws Exception {
-		Mockito.when(mvvm.getFloorsModel()).thenReturn(fmod);
-        Mockito.when(ew.getFloorNumWrapped()).thenThrow(RemoteException.class);
+        Mockito.doThrow(ConnectionException.class).when(ew).reconnect();
         
         ElevatorController ec = new ElevatorController(ew, mvvm);
         
@@ -57,10 +61,11 @@ public class ReconnectionTest {
     void testReconnectOnExceptionElevatorNum() throws Exception {
 		Mockito.when(mvvm.getFloorsModel()).thenReturn(fmod);
         Mockito.when(ew.getElevatorNumWrapped()).thenThrow(RemoteException.class);
+        Mockito.doNothing().doThrow(ConnectionException.class).when(ew).reconnect();
         
         ElevatorController ec = new ElevatorController(ew, mvvm);
         
-        Mockito.verify(ew).reconnect();
+        Mockito.verify(ew, Mockito.atLeast(1)).reconnect();
 	}
 	
 	@Test
@@ -69,10 +74,10 @@ public class ReconnectionTest {
 		Mockito.when(ew.getFloorNumWrapped()).thenReturn(5);
 		Mockito.when(ew.getElevatorNumWrapped()).thenReturn(3);
         Mockito.when(ew.getElevatorSpeedWrapped(0)).thenThrow(RemoteException.class);
+        Mockito.doNothing().doThrow(ConnectionException.class).when(ew).reconnect();
         
-        ElevatorController ec = new ElevatorController(ew, mvvm);        
-        ec.startController();    
+        ElevatorController ec = new ElevatorController(ew, mvvm);
         
-        Mockito.verify(ew).reconnect();
+        Mockito.verify(ew, Mockito.atLeast(1)).reconnect();
 	}
 }

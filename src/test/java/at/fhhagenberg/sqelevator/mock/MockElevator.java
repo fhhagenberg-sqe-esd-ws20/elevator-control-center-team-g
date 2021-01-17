@@ -2,10 +2,12 @@ package at.fhhagenberg.sqelevator.mock;
 
 import sqelevator.IElevator;
 import sqelevator.IElevatorWrapper;
-
+import at.fhhagenberg.sqe.connection.ConnectionException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+
+import at.fhhagenberg.sqe.connection.ConnectionException;
 
 public class MockElevator implements IElevatorWrapper {
 	
@@ -40,7 +42,6 @@ public class MockElevator implements IElevatorWrapper {
     
     // ----------------- Public functions -----------------
     public void reconnect() {
-    	
     }
     
     public List<MockElevatorState> getElevators() {

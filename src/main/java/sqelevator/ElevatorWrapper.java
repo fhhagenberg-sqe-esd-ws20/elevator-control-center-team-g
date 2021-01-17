@@ -10,9 +10,6 @@ public class ElevatorWrapper implements IElevatorWrapper {
     private IElevator mElevator;
 
     public ElevatorWrapper(IElevator elevator) throws NullPointerException {
-        if (elevator == null) {
-            throw new NullPointerException();
-        }
         mElevator = elevator;
     }      
     
@@ -30,8 +27,8 @@ public class ElevatorWrapper implements IElevatorWrapper {
             }            
             if(connected)break;
             //Thread.sleep(1000);
-    	}   		
-        throw new ConnectionException("Connection error with RMI: " + exceptionMessage);
+    	}   
+    	if(!connected) throw new ConnectionException("Connection error with RMI: " + exceptionMessage);
     }
 
     /**
