@@ -16,6 +16,7 @@ import java.util.concurrent.Callable;
 
 public class ElevatorController implements IElevatorController {
     private static final int TIMER_INTERVAL = 100;
+    private static final int MAX_TICK_DIFF = -1;
     private Timer mTimer;
     private final IElevatorWrapper mElevatorService;
     private final IMainViewModel mMainViewModel;
@@ -70,7 +71,7 @@ public class ElevatorController implements IElevatorController {
     		clockTickEnd = mElevatorService.getClockTickWrapped();
     		diff = clockTickStart - clockTickEnd;
     		
-    		if (diff < -1) {
+    		if (diff < MAX_TICK_DIFF) {
 				throw new RuntimeException("Runtime Exception: updateGUI: Clock tick mismatch.");
     		}
     		return ret;
