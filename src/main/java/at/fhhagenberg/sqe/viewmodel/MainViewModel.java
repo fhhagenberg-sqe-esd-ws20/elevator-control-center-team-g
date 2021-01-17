@@ -18,7 +18,7 @@ public class MainViewModel extends Observable implements IMainViewModel {
 	
 	String logTxt = "";
 	
-	public MainViewModel(FloorsViewModel _floorsViewModel) {
+	public MainViewModel(FloorsViewModel floorsViewModel) {
 		mFloorsViewModel = floorsViewModel;
 	}
 	
@@ -58,7 +58,7 @@ public class MainViewModel extends Observable implements IMainViewModel {
 	}
 	
 	public void connectToRMI() {
-		ec.doConnect();
+		mEc.doConnect();
 	}
 	
 	private void updateView() {

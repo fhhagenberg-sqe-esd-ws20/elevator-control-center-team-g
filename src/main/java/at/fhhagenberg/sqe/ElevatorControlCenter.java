@@ -28,7 +28,7 @@ public class ElevatorControlCenter extends Application {
         IElevator elevator = null;
         var elevatorService = new ElevatorWrapper(elevator);  
         var elevatorController = new ElevatorController(elevatorService, mainViewModel);
-        main_view_model.setController(elevatorController);
+        mainViewModel.setController(elevatorController);
         new MainView(mainViewModel, stage);     
         elevatorController.doConnect();     
     	}

@@ -20,7 +20,7 @@ import javafx.scene.control.Label;
 public class FloorsView extends GridPane implements Observer {
 	
 	IFloorsViewModel mModel;	
-	GridPane mGridPane = new GridPane();	
+	GridPane mGridPane = new GridPane();
 	ArrayList<Rectangle> mUps = new ArrayList<>();
 	ArrayList<Rectangle> mDowns = new ArrayList<>();	
 	int mFloorsBefore = 0;
@@ -35,8 +35,8 @@ public class FloorsView extends GridPane implements Observer {
 	private void buildUI() {
 		int pos = 0;
 
-		gridPane = new GridPane();
-		for (int i = model.getNumberOfFloors() - 1; i >= 0; i--) {
+		mGridPane = new GridPane();
+		for (int i = mModel.getNumberOfFloors() - 1; i >= 0; i--) {
 			HBox left = new HBox();
 			Label lblFloorNumber = new Label("Floor " + i);
 
@@ -85,7 +85,7 @@ public class FloorsView extends GridPane implements Observer {
 	@Override
     public void update(Observable o, Object arg) {
       
-		for (int i = model.getNumberOfFloors() - 1; i >= 0; i--) {
+		for (int i = mModel.getNumberOfFloors() - 1; i >= 0; i--) {
 			
 			Rectangle rectUP = mUps.get(i);
 			Rectangle rectDOWN = mDowns.get(i);

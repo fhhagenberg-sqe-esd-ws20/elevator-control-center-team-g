@@ -8,14 +8,13 @@ import sqelevator.IElevator;
 import sqelevator.IElevatorWrapper;
 import javafx.application.Platform;
 
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class ElevatorController implements IElevatorController {
-    private static final int TIMER_INTERVAL = 250;
+    private static final int TIMER_INTERVAL = 100;
     private Timer mTimer;
     private final IElevatorWrapper mElevatorService;
     private final IMainViewModel mMainViewModel;
@@ -134,11 +133,10 @@ public class ElevatorController implements IElevatorController {
 			if (diff != 0) {
 				throw new RuntimeException("Runtime Exception: updateGUI: Clock tick mismatch.");
 			}
-            mMainViewModel.setConnectionState(true);
         } catch (RemoteException e) {
         	tryReconnect();
         } catch (Exception e) {
-        	m_main_view_model.addLogText(e.getMessage());
+        	mMainViewModel.addLogText(e.getMessage());
         }
     }
     
@@ -146,7 +144,7 @@ public class ElevatorController implements IElevatorController {
     	initFloors();
         initElevators();
         
-        m_timer = new Timer();
+        mTimer = new Timer();
         
     	updateGUI();
     	TimerTask timerTask = new TimerTask() {
@@ -160,7 +158,7 @@ public class ElevatorController implements IElevatorController {
 
     @Override
     public void handleElevatorPositionChange(int elevatorNumber, int floorNumber) {
-        //System.out.println("Elevator " + elevatorNumber + " drives to floor " + floorNumber);
+    	mMainViewModel.addLogText("Elevator " + elevatorNumber + " drives to floor " + floorNumber);
         try {
             mElevatorService.setTargetWrapped(elevatorNumber, floorNumber);
         } catch (Exception e) {
@@ -170,15 +168,15 @@ public class ElevatorController implements IElevatorController {
     
     @Override
     public void doConnect() {
-    	m_main_view_model.addLogText("trying to connect...");
+    	mMainViewModel.addLogText("Trying to connect...");
     	try {
-			m_elevator_service.reconnect();
-			m_main_view_model.setConnectionState(true);
-			m_main_view_model.addLogText("successfully connected");
+			mElevatorService.reconnect();
+			mMainViewModel.setConnectionState(true);
+			mMainViewModel.addLogText("Successfully connected");
 			this.startController();
 		} catch (Exception e) {
-			m_main_view_model.addLogText("Fatal Connection Error in Elevator Controller");
-			m_main_view_model.setConnectionState(false);
+			mMainViewModel.addLogText("Fatal Connection Error in Elevator Controller");
+			mMainViewModel.setConnectionState(false);
 		}
     }
     
