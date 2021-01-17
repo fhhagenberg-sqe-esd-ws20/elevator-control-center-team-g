@@ -25,10 +25,7 @@ public class ElevatorController implements IElevatorController {
         mElevatorService = elevatorService;
         mMainViewModel = model;
       
-        try {
-          mMainViewModel.setConnectionState(true);
-          startController();
-        } catch(Exception e) {}      
+        doConnect();   
     }
 
     private void initFloors() {
@@ -143,10 +140,12 @@ public class ElevatorController implements IElevatorController {
     public void startController() {
     	initFloors();
         initElevators();
+        updateGUI();
         
-        mTimer = new Timer();
+        if(mTimer == null) {
+        	mTimer = new Timer();
         
-    	updateGUI();
+        
     	TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
@@ -154,6 +153,7 @@ public class ElevatorController implements IElevatorController {
             }
         };
         mTimer.scheduleAtFixedRate(timerTask, 0, TIMER_INTERVAL);
+        }
     }
 
     @Override
@@ -182,8 +182,11 @@ public class ElevatorController implements IElevatorController {
     
     private void tryReconnect() {
         try {
-        	mTimer.cancel();
-        	mTimer.purge();
+        	if(mTimer != null) {
+        		mTimer.cancel();
+        		mTimer.purge();
+        		mTimer = null;
+        	}
         	mMainViewModel.setConnectionState(false);
 			mElevatorService.reconnect();
 			mMainViewModel.setConnectionState(true);

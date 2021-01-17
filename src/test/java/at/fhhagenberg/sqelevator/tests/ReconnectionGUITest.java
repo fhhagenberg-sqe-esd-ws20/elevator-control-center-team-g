@@ -16,6 +16,7 @@ import org.testfx.framework.junit5.Start;
 import org.testfx.matcher.base.ColorMatchers;
 import org.testfx.matcher.control.LabeledMatchers;
 
+import at.fhhagenberg.sqe.connection.ConnectionException;
 import at.fhhagenberg.sqe.controller.ElevatorController;
 import at.fhhagenberg.sqe.view.MainView;
 import at.fhhagenberg.sqe.viewmodel.FloorsViewModel;
@@ -43,13 +44,15 @@ class ReconnectionGUITest {
 		Mockito.when(elevator_service.getFloorNumWrapped()).thenReturn(5);
 		Mockito.when(elevator_service.getElevatorNumWrapped()).thenReturn(3);
         Mockito.when(elevator_service.getElevatorNumWrapped()).thenThrow(RemoteException.class);
+        Mockito.doNothing().doThrow(ConnectionException.class).when(elevator_service).reconnect();
         
     	floors_view_model = new FloorsViewModel();
     	main_view_model = new MainViewModel(floors_view_model);
     	elevator_controller = new ElevatorController(elevator_service, main_view_model);
     	main_ui = new MainView(main_view_model, stage);    
 
-        elevator_service.setServicesFloorsWrapped(0, 3, false);    	 	
+        elevator_service.setServicesFloorsWrapped(0, 3, false);    	 
+        
 	}
 	
 	@Test

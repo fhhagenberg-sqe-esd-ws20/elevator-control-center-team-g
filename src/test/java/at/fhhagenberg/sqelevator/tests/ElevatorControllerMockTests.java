@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import at.fhhagenberg.sqe.connection.ConnectionException;
 import at.fhhagenberg.sqe.controller.ElevatorController;
 import sqelevator.IElevatorWrapper;
 
@@ -37,9 +38,10 @@ class ElevatorControllerMockTests {
     void testInitFloors_WithError() throws RemoteException {
         Mockito.when(ew.getFloorNumWrapped()).thenThrow(new RemoteException());
         Mockito.when(mvvm.getFloorsModel()).thenReturn(fmod);
+        Mockito.doNothing().doThrow(ConnectionException.class).when(ew).reconnect();
         ElevatorController ec = new ElevatorController(ew, mvvm);
-        Mockito.verify(ew).getElevatorNumWrapped();
-        Mockito.verify(mvvm).setConnectionState(false);
+        Mockito.verify(ew, Mockito.atLeast(1)).getElevatorNumWrapped();
+        Mockito.verify(mvvm, Mockito.atLeast(1)).setConnectionState(false);
     }
 
     @Test
@@ -47,9 +49,10 @@ class ElevatorControllerMockTests {
         Mockito.when(ew.getFloorNumWrapped()).thenReturn(5);
         Mockito.when(ew.getElevatorNumWrapped()).thenThrow(new RemoteException());
         Mockito.when(mvvm.getFloorsModel()).thenReturn(fmod);
+        Mockito.doNothing().doThrow(ConnectionException.class).when(ew).reconnect();
         ElevatorController ec = new ElevatorController(ew, mvvm);
-        Mockito.verify(ew).getElevatorNumWrapped();
-        Mockito.verify(mvvm).setConnectionState(false);
+        Mockito.verify(ew, Mockito.atLeast(1)).getElevatorNumWrapped();
+        Mockito.verify(mvvm, Mockito.atLeast(1)).setConnectionState(false);
         Mockito.verify(fmod).setNumberOfFloors(5);
     }
 
@@ -58,9 +61,10 @@ class ElevatorControllerMockTests {
         Mockito.when(ew.getFloorNumWrapped()).thenReturn(5);
         Mockito.when(ew.getElevatorNumWrapped()).thenThrow(new RemoteException());
         Mockito.when(mvvm.getFloorsModel()).thenReturn(fmod);
+        Mockito.doNothing().doThrow(ConnectionException.class).when(ew).reconnect();
         ElevatorController ec = new ElevatorController(ew, mvvm);
-        Mockito.verify(ew).getElevatorNumWrapped();
-        Mockito.verify(mvvm).setConnectionState(false);
+        Mockito.verify(ew, Mockito.atLeast(1)).getElevatorNumWrapped();
+        Mockito.verify(mvvm, Mockito.atLeast(1)).setConnectionState(false);
         Mockito.verify(fmod).setNumberOfFloors(5);
     }
 }
